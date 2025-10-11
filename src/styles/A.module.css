@@ -1,0 +1,9 @@
+.A:hover {
+    text-decoration: underline;
+    text-decoration-color: #cccccc;
+}
+
+.A {
+    color: inherit;
+    font-size: inherit;
+}
