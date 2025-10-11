@@ -1,6 +1,7 @@
-import { JSX } from 'solid-js';
-import styles from './Layout.module.css';
+import { JSX } from "solid-js";
+import styles from "./Layout.module.css";
 import Text from "@components/Text";
+import Logo from "@images/Logo.svg";
 
 interface LayoutProps {
     children: JSX.Element;
@@ -11,8 +12,9 @@ export default function DefaultLayout({children}: LayoutProps) {
         <>
         <nav class={styles.Nav}>
             <div class={styles.LogoWrapper}>
+                <img class={styles.Logo} src={Logo} />
                 <Text class={styles.LogoText}>
-                    메모장
+                    ClassHelper
                 </Text>
             </div>
         </nav>

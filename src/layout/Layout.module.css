@@ -14,7 +14,7 @@
   overflow-x: hidden;
   display: block;
   margin: 0;
-  padding: 0.5% 0.5% 0.5% 2%;
+  padding: 0.5% 0.5% 0.5% 1%;
 }
 
 @media (prefers-color-scheme: light) {
@@ -34,9 +34,16 @@
 .LogoWrapper {
   display: inline-flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.Logo {
+  height: 6vh;
+  aspect-ratio: 1/1;
 }
 
 .LogoText {
-  font-family: "SuitBold";
+  margin-left: 1%;
+  font-family: "SuitExtraBold";
   font-size: 1.5rem;
 }
