@@ -1,0 +1,67 @@
+import { createSignal, createEffect, createMemo, onCleanup } from "solid-js";
+
+interface TimerProps {
+  second: number;
+  isRunning: boolean;
+  onEnd?: () => void | Promise<void>;
+}
+
+function Timer({ second, isRunning, onEnd, ...rest }: TimerProps) {
+  // 총 남은 시간을 초 단위로 관리
+  const [time, setTime] = createSignal<number>(Math.max(0, Math.floor(second)));
+  let Interval: number | undefined;
+
+  // 분과 초는 파생 값으로 처리
+  const min = createMemo(() => Math.floor(time() / 60));
+  const sec = createMemo(() => time() % 60);
+  const display = createMemo(() => `${min()} : ${sec() < 10 ? `0${sec()}` : sec()}`);
+
+  // isRunning 값이 바뀔 때마다 타이머 초기화
+  createEffect(() => {
+    if (!isRunning) {
+      if (Interval !== undefined) {
+        clearInterval(Interval);
+        Interval = undefined;
+      }
+      return;
+    }
+
+    setTime(Math.max(0, Math.floor(second)));
+
+    Interval = window.setInterval(() => setTime((v) => v - 1), 1000);
+
+    onCleanup(() => {
+      if (Interval !== undefined) {
+        clearInterval(Interval);
+        Interval = undefined;
+      }
+    });
+  });
+
+  // 시간 감소 처리 + 종료 이벤트
+  createEffect(() => {
+    if (time() <= 0) {
+      setTime(0); // 음수 방지, 0에서 멈춤
+      (async () => {
+        if (onEnd) await onEnd();
+        if (Interval !== undefined) {
+          clearInterval(Interval);
+          Interval = undefined;
+        }
+      })();
+    }
+  });
+
+  // 안전한 interval 정리
+  onCleanup(() => {
+    if (Interval !== undefined) {
+      clearInterval(Interval);
+      Interval = undefined;
+    }
+  });
+
+  return <div {...rest}>{display()}</div>;
+}
+
+export { Timer };
+export default Timer;
