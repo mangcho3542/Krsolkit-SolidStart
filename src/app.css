@@ -23,9 +23,6 @@ html, body, #root {
 }
 
 /* a 및 기타 태그들 관련 설정 */
-a:hover {
-  text-decoration: underline;
-}
 
 @media (prefers-color-scheme: light) {
 
