@@ -13,7 +13,14 @@
     "types": ["vinxi/types/client"],
     "isolatedModules": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@fonts/*": ["./src/assets/fonts/*"],
+      "@images/*": ["./src/assets/images/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@layout/*": ["./src/layout/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   }
 }

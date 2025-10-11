@@ -1,0 +1,11 @@
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: User
+Disallow: /
+
+User-agent: Daumoa
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
