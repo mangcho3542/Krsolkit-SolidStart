@@ -1,4 +1,5 @@
 import { createSignal, createEffect, createMemo, onCleanup } from "solid-js";
+import { splitProps } from "solid-js";
 
 interface TimerProps {
   second: number;
@@ -6,9 +7,11 @@ interface TimerProps {
   onEnd?: () => void | Promise<void>;
 }
 
-function Timer({ second, isRunning, onEnd, ...rest }: TimerProps) {
+function Timer(props: TimerProps) {
+  const [local, rest] = splitProps(props, ["second", "isRunning", "onEnd"]);
+
   // 총 남은 시간을 초 단위로 관리
-  const [time, setTime] = createSignal<number>(Math.max(0, Math.floor(second)));
+  const [time, setTime] = createSignal<number>(Math.max(0, Math.floor(local.second)));
   let Interval: number | undefined;
 
   // 분과 초는 파생 값으로 처리
@@ -18,7 +21,7 @@ function Timer({ second, isRunning, onEnd, ...rest }: TimerProps) {
 
   // isRunning 값이 바뀔 때마다 타이머 초기화
   createEffect(() => {
-    if (!isRunning) {
+    if (!local.isRunning) {
       if (Interval !== undefined) {
         clearInterval(Interval);
         Interval = undefined;
@@ -26,7 +29,7 @@ function Timer({ second, isRunning, onEnd, ...rest }: TimerProps) {
       return;
     }
 
-    setTime(Math.max(0, Math.floor(second)));
+    setTime(Math.max(0, Math.floor(local.second)));
 
     Interval = window.setInterval(() => setTime((v) => v - 1), 1000);
 
@@ -43,7 +46,7 @@ function Timer({ second, isRunning, onEnd, ...rest }: TimerProps) {
     if (time() <= 0) {
       setTime(0); // 음수 방지, 0에서 멈춤
       (async () => {
-        if (onEnd) await onEnd();
+        if (local.onEnd) await local.onEnd();
         if (Interval !== undefined) {
           clearInterval(Interval);
           Interval = undefined;
