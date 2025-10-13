@@ -6,7 +6,7 @@ export interface AnchorProps extends AProps {};
 export default function A({children, class:className="", ...rest}: AProps) {
 
     return (
-        <Anchor class={styles.A + className} {...rest}>
+        <Anchor class={styles.A + " " + className} {...rest}>
             {children}
         </Anchor>
     )

@@ -2,3 +2,8 @@
     text-decoration: underline;
     text-decoration-color: #cccccc;
 }
+
+.A {
+    color: inherit;
+    text-decoration: none;
+}
