@@ -1,18 +1,28 @@
+type sn = string | number;
+
 export interface CSSProperties {
   // Box Model
-  width?: string | number;
-  height?: string | number;
-  minWidth?: string | number;
-  maxWidth?: string | number;
-  minHeight?: string | number;
-  maxHeight?: string | number;
-  padding?: string | number;
-  margin?: string | number;
+  width?: sn;
+  height?: sn;
+  minWidth?: sn;
+  maxWidth?: sn;
+  minHeight?: sn;
+  maxHeight?: sn;
+  padding?: sn;
+  paddingTop?: sn;
+  paddingBottom?: sn;
+  paddingRirhgt?: sn;
+  paddingLeft?: sn;
+  margin?: sn;
+  marginTop?: sn;
+  marginBottom?: sn;
+  marginRight?: sn;
+  marginLeft?: sn;
   boxSizing?: "content-box" | "border-box" | string;
 
   // Border
   border?: string;
-  borderWidth?: string | number;
+  borderWidth?: sn;
   borderStyle?:
     | "solid"
     | "dashed"
@@ -26,7 +36,7 @@ export interface CSSProperties {
     | "hidden"
     | string;
   borderColor?: string;
-  borderRadius?: string | number;
+  borderRadius?: sn;
 
   // Background
   bgColor?: string;
@@ -45,7 +55,7 @@ export interface CSSProperties {
 
   // Typography
   color?: string;
-  fontSize?: string | number;
+  fontSize?: sn;
   fontWeight?:
     | "normal"
     | "bold"
@@ -64,9 +74,9 @@ export interface CSSProperties {
     | string;
   fontStyle?: "normal" | "italic" | "oblique" | string;
   fontFamily?: string;
-  lineHeight?: string | number;
-  letterSpacing?: string | number;
-  wordSpacing?: string | number;
+  lineHeight?: sn;
+  letterSpacing?: sn;
+  wordSpacing?: sn;
   textAlign?:
     | "left"
     | "right"
@@ -100,19 +110,19 @@ export interface CSSProperties {
     | "none"
     | string;
   position?: "static" | "relative" | "absolute" | "fixed" | "sticky";
-  top?: string | number;
-  right?: string | number;
-  bottom?: string | number;
-  left?: string | number;
+  top?: sn;
+  right?: sn;
+  bottom?: sn;
+  left?: sn;
   zIndex?: number;
 
   // Flexbox
   flexDirection?: "row" | "column" | "row-reverse" | "column-reverse";
   flexWrap?: "nowrap" | "wrap" | "wrap-reverse" | string;
-  flex?: string | number;
+  flex?: sn;
   flexGrow?: number;
   flexShrink?: number;
-  flexBasis?: string | number;
+  flexBasis?: sn;
   justifyContent?:
     | "flex-start"
     | "flex-end"
@@ -129,7 +139,7 @@ export interface CSSProperties {
     | "baseline"
     | "stretch"
     | string;
-  gap?: string | number;
+  gap?: sn;
   order?: number;
 
   // Grid
@@ -138,7 +148,7 @@ export interface CSSProperties {
   gridColumn?: string;
   gridRow?: string;
   gridArea?: string;
-  gridGap?: string | number;
+  gridGap?: sn;
 
   // Visual Effects
   opacity?: number;
@@ -209,7 +219,6 @@ export interface CSSProperties {
     | "ew-resize"
     | "ns-resize"
     | "nesw-resize"
-    | "nwse-resize"
     | "zoom-in"
     | "zoom-out"
     | string;
@@ -240,8 +249,8 @@ export interface CSSProperties {
   outline?: string;
   outlineColor?: string;
   outlineStyle?: string;
-  outlineWidth?: string | number;
-  outlineOffset?: string | number;
+  outlineWidth?: sn;
+  outlineOffset?: sn;
 
   // Object
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down" | string;
