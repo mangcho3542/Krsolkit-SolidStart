@@ -13,7 +13,7 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
-  margin: 0;
+  margin: 0 0 4% 0;
   padding: 0.5%;
   border-bottom: 1px solid black;
 }
@@ -62,4 +62,39 @@
   display:inline-block;
   font-family: "SuitMedium";
   font-size: 1.2rem;
+}
+
+@media (prefers-color-scheme: light) {
+  #Footer {
+    background-color: black;
+    color: white;
+  }
+}
+
+@media (prefers-color-schema: dark) {
+  #Footer {
+    background-color: white;
+    color: black;
+  }
+}
+
+#Footer {
+  display: flex;
+  flex-direction: row;
+  gap: 0 1%;
+}
+
+.FooterUl {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 1% 0;
+}
+
+.FooterLi {
+  display: inline-block;
+}
+
+.FooterLink {
+  display: inline-block;
 }

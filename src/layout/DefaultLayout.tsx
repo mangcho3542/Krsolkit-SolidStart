@@ -12,6 +12,9 @@ export default function DefaultLayout({children}: LayoutProps) {
     const sideMenuAry = ["블로그", "가이드", "로그인"];
     const sideMenuLinks = ["/blog", "/guide", "/login"];
 
+    const footerUlAry = [["문의하기"]];
+    const footerUlLinks = [["/ask"]];
+
     return (
         <>
         <nav id={styles.Nav}>
@@ -35,8 +38,19 @@ export default function DefaultLayout({children}: LayoutProps) {
 
         {children}
 
-        <footer class={styles.Footer}>
-            
+        <footer id={styles.Footer}>
+            {footerUlAry.map((footerUl, UlIndex) => (
+                <ul class={styles.FooterUl}>
+                    {footerUl.map((footerLi, LiIndex) => (
+                        <li class={styles.FooterLi}>
+                            <A class={styles.FooterLink} 
+                            href={footerUlLinks[UlIndex][LiIndex]}>
+                                {footerLi}
+                            </A>
+                        </li>
+                    ))}
+                </ul>
+            ))}           
         </footer>
         </>
     )
