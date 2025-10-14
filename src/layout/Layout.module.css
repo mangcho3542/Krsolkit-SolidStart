@@ -15,7 +15,6 @@
   flex-direction: row;
   margin: 0 0 4% 0;
   padding: 0.5%;
-  border-bottom: 1px solid black;
 }
 
 @media (prefers-color-scheme: light) {
@@ -62,6 +61,7 @@
   display:inline-block;
   font-family: "SuitMedium";
   font-size: 1.2rem;
+  white-space: nowrap;
 }
 
 @media (prefers-color-scheme: light) {
