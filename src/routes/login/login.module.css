@@ -1,0 +1,7 @@
+#Wrapper {
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 10% 10% 10% 10% / 10% 10% 10% 10%;
+    border: 2px solid #e3e1e5;
+}
+
