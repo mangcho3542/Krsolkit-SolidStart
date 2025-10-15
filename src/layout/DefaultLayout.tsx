@@ -3,6 +3,7 @@ import styles from "./Layout.module.css";
 import Text from "@components/Text";
 import Logo from "@images/Logo.svg";
 import A from "@components/A";
+import { Link } from "@solidjs/meta";
 
 interface LayoutProps {
     children: JSX.Element;
@@ -17,6 +18,8 @@ export default function DefaultLayout({children}: LayoutProps) {
 
     return (
         <>
+        <Link rel="icon" href="/favicon.ico" />
+
         <nav id={styles.Nav}>
             <div id={styles.LogoWrapper}>
                 <img id={styles.Logo} src={Logo} />
