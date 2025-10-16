@@ -9,9 +9,7 @@ export default function ChangeClass() {
         <>
         <Title>자리 바꾸기</Title>
 
-        <ClientOnly>
-            <Main />
-        </ClientOnly>
+        <Main />
         </>
     )
 }
