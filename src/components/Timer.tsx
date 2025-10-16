@@ -4,23 +4,31 @@ import { splitProps } from "@utils/splitProps";
 import Box from "./Box";
 import { ClientOnly } from "@ark-ui/solid";
 
-interface TimerProps extends ComponentProps {
+export interface TimerProps extends ComponentProps {
   second: number;
   isRunning: boolean;
   onEnd?: () => void | Promise<void>;
 }
 
-function Timer(props: TimerProps) {
-  const [local, style, rest] = splitProps(props, ["second", "isRunning", "onEnd"]);
+export function Timer(props: TimerProps) {
+  const [local, style, rest] = splitProps(props, [
+    "second",
+    "isRunning",
+    "onEnd",
+  ]);
 
   // 총 남은 시간을 초 단위로 관리
-  const [time, setTime] = createSignal<number>(Math.max(0, Math.floor(local.second)));
+  const [time, setTime] = createSignal<number>(
+    Math.max(0, Math.floor(local.second))
+  );
   let Interval: number | undefined;
 
   // 분과 초는 파생 값으로 처리
   const min = createMemo(() => Math.floor(time() / 60));
   const sec = createMemo(() => time() % 60);
-  const display = createMemo(() => `${min()} : ${sec() < 10 ? `0${sec()}` : sec()}`);
+  const display = createMemo(
+    () => `${min()} : ${sec() < 10 ? `0${sec()}` : sec()}`
+  );
 
   // isRunning 값이 바뀔 때마다 타이머 초기화
   createEffect(() => {
@@ -72,8 +80,7 @@ function Timer(props: TimerProps) {
         {display()}
       </Box>
     </ClientOnly>
-  )
+  );
 }
 
-export { Timer };
 export default Timer;

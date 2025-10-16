@@ -8,10 +8,10 @@ import DefaultLayout from "@layout/DefaultLayout";
 export default function App() {
   return (
     <Router
-      root={props => (
+      root={(props) => (
         <MetaProvider>
           <Title>ClassHelper</Title>
-          
+
           <DefaultLayout>
             <Suspense>{props.children}</Suspense>
           </DefaultLayout>

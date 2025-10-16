@@ -14,54 +14,124 @@ export interface Styling {
 
 const STYLE_KEYS = [
   // Box Model
-  "width", "height", "minWidth", "maxWidth", "minHeight", "maxHeight",
-  "padding", "paddingTop", "paddingBottom", "paddingRirhgt", "paddingLeft",
-  "margin", "marginTop", "marginBottom", "marginRight", "marginLeft",
+  "width",
+  "height",
+  "minWidth",
+  "maxWidth",
+  "minHeight",
+  "maxHeight",
+  "padding",
+  "paddingTop",
+  "paddingBottom",
+  "paddingRirhgt",
+  "paddingLeft",
+  "margin",
+  "marginTop",
+  "marginBottom",
+  "marginRight",
+  "marginLeft",
   "boxSizing",
 
   // Border
-  "border", "borderWidth", "borderStyle", "borderColor", "borderRadius",
+  "border",
+  "borderWidth",
+  "borderStyle",
+  "borderColor",
+  "borderRadius",
 
   // Background (custom alias)
-  "bgColor", "bgImage", "bgSize", "bgPosition", "bgRepeat", "bgAttachment",
+  "bgColor",
+  "bgImage",
+  "bgSize",
+  "bgPosition",
+  "bgRepeat",
+  "bgAttachment",
 
   // Typography
-  "color", "fontSize", "fontWeight", "fontStyle", "fontFamily",
-  "lineHeight", "letterSpacing", "wordSpacing", "textAlign",
-  "textDecoration", "textTransform", "whiteSpace", "wordBreak", "textOverflow",
+  "color",
+  "fontSize",
+  "fontWeight",
+  "fontStyle",
+  "fontFamily",
+  "lineHeight",
+  "letterSpacing",
+  "wordSpacing",
+  "textAlign",
+  "textDecoration",
+  "textTransform",
+  "whiteSpace",
+  "wordBreak",
+  "textOverflow",
 
   // Display & Position
-  "display", "position", "top", "right", "bottom", "left", "zIndex",
+  "display",
+  "position",
+  "top",
+  "right",
+  "bottom",
+  "left",
+  "zIndex",
 
   // Flexbox
-  "flexDirection", "flexWrap", "flex", "flexGrow", "flexShrink", "flexBasis",
-  "justifyContent", "alignItems", "alignSelf", "gap", "order",
+  "flexDirection",
+  "flexWrap",
+  "flex",
+  "flexGrow",
+  "flexShrink",
+  "flexBasis",
+  "justifyContent",
+  "alignItems",
+  "alignSelf",
+  "gap",
+  "order",
 
   // Grid
-  "gridTemplateColumns", "gridTemplateRows", "gridColumn", "gridRow",
-  "gridArea", "gridGap",
+  "gridTemplateColumns",
+  "gridTemplateRows",
+  "gridColumn",
+  "gridRow",
+  "gridArea",
+  "gridGap",
 
   // Visual Effects
-  "opacity", "boxShadow", "transform", "transition", "visibility",
+  "opacity",
+  "boxShadow",
+  "transform",
+  "transition",
+  "visibility",
 
   // Animation
-  "animation", "animationName", "animationDuration", "animationTimingFunction",
-  "animationDelay", "animationIterationCount", "animationDirection",
-  "animationFillMode", "animationPlayState",
+  "animation",
+  "animationName",
+  "animationDuration",
+  "animationTimingFunction",
+  "animationDelay",
+  "animationIterationCount",
+  "animationDirection",
+  "animationFillMode",
+  "animationPlayState",
 
   // Overflow & Scroll
   "overflow",
 
   // User Interaction
-  "cursor", "pointerEvents", "userSelect", "resize",
+  "cursor",
+  "pointerEvents",
+  "userSelect",
+  "resize",
 
   // Outline
-  "outline", "outlineColor", "outlineStyle", "outlineWidth", "outlineOffset",
+  "outline",
+  "outlineColor",
+  "outlineStyle",
+  "outlineWidth",
+  "outlineOffset",
 
   // Object
-  "objectFit", "objectPosition",
+  "objectFit",
+  "objectPosition",
 ] as const;
-type StyleKey = typeof STYLE_KEYS[number];
+type StyleKey = (typeof STYLE_KEYS)[number];
 
 const ALIAS_MAP: Partial<Record<StyleKey, string>> = {
   // Background
@@ -80,7 +150,7 @@ const ALIAS_MAP: Partial<Record<StyleKey, string>> = {
 };
 
 const toKebabCase = (str: string) =>
-  str.replace(/[A-Z]/g, m => "-" + m.toLowerCase()).replace(/^ms-/, "-ms-");
+  str.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase()).replace(/^ms-/, "-ms-");
 
 /* =========================
    2) 유틸
@@ -89,7 +159,7 @@ const toKebabCase = (str: string) =>
 function parseStyleString(style?: string): Record<string, string> {
   const out: Record<string, string> = {};
   if (!style) return out;
-  style.split(";").forEach(part => {
+  style.split(";").forEach((part) => {
     const [rawKey, ...rest] = part.split(":");
     if (!rawKey) return;
     const key = rawKey.trim();
@@ -120,13 +190,14 @@ function buildStyling<P extends Record<string, any>>(props: P): Styling {
   }
 
   // class / className 합치기
-  const cls = [ (props as any).class, (props as any).className ]
+  const cls = [(props as any).class, (props as any).className]
     .filter(Boolean)
     .join(" ")
     .trim();
 
   // classList 그대로
-  const classList = (props as any).classList as JSX.HTMLAttributes<any>["classList"];
+  const classList = (props as any)
+    .classList as JSX.HTMLAttributes<any>["classList"];
 
   return { style, class: cls, classList };
 }
@@ -135,17 +206,17 @@ function buildStyling<P extends Record<string, any>>(props: P): Styling {
    3) 타입 헬퍼
    ========================= */
 
-type StylingKeys =
-  | StyleKey
-  | "style"
-  | "class"
-  | "className"
-  | "classList";
+type StylingKeys = StyleKey | "style" | "class" | "className" | "classList";
 
-type GroupKeys<P, G extends readonly (readonly (keyof P)[])[]> = G[number][number];
+type GroupKeys<
+  P,
+  G extends readonly (readonly (keyof P)[])[]
+> = G[number][number];
 
-type FinalRest<P, G extends readonly (readonly (keyof P)[])[]> =
-  Omit<P, GroupKeys<P, G> | StylingKeys>;
+type FinalRest<P, G extends readonly (readonly (keyof P)[])[]> = Omit<
+  P,
+  GroupKeys<P, G> | StylingKeys
+>;
 
 /* =========================
    4) splitProps 구현 (apply 사용)
@@ -157,13 +228,12 @@ export function splitProps<
 >(
   props: P,
   ...groups: G
-): [
-  ...{ [I in keyof G]: Pick<P, G[I][number]> },
-  Styling,
-  FinalRest<P, G>
-] {
+): [...{ [I in keyof G]: Pick<P, G[I][number]> }, Styling, FinalRest<P, G>] {
   // 핵심: 타입 에러를 피하기 위해 apply로 호출 (스프레드 인자 사용 안 함)
-  const solidResult = (solidSplitProps as any).apply(null, [props, ...groups]) as any[];
+  const solidResult = (solidSplitProps as any).apply(null, [
+    props,
+    ...groups,
+  ]) as any[];
 
   const groupCount = groups.length;
 

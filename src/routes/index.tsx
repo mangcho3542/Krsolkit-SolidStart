@@ -7,17 +7,11 @@ export default function Home() {
     <main id={styles.Main}>
       <Title>ClassHelper</Title>
 
-      <Text id={styles.MainText}>
-        ClassHelper
-      </Text>
+      <Text id={styles.MainText}>ClassHelper</Text>
 
-      <Text fontSize="2.5rem" paddingLeft="2%"
-      margin={0}
-      >
+      <Text fontSize="2.5rem" paddingLeft="2%" margin={0}>
         고등 영단어 학습을 위한 플랫폼
       </Text>
-
-
     </main>
   );
 }
