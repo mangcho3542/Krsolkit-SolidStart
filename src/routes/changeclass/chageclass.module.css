@@ -1,0 +1,20 @@
+#Main {
+    align-items: center;
+}
+
+.Header {
+    text-align: center;
+    width: 100%;
+    font-family: "SuitMedium";
+    font-size: 2rem;
+}
+
+#QuestionBtnWrapper {
+    width: 100%;
+    margin-top: 10%;
+    padding-right: 10%;
+}
+
+#QBtn {
+    
+}
