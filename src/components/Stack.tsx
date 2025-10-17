@@ -11,7 +11,10 @@ export default function Stack(props: StackProps) {
     <div
       class={styles.Stack + " " + styling.class}
       classList={styling.classList}
-      style={styling.style}
+      style={{
+        ...styling.style,
+        "flex-direction": styling.style["flex-direction"] ?? "column"
+      }}
       {...rest}
     >
       {local.children}
