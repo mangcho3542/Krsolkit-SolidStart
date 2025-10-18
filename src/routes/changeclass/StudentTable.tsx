@@ -1,35 +1,47 @@
 import { ComponentProps } from "@/types/ComponentProps";
 import { splitProps } from "@/utils/splitProps";
-import { createSignal, JSXElement } from "solid-js";
+import { createEffect, createSignal, JSXElement } from "solid-js";
 import { TupleType } from "@/types/Tuple";
 
-interface StudentTableProps<
-  R extends number,
-  C extends number,
-  Length extends number
-> extends ComponentProps {
-  row: R;
-  column: C;
-  TableRowProps?: ComponentProps;
+interface StudentTableProps extends ComponentProps {
+  row: number;
+  column: number;
+  TableColumnProps?: ComponentProps;
   TableProps?: ComponentProps;
-  values?: TupleType<string, Length>;
   children?: JSXElement;
+  assignAry: boolean[];
 }
 
-export default function StudentTable<
-  R extends number,
-  C extends number,
-  Length extends number
->(props: StudentTableProps<R, C, Length>) {
+export default function StudentTable(props: StudentTableProps) {
   const [local, styling, other] = splitProps(props, [
     "row",
     "column",
-    "TableRowProps",
+    "TableColumnProps",
     "TableProps",
     "children",
   ]);
 
-  const [cnt, setCnt] = createSignal(new Array(local.row * local.column));
+  const [content, setContent] = createSignal([[]]);
 
-  return <div {...styling} {...other}></div>;
+  createEffect(() => {
+    for(let i = 0; i < local.row; i++) {
+      let ary: number[] = [];
+      for(let j = 0; j < local.column; j++) {
+        ary.push()
+      }
+    }
+  })
+
+  return (
+  <div {...styling} {...other}>
+    {Array.from({length: local.row}, (_, i) => (
+      <div {...local.TableColumnProps}>
+        {Array.from({length: local.column}, (_, j) => (
+          <div {...local.TableProps}>
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+  );
 }
