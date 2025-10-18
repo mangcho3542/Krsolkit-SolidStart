@@ -1,15 +1,16 @@
 import { ComponentProps } from "@/types/ComponentProps";
 import { splitProps } from "@/utils/splitProps";
-import { createEffect, createSignal, JSXElement } from "solid-js";
-import { TupleType } from "@/types/Tuple";
+import { createEffect, createSignal, onMount } from "solid-js";
+import { shuffle } from "@/utils/shuffle";
 
-interface StudentTableProps extends ComponentProps {
+interface StudentTableProps extends Omit<ComponentProps, "children"> {
   row: number;
   column: number;
   TableColumnProps?: ComponentProps;
   TableProps?: ComponentProps;
-  children?: JSXElement;
   assignAry: boolean[];
+  displayFlag?: boolean;
+  trigger: boolean;
 }
 
 export default function StudentTable(props: StudentTableProps) {
@@ -18,30 +19,54 @@ export default function StudentTable(props: StudentTableProps) {
     "column",
     "TableColumnProps",
     "TableProps",
-    "children",
+    "displayFlag",
+    "trigger",
   ]);
 
-  const [content, setContent] = createSignal([[]]);
+  //실제 배치될 학생들의 이름(번호)
+  const [content, setContent] = createSignal<string[][]>([[]]);
 
+  //학생들 이름 가릴지 말지 정하는 flag
+  const [displayFlag, setDisplayFlag] = createSignal(
+    local.displayFlag ?? false
+  );
+
+  //local.trigger변할 때마다 자리 배치
   createEffect(() => {
-    for(let i = 0; i < local.row; i++) {
-      let ary: number[] = [];
-      for(let j = 0; j < local.column; j++) {
-        ary.push()
+    local.trigger;
+    shuffle(content());
+    setDisplayFlag(true);
+  });
+
+  onMount(() => {
+    setDisplayFlag(false);
+  });
+
+  //props의 row, column이 변할 때마다 row, column 재설정
+  createEffect(() => {
+    setDisplayFlag(false);
+    let res: string[][] = [];
+    for (let i = 0; i < local.column; i++) {
+      let ary: string[] = [];
+      for (let j = 0; j < local.row; j++) {
+        ary.push(`${i + 1 + 6 * j}번`);
       }
+
+      res.push(ary);
     }
-  })
+
+    setContent(res);
+  });
 
   return (
-  <div {...styling} {...other}>
-    {Array.from({length: local.row}, (_, i) => (
-      <div {...local.TableColumnProps}>
-        {Array.from({length: local.column}, (_, j) => (
-          <div {...local.TableProps}>
-          </div>
-        ))}
-      </div>
-    ))}
-  </div>
+    <div {...styling} {...other}>
+      {Array.from({ length: local.column }, (_, i) => (
+        <div {...local.TableColumnProps}>
+          {Array.from({ length: local.row }, (_, j) => (
+            <div {...local.TableProps}>{displayFlag() && content()[i][j]}</div>
+          ))}
+        </div>
+      ))}
+    </div>
   );
 }
