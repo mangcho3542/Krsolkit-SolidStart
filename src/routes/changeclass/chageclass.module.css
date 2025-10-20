@@ -38,6 +38,7 @@
     font-family: "SuitBold";
     font-size: 1.2rem;
     gap: 1rem 0;
+    margin-bottom: 4%;
 }
 
 .SliderRoot {
@@ -48,3 +49,38 @@
     width: 100%;
 }
 
+#BtnWrapper {
+    display : flex;
+    flex-direction: row;
+    height: auto;
+    width : 100%;
+    justify-content: center;
+}
+
+.Btn {
+    font-family: "SuitBold";
+    font-size: 1.2rem;
+}
+
+.Table {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+}
+
+.TableWrapper {
+    width : 100%;
+    height: auto;
+    display : flex;
+    flex-direction: row;
+}
+
+.AvailTable {
+    background-color: #4ADE80;
+}
+
+.UnavailTable {
+    background-color: #EB0000;
+}
