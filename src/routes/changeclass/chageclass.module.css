@@ -62,19 +62,31 @@
     font-size: 1.2rem;
 }
 
+.TableWrapper {
+    width : 100%;
+    height: auto;
+    display : flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1%;
+}
+
+.TableColumn {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0;
+    column-gap: 20px;
+    padding: 0;
+}
+
 .Table {
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1%;
-}
-
-.TableWrapper {
-    width : 100%;
-    height: auto;
-    display : flex;
-    flex-direction: row;
+    width: 100%;
+    border-radius: 10% 10% 10% 10% / 10% 10% 10% 10%;
 }
 
 .AvailTable {

@@ -85,15 +85,14 @@ export default function StudentTable(props: StudentTableProps) {
         {Array.from({ length: local.column }, (_, i) => (
           <div class={styles.TableColumn} 
           style={{
-            width: `${100 / (local.column + 1)}px`
-            
+            width: `${100 / (local.column + 1)}%`
           }}>
             {Array.from({ length: local.row }, (_, j) => (
               <div
                 class={
                   styles.Table +
                   " " +
-                  (isAssignable()[i][j] ? "AvailTable" : "UnavailTable")
+                  (isAssignable()[i][j] ? styles.AvailTable : styles.UnavailTable)
                 }
                 onClick={() => {
                   changeIsAssignable(i, j);
