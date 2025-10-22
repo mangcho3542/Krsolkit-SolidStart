@@ -37,25 +37,23 @@ export default function StudentTable(props: StudentTableProps) {
   //function
   //row, column변할 때마다 content 재생성하는 함수
   function updateContent() {
-    let res: string[][] = [];
-    for (let i = 0; i < local.column; i++) {
-      let ary: string[] = [];
-      for (let j = 0; j < local.row; j++) {
-        ary.push(`${i + 1 + 6 * j}번`);
-      }
-
-      res.push(ary);
-    }
-
-    setContent(res);
+    setContent(
+      Array.from({ length: local.column }, (_, i) =>
+        Array.from(
+          { length: local.row },
+          (_, j) => `${i + 1 + local.row * j}번`
+        )
+      )
+    );
   }
 
   //row, column 변할 때마다 isAssignable 재생성 하는 함수
   function updateAssignable() {
-    const res = new Array<boolean[]>(local.column).fill(
-      new Array<boolean>(local.row).fill(true)
+    setIsAssignable(
+      Array.from({ length: local.column }, (_1, _2) =>
+        Array.from({ length: local.row }, (_3, _4) => true)
+      )
     );
-    setIsAssignable(res);
   }
 
   //클릭될 때마다 isAssignable 바꿔줄 함수
@@ -83,16 +81,20 @@ export default function StudentTable(props: StudentTableProps) {
 
       <div {...styling} {...other}>
         {Array.from({ length: local.column }, (_, i) => (
-          <div class={styles.TableColumn} 
-          style={{
-            width: `${100 / (local.column + 1)}%`
-          }}>
+          <div
+            class={styles.TableColumn}
+            style={{
+              width: `${100 / (local.column + 1)}%`,
+            }}
+          >
             {Array.from({ length: local.row }, (_, j) => (
               <div
                 class={
                   styles.Table +
                   " " +
-                  (isAssignable()[i][j] ? styles.AvailTable : styles.UnavailTable)
+                  (isAssignable()[i]?.[j]
+                    ? styles.AvailTable
+                    : styles.UnavailTable)
                 }
                 onClick={() => {
                   changeIsAssignable(i, j);

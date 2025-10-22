@@ -2,7 +2,6 @@ import styles from "./chageclass.module.css";
 import QuestionImg from "@images/QuestionCircleIcon.svg";
 import Stack from "@components/Stack";
 import Slider from "@components/Slider";
-import Btn from "@components/Btn";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
 
