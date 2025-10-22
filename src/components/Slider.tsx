@@ -2,15 +2,22 @@ import {
   Slider as ArkSlider,
   SliderRootProps,
   SliderLabelProps,
-  SliderValueTextProps,
-  SliderControlProps,
-  SliderTrackProps,
-  SliderRangeProps,
-  SliderThumbProps,
+  SliderValueTextProps as ArkSliderValueTextProps,
+  SliderControlProps as ArkSliderControlProps,
+  SliderTrackProps as ArkSliderTrackProps,
+  SliderRangeProps as ArkSliderRangeProps,
+  SliderThumbProps as ArkSliderThumbProps,
 } from "@ark-ui/solid/slider";
 import Stack from "./Stack";
 import { JSXElement, mergeProps } from "solid-js";
 import { splitProps } from "@/utils/splitProps";
+import styles from "@styles/Slider.module.css";
+
+interface SliderValueTextProps extends ArkSliderValueTextProps {useDefaultStyle?: boolean;}
+interface SliderControlProps extends ArkSliderControlProps {useDefaultStyle?: boolean;}
+interface SliderTrackProps extends ArkSliderTrackProps {useDefaultStyle?: boolean;}
+interface SliderRangeProps extends ArkSliderRangeProps {useDefaultStyle?: boolean;}
+interface SliderThumbProps extends ArkSliderThumbProps {useDefaultStyle?: boolean;}
 
 export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   LabelProps?: SliderLabelProps;
@@ -21,6 +28,7 @@ export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   RangeProps?: SliderRangeProps;
   ThumbProps?: Omit<SliderThumbProps, "index">;
   defaultValue?: number;
+  useDefaultStyle?: boolean;
 }
 
 export function Slider(props: SliderProps) {
@@ -31,73 +39,6 @@ export function Slider(props: SliderProps) {
       max: 100,
     },
     props
-  );
-
-  const ValueTextProps: SliderValueTextProps = mergeProps(
-    {
-      style: {
-        display: "inline-block",
-        "margin-left": "auto"
-      }
-    },
-    defaultProps.ValueTextProps ?? {}
-  );
-
-  const ThumbProps: SliderThumbProps = mergeProps(
-    {
-      index: 0,
-      style: {
-        width: "20px",
-        height: "20px",
-        "background-color": "#FFFFFF",
-        border: "2px solid #18181b",
-        "border-radius": "9999px",
-        "box-shadow": "0px 1px 2px color-mix(in srgb, #18181b 10%, transparent), 0px 0px 1px color-mix(in srgb, #18181b 20%, transparent)",
-        cursor: "pointer",
-      }
-    },
-    defaultProps.ThumbProps ?? {}
-  );
-
-  const ControlProps: SliderControlProps = mergeProps(
-    {
-      style: {
-        position: "relative" as const,
-        display: "flex",
-        "align-items": "center",
-        width: "100%",
-        "min-height": "20px",
-      }
-    },
-    defaultProps.ControlProps ?? {}
-  );
-
-  const TrackProps: SliderTrackProps = mergeProps(
-    {
-      style: {
-        position: "relative" as const,
-        width: "100%",
-        height: "8px",
-        "background-color": "color-mix(in srgb, #e4e4e7 72%, transparent)",
-        "border-radius": "9999px",
-        overflow: "hidden",
-        "box-shadow": "inset 0 0 0 1px color-mix(in srgb, black 5%, transparent)",
-        "flex-grow": "1",
-      }
-    },
-    defaultProps.TrackProps ?? {}
-  );
-
-  const RangeProps: SliderRangeProps = mergeProps(
-    {
-      style: {
-        position: "absolute" as const,
-        height: "8px",
-        "background-color": "#18181b",
-        "border-radius": "0px",
-      }
-    },
-    defaultProps.RangeProps ?? {}
   );
 
   const [local, styling, rest] = splitProps(defaultProps, [
@@ -133,6 +74,39 @@ export function Slider(props: SliderProps) {
     "thumbSize",
     "value",
   ]);
+
+  const ValueTextProps: ArkSliderValueTextProps = {
+    class: (local.ValueTextProps?.useDefaultStyle ?? styles.ValueText + " ") + 
+    (local.ValueTextProps?.class ?? ""),
+    ...local.ValueTextProps
+  }
+
+  const ThumbProps: SliderThumbProps = {
+    index: 0,
+    style: {
+      cursor: "pointer"
+    },
+    class: (local.ThumbProps?.useDefaultStyle ?? styles.Thumb + " ")
+    + (local.ThumbProps?.class ?? ""),
+    ...local.ThumbProps
+  };
+
+  const ControlProps: SliderControlProps = {
+    class: (local.ControlProps?.useDefaultStyle ?? styles.Control + " ")
+    + (local.ControlProps?.class ?? ""),
+    ...local.ControlProps
+  };
+
+  const TrackProps: SliderTrackProps = {
+    class: (local.TrackProps?.useDefaultStyle ?? styles.Track + " ")
+    + (local.TrackProps?.class ?? "")
+  };
+
+  const RangeProps: SliderRangeProps = {
+    class: (local.RangeProps?.useDefaultStyle ?? styles.Range + " ") 
+    + (local.RangeProps?.class ?? ""),
+    ...local.RangeProps
+  };
 
   return (
     <ArkSlider.Root
