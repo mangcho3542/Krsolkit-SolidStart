@@ -171,26 +171,26 @@ function parseStyleString(style?: string): Record<string, string> {
 }
 
 function buildStyling<P extends Record<string, any>>(props: P): Styling {
-  const style: JSX.CSSProperties = {} as any;
+  const style: JSX.CSSProperties = {};
 
   // base style 병합 (string/object 모두 지원)
   const baseStyle = props.style as JSX.CSSProperties | string | undefined;
   if (typeof baseStyle === "string") {
-    Object.assign(style as any, parseStyleString(baseStyle));
+    Object.assign(style, parseStyleString(baseStyle));
   } else if (baseStyle && typeof baseStyle === "object") {
-    Object.assign(style as any, baseStyle);
+    Object.assign(style, baseStyle);
   }
 
   // 커스텀 CSSProperties 키 -> kebab-case/별칭으로 주입
   for (const key of STYLE_KEYS) {
-    const v = (props as any)[key as string];
+    const v = (props)[key];
     if (v == null) continue;
-    const cssKey = (ALIAS_MAP as any)[key] ?? toKebabCase(String(key));
-    (style as any)[cssKey] = v as any;
+    const cssKey = (ALIAS_MAP)[key] ?? toKebabCase(String(key));
+    (style as any)[cssKey] = v;
   }
 
   // class / className 합치기
-  const cls = [(props as any).class, (props as any).className]
+  const cls = [props.class, props.className]
     .filter(Boolean)
     .join(" ")
     .trim();
