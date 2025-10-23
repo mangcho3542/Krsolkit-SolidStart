@@ -26,10 +26,10 @@ export default function Main() {
           min={1}
           max={10}
           class={styles.SliderRoot}
-          ControlProps={{ class: styles.SliderControl }}
+          ControlProps={{ class: styles.SliderControl, useDefaultStyle: true }}
           Label="분단 수"
           LabelProps={{ class: styles.SliderLabel }}
-          ValueTextProps={{ class: styles.SliderValueText }}
+          ValueTextProps={{ class: styles.SliderValueText, id:"VT" }}
           onValueChange={(e) => {
             setCol(e.value[0]);
           }}
@@ -54,7 +54,7 @@ export default function Main() {
       <StudentTable
       class={styles.TableWrapper}
       column={col()} 
-      row={row()} 
+      row={row()}
       />
     </main>
   );

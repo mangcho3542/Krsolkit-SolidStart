@@ -88,6 +88,8 @@
     border-radius: 10% 10% 10% 10% / 10% 10% 10% 10%;
     margin-top: 1vw;
     margin-bottom: 1vw;
+    font-family: "SuitBold";
+    font-size: 1.3rem;
 }
 
 .AvailTable {

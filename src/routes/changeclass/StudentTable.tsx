@@ -1,7 +1,9 @@
 import { ComponentProps } from "@/types/ComponentProps";
 import { splitProps } from "@/utils/splitProps";
-import { createEffect, createSignal, onMount } from "solid-js";
-import { shuffleMultiple } from "@/utils/shuffle";
+import { createEffect, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
+import { shuffle } from "@/utils/shuffle";
+import { place } from "./place"; 
 import styles from "./chageclass.module.css";
 import Btn from "@components/Btn";
 
@@ -14,10 +16,13 @@ export default function StudentTable(props: StudentTableProps) {
   const [local, styling, other] = splitProps(props, ["row", "column"]);
 
   //실제 배치될 학생들의 이름(번호)
-  const [content, setContent] = createSignal<string[][]>([]);
+  const [content, setContent] = createStore<string[][]>([]);
+
+  //실제 배치될 학생들의 수
+  const [num, setNum] = createSignal<number>(local.column * local.row);
 
   //배치될지 말지 결정하는 signal
-  const [isAssignable, setIsAssignable] = createSignal<boolean[][]>(
+  const [isAssignable, setIsAssignable] = createStore<boolean[][]>(
     new Array<boolean[]>(local.column).fill(
       new Array<boolean>(local.row).fill(true)
     )
@@ -32,19 +37,24 @@ export default function StudentTable(props: StudentTableProps) {
     setCanShow(false);
     updateContent();
     updateAssignable();
+    setNum(local.column * local.row);
   });
 
   //function
   //row, column변할 때마다 content 재생성하는 함수
   function updateContent() {
-    setContent(
-      Array.from({ length: local.column }, (_, i) =>
-        Array.from(
-          { length: local.row },
-          (_, j) => `${i + 1 + local.row * j}번`
-        )
-      )
-    );
+    let cnt = 1;
+    let res: string[][] = [];
+    for(let i = 0; i < local.column; i++) {
+      let ary: string[] = [];
+      for(let j = 0; j < local.row; j++) {
+        if(cnt <= num()) {ary.push(`${cnt}번`); cnt++;}
+        else {ary.push("")}
+      }
+      res.push(ary);
+    }
+
+    setContent(res);
   }
 
   //row, column 변할 때마다 isAssignable 재생성 하는 함수
@@ -58,17 +68,24 @@ export default function StudentTable(props: StudentTableProps) {
 
   //클릭될 때마다 isAssignable 바꿔줄 함수
   function changeIsAssignable(i: number, j: number) {
-    setIsAssignable((asg) => {
-      asg[i][j] = !asg[i][j];
-      return asg;
-    });
+    setIsAssignable(i, j, (v) => !v);
+    setNum((n) => n-1);
   }
 
   //자리 배치하는 함수
   function handleBtnClick() {
     setCanShow(true);
-    shuffleMultiple(content());
-    setContent([...content()]);
+    let t: string[] = [];
+    for(let row of content) {
+      for(let s of row) {
+        t.push(s);
+      }
+    }
+
+    t = shuffle(t);
+    console.log("shuffle한 결과 : ", t);
+    setContent(place(t, isAssignable));
+    console.log(t);
   }
 
   return (
@@ -80,19 +97,19 @@ export default function StudentTable(props: StudentTableProps) {
       </div>
 
       <div {...styling} {...other}>
-        {Array.from({ length: local.column }, (_, i) => (
+        {Array.from({ length: local.column }, (_1, i) => (
           <div
             class={styles.TableColumn}
             style={{
               width: `${100 / (local.column + 1)}%`,
             }}
           >
-            {Array.from({ length: local.row }, (_, j) => (
+            {Array.from({ length: local.row }, (_2, j) => (
               <div
                 class={
                   styles.Table +
                   " " +
-                  (isAssignable()[i]?.[j]
+                  (isAssignable[i]?.[j]
                     ? styles.AvailTable
                     : styles.UnavailTable)
                 }
@@ -100,7 +117,7 @@ export default function StudentTable(props: StudentTableProps) {
                   changeIsAssignable(i, j);
                 }}
               >
-                {canShow() && isAssignable()[i][j] && content()[i][j]}
+                {canShow() && isAssignable[i]?.[j] && content[i][j]}
               </div>
             ))}
           </div>
