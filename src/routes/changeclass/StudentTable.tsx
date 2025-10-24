@@ -3,7 +3,6 @@ import { splitProps } from "@/utils/splitProps";
 import { createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import { shuffle } from "@/utils/shuffle";
-import { place } from "./place"; 
 import styles from "./chageclass.module.css";
 import Btn from "@components/Btn";
 
@@ -16,15 +15,16 @@ export default function StudentTable(props: StudentTableProps) {
   const [local, styling, other] = splitProps(props, ["row", "column"]);
 
   //실제 배치될 학생들의 이름(번호)
-  const [content, setContent] = createStore<string[][]>([]);
+  const [content, setContent] = createStore<string[][]>(Array.from({length: local.column}, () => 
+  Array.from({length: local.row}, () => "")));
 
   //실제 배치될 학생들의 수
   const [num, setNum] = createSignal<number>(local.column * local.row);
 
   //배치될지 말지 결정하는 signal
   const [isAssignable, setIsAssignable] = createStore<boolean[][]>(
-    new Array<boolean[]>(local.column).fill(
-      new Array<boolean>(local.row).fill(true)
+    Array.from({ length: local.column }, () =>
+      Array.from({ length: local.row }, () => true)
     )
   );
 
@@ -34,29 +34,17 @@ export default function StudentTable(props: StudentTableProps) {
   //effect
   //row, column변할때마다 canShow, isAssignable, conent 업데이트
   createEffect(() => {
+    local.row;
+    local.column;
     setCanShow(false);
-    updateContent();
     updateAssignable();
+  });
+
+  createEffect(() => {
     setNum(local.column * local.row);
   });
 
   //function
-  //row, column변할 때마다 content 재생성하는 함수
-  function updateContent() {
-    let cnt = 1;
-    let res: string[][] = [];
-    for(let i = 0; i < local.column; i++) {
-      let ary: string[] = [];
-      for(let j = 0; j < local.row; j++) {
-        if(cnt <= num()) {ary.push(`${cnt}번`); cnt++;}
-        else {ary.push("")}
-      }
-      res.push(ary);
-    }
-
-    setContent(res);
-  }
-
   //row, column 변할 때마다 isAssignable 재생성 하는 함수
   function updateAssignable() {
     setIsAssignable(
@@ -68,24 +56,35 @@ export default function StudentTable(props: StudentTableProps) {
 
   //클릭될 때마다 isAssignable 바꿔줄 함수
   function changeIsAssignable(i: number, j: number) {
-    setIsAssignable(i, j, (v) => !v);
-    setNum((n) => n-1);
+    setIsAssignable(i, j, v => !v);
+    setNum((n) => (isAssignable[i]?.[j] ? n+1 : n-1));
   }
 
   //자리 배치하는 함수
   function handleBtnClick() {
-    setCanShow(true);
-    let t: string[] = [];
-    for(let row of content) {
-      for(let s of row) {
-        t.push(s);
+    let tmpAry : string[] = [];
+    let tmpStr = "";
+    for(let i = 0; i < num(); i++) {
+      tmpAry[i] = `${i+1}번`;
+      tmpStr += `${i+1}번 `;
+    }
+
+    console.log(tmpStr);
+
+    tmpAry = shuffle(tmpAry);
+
+    let k = 0;
+    for(let i = 0; i < local.column; i++) {
+      for(let j = 0; j < local.row; j++) {
+        //isAssignable[i][j]가 false라면 ""
+        if(!isAssignable[i][j]) {setContent(i, j, "");}
+        //isAssignable[i][j]가 true라면 번호 배치
+        else {setContent(i, j, tmpAry[k]); k++;}
       }
     }
 
-    t = shuffle(t);
-    console.log("shuffle한 결과 : ", t);
-    setContent(place(t, isAssignable));
-    console.log(t);
+    //canShow true로 설정해서 보여주기
+    setCanShow(true);
   }
 
   return (
