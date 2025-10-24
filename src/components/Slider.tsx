@@ -14,11 +14,21 @@ import { splitProps } from "@/utils/splitProps";
 import styles from "@styles/Slider.module.css";
 import { omit } from "@/utils/object";
 
-interface SliderValueTextProps extends ArkSliderValueTextProps { useDefaultStyle?: boolean }
-interface SliderControlProps   extends ArkSliderControlProps   { useDefaultStyle?: boolean }
-interface SliderTrackProps     extends ArkSliderTrackProps     { useDefaultStyle?: boolean }
-interface SliderRangeProps     extends ArkSliderRangeProps     { useDefaultStyle?: boolean }
-interface SliderThumbProps     extends ArkSliderThumbProps     { useDefaultStyle?: boolean }
+interface SliderValueTextProps extends ArkSliderValueTextProps {
+  useDefaultStyle?: boolean;
+}
+interface SliderControlProps extends ArkSliderControlProps {
+  useDefaultStyle?: boolean;
+}
+interface SliderTrackProps extends ArkSliderTrackProps {
+  useDefaultStyle?: boolean;
+}
+interface SliderRangeProps extends ArkSliderRangeProps {
+  useDefaultStyle?: boolean;
+}
+interface SliderThumbProps extends ArkSliderThumbProps {
+  useDefaultStyle?: boolean;
+}
 
 export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   LabelProps?: SliderLabelProps;
@@ -40,11 +50,15 @@ function withDefaultClass<T extends HasDefaultStyle>(
   defaultClass: string,
   rootUseDefault: boolean
 ) {
-  const rest = obj ? omit(obj, ["useDefaultStyle"]) : ({} as Record<string, unknown>);
+  const rest = obj
+    ? omit(obj, ["useDefaultStyle"])
+    : ({} as Record<string, unknown>);
   const wantDefault = obj?.useDefaultStyle ?? rootUseDefault;
 
   const userClass = (rest as any).class as string | undefined;
-  const mergedClass = [wantDefault ? defaultClass : "", userClass ?? ""].filter(Boolean).join(" ");
+  const mergedClass = [wantDefault ? defaultClass : "", userClass ?? ""]
+    .filter(Boolean)
+    .join(" ");
 
   return mergedClass ? { ...rest, class: mergedClass } : rest;
 }
@@ -99,11 +113,31 @@ export function Slider(p: SliderProps) {
   // 루트 useDefaultStyle의 기본값은 true로 동작
   const rootUseDefault = local.useDefaultStyle ?? true;
 
-  const valueTextProps = withDefaultClass(local.ValueTextProps, styles.ValueText, rootUseDefault);
-  const controlProps   = withDefaultClass(local.ControlProps,   styles.Control,   rootUseDefault);
-  const trackProps     = withDefaultClass(local.TrackProps,     styles.Track,     rootUseDefault);
-  const rangeProps     = withDefaultClass(local.RangeProps,     styles.Range,     rootUseDefault);
-  const thumbProps     = withDefaultClass(local.ThumbProps,     styles.Thumb,     rootUseDefault);
+  const valueTextProps = withDefaultClass(
+    local.ValueTextProps,
+    styles.ValueText,
+    rootUseDefault
+  );
+  const controlProps = withDefaultClass(
+    local.ControlProps,
+    styles.Control,
+    rootUseDefault
+  );
+  const trackProps = withDefaultClass(
+    local.TrackProps,
+    styles.Track,
+    rootUseDefault
+  );
+  const rangeProps = withDefaultClass(
+    local.RangeProps,
+    styles.Range,
+    rootUseDefault
+  );
+  const thumbProps = withDefaultClass(
+    local.ThumbProps,
+    styles.Thumb,
+    rootUseDefault
+  );
 
   return (
     <ArkSlider.Root
@@ -119,7 +153,9 @@ export function Slider(p: SliderProps) {
       aria-labelledby={local["aria-labelledby"]}
       asChild={local.asChild}
       // 0도 올바르게 처리되도록 복구
-      defaultValue={local.defaultValue !== undefined ? [local.defaultValue] : undefined}
+      defaultValue={
+        local.defaultValue !== undefined ? [local.defaultValue] : undefined
+      }
       disabled={local.disabled}
       form={local.form}
       getAriaValueText={local.getAriaValueText}
@@ -142,9 +178,7 @@ export function Slider(p: SliderProps) {
       value={local.value}
     >
       <Stack flexDirection="row">
-        <ArkSlider.Label {...local.LabelProps}>
-          {local.Label}
-        </ArkSlider.Label>
+        <ArkSlider.Label {...local.LabelProps}>{local.Label}</ArkSlider.Label>
         <ArkSlider.ValueText {...valueTextProps} />
       </Stack>
       <ArkSlider.Control {...controlProps}>

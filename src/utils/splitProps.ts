@@ -183,17 +183,14 @@ function buildStyling<P extends Record<string, any>>(props: P): Styling {
 
   // 커스텀 CSSProperties 키 -> kebab-case/별칭으로 주입
   for (const key of STYLE_KEYS) {
-    const v = (props)[key];
+    const v = props[key];
     if (v == null) continue;
-    const cssKey = (ALIAS_MAP)[key] ?? toKebabCase(String(key));
+    const cssKey = ALIAS_MAP[key] ?? toKebabCase(String(key));
     (style as any)[cssKey] = v;
   }
 
   // class / className 합치기
-  const cls = [props.class, props.className]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
+  const cls = [props.class, props.className].filter(Boolean).join(" ").trim();
 
   // classList 그대로
   const classList = (props as any)

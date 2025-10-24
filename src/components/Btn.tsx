@@ -9,8 +9,8 @@ export default function Btn(props: ComponentProps): JSX.Element {
   const defaultStyle = {
     "min-width": "40px",
     "min-height": "40px",
-    "border-radius": "4px"
-  }
+    "border-radius": "4px",
+  };
 
   const style = mergeProps(defaultStyle, styling.style ?? {});
 

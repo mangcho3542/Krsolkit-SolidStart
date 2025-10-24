@@ -29,7 +29,7 @@ export default function Main() {
           ControlProps={{ class: styles.SliderControl, useDefaultStyle: true }}
           Label="분단 수"
           LabelProps={{ class: styles.SliderLabel }}
-          ValueTextProps={{ class: styles.SliderValueText, id:"VT" }}
+          ValueTextProps={{ class: styles.SliderValueText, id: "VT" }}
           onValueChange={(e) => {
             setCol(e.value[0]);
           }}
@@ -50,12 +50,8 @@ export default function Main() {
           }}
         />
       </Stack>
-      
-      <StudentTable
-      class={styles.TableWrapper}
-      column={col()} 
-      row={row()}
-      />
+
+      <StudentTable class={styles.TableWrapper} column={col()} row={row()} />
     </main>
   );
 }

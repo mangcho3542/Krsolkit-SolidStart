@@ -13,7 +13,7 @@ export default function Stack(props: StackProps) {
       classList={styling.classList}
       style={{
         ...styling.style,
-        "flex-direction": styling.style["flex-direction"] ?? "column"
+        "flex-direction": styling.style["flex-direction"] ?? "column",
       }}
       {...rest}
     >

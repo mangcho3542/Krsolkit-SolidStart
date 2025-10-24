@@ -1,20 +1,20 @@
 .Btn {
-    display: inline-flex;
-    text-align: center;
-    align-items: center;
-    border-radius: 6px;
+  display: inline-flex;
+  text-align: center;
+  align-items: center;
+  border-radius: 6px;
 }
 
 @media (prefers-color-scheme: light) {
-    .Btn {
-        background-color: #18181b;
-        color: #ffffff
-    }
+  .Btn {
+    background-color: #18181b;
+    color: #ffffff;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-    .Btn {
-        background-color: #ffffff;
-        color: #09090b;
-    }
+  .Btn {
+    background-color: #ffffff;
+    color: #09090b;
+  }
 }

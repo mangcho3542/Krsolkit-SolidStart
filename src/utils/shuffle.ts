@@ -12,7 +12,7 @@ export function shuffleMultiple<T>(ary: T[][]): T[][] {
   if (outer === 0) return [];
 
   // 원래 각 서브배열 길이 보존
-  const targetLens = ary.map(row => row.length);
+  const targetLens = ary.map((row) => row.length);
   const total = targetLens.reduce((s, n) => s + n, 0);
   if (total === 0) return targetLens.map(() => []);
 

@@ -1,14 +1,14 @@
 #Main {
-    display: flex;
-    flex-direction: column;
-    min-width: 100%;
-    min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  min-height: 80vh;
 }
 
 #MainText {
-    font-family: "SuitExtraBold";
-    font-size: 2.5rem;
-    display: block;
-    padding-left: 2%;
-    margin-bottom: 1%;
+  font-family: "SuitExtraBold";
+  font-size: 2.5rem;
+  display: block;
+  padding-left: 2%;
+  margin-bottom: 1%;
 }
