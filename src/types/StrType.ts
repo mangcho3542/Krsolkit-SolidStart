@@ -1,0 +1,1 @@
+export type LenStr<L> = string & {length : L};
