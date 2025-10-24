@@ -1,7 +1,7 @@
 import { ComponentProps } from "@/types/ComponentProps";
 import { Dynamic } from "solid-js/web";
 import { Hex, RGB, RGBA, HSL, HSLA } from "@/types/ColorType";
-import { JSX, ValidComponent, mergeProps } from "solid-js";
+import { JSX, ValidComponent } from "solid-js";
 import { splitProps } from "@/utils/splitProps";
 import styles from "@styles/ColorSwatch.module.css";
 import { omit } from "@/utils/object";
