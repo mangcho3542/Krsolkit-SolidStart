@@ -17,3 +17,5 @@ export type HSL =
 export type HSLA =
   | `hsla(${number}, ${number}%, ${number}%, ${number})`
   | `hsla(${number},${number}%,${number}%,${number})`;
+
+export type AllColorType = Hex | RGB | RGBA | HSL | HSLA;
