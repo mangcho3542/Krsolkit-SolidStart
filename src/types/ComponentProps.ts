@@ -8,3 +8,9 @@ export interface ComponentProps
   classList?: { [k: string]: boolean | undefined };
   children?: JSXElement;
 }
+
+export interface ComponentBaseProps {
+  class?: string;
+  classList?: { [k: string]: boolean };
+  id?: string;
+}
