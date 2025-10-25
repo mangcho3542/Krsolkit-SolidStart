@@ -11,12 +11,8 @@ import { JSXElement } from "solid-js";
 import { splitProps } from "@utils/splitProps";
 import EyeIcon from "@images/EyeIcon.svg";
 import EyeOff from "@images/EyeOff.svg";
-
-interface ComponentProps {
-  class?: string;
-  classList?: { [k: string]: boolean | undefined };
-  id?: string;
-}
+import { SvgProps, Svg } from "./SVG";
+import { Hex } from "@/types/ColorType";
 
 interface PasswordInputProps extends RootProps {
   LabelProps?: LabelProps;
@@ -25,8 +21,32 @@ interface PasswordInputProps extends RootProps {
   InputProps?: InputProps;
   VisibleTriggerProps?: VisibleProps;
   IndicatorProps?: Omit<IndicatorProps, "fallback">;
-  EyeProps?: ComponentProps;
-  EyeOffProps?: ComponentProps;
+  EyeProps?: Omit<SvgProps, "src">;
+  EyeOffProps?: Omit<SvgProps, "src">;
+}
+
+function EyeIconComp(props: Omit<SvgProps, "src">) {
+  return (
+    <Svg
+      class={props.class}
+      classList={props.classList}
+      id={props.id}
+      color={props.color ?? ("#262628" as Hex)}
+      src={EyeIcon}
+    />
+  );
+}
+
+function EyeOffComp(props: Omit<SvgProps, "src">) {
+  return (
+    <Svg
+      class={props.class}
+      classList={props.classList}
+      id={props.id}
+      color={props.color ?? ("#262628" as Hex)}
+      src={EyeOff}
+    />
+  );
 }
 
 export function PasswordInput(props: PasswordInputProps) {
@@ -50,9 +70,9 @@ export function PasswordInput(props: PasswordInputProps) {
         <PI.VisibilityTrigger {...local.VisibleTriggerProps}>
           <PI.Indicator
             {...local.IndicatorProps}
-            fallback={<image href={EyeIcon} {...local.EyeProps} />}
+            fallback={<EyeIconComp {...local.EyeProps} />}
           >
-            <image href={EyeOff} {...local.EyeOffProps} />
+            <EyeOffComp {...local.EyeOffProps} />
           </PI.Indicator>
         </PI.VisibilityTrigger>
       </PI.Control>
