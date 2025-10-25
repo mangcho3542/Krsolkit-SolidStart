@@ -11,7 +11,7 @@ import { JSXElement } from "solid-js";
 import { splitProps } from "@utils/splitProps";
 import EyeIcon from "@images/EyeIcon.svg";
 import EyeOff from "@images/EyeOff.svg";
-import { SvgProps, Svg } from "./SVG";
+import { SvgProps, Svg } from "./Svg";
 import { Hex } from "@/types/ColorType";
 
 interface PasswordInputProps extends RootProps {
