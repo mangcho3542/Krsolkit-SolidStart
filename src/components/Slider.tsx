@@ -42,25 +42,20 @@ export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   useDefaultStyle?: boolean; // 슬라이더 전체에 대한 기본 스타일 on/off
 }
 
-type HasDefaultStyle = { useDefaultStyle?: boolean; class?: string };
+interface Obj {
+  class?: string;
+  useDefaultStyle?: boolean;
+}
 
-// 기본 클래스를 안전하게 적용하고 사용자 class와 병합
-function withDefaultClass<T extends HasDefaultStyle>(
-  obj: T | undefined,
-  defaultClass: string,
-  rootUseDefault: boolean
-) {
-  const rest = obj
-    ? omit(obj, ["useDefaultStyle"])
-    : ({} as Record<string, unknown>);
-  const wantDefault = obj?.useDefaultStyle ?? rootUseDefault;
+function withDefaultClass(obj: Obj | undefined, baseClass: string) {
+  if (!obj) return { class: baseClass };
 
-  const userClass = (rest as any).class as string | undefined;
-  const mergedClass = [wantDefault ? defaultClass : "", userClass ?? ""]
-    .filter(Boolean)
-    .join(" ");
-
-  return mergedClass ? { ...rest, class: mergedClass } : rest;
+  const className =
+    obj.class ??
+    " " + (obj.useDefaultStyle !== undefined && obj.useDefaultStyle)
+      ? baseClass
+      : "";
+  return { ...omit(obj, ["class"]), class: className };
 }
 
 export function Slider(p: SliderProps) {
@@ -115,29 +110,16 @@ export function Slider(p: SliderProps) {
 
   const valueTextProps = withDefaultClass(
     local.ValueTextProps,
-    styles.ValueText,
-    rootUseDefault
+    styles.ValueText
   );
-  const controlProps = withDefaultClass(
-    local.ControlProps,
-    styles.Control,
-    rootUseDefault
-  );
-  const trackProps = withDefaultClass(
-    local.TrackProps,
-    styles.Track,
-    rootUseDefault
-  );
-  const rangeProps = withDefaultClass(
-    local.RangeProps,
-    styles.Range,
-    rootUseDefault
-  );
-  const thumbProps = withDefaultClass(
-    local.ThumbProps,
-    styles.Thumb,
-    rootUseDefault
-  );
+
+  const controlProps = withDefaultClass(local.ControlProps, styles.Control);
+
+  const trackProps = withDefaultClass(local.TrackProps, styles.Track);
+
+  const rangeProps = withDefaultClass(local.RangeProps, styles.Range);
+
+  const thumbProps = withDefaultClass(local.ThumbProps, styles.Thumb);
 
   return (
     <ArkSlider.Root
