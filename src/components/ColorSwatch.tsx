@@ -29,7 +29,10 @@ export function ColorSwatch(props: ColorSwatchProps) {
     <Dynamic
       component={local.as ?? "div"}
       class={
-        styling.class + local.useDefaultStyle ? " " + styles.ColorSwatch : ""
+        (styling.class ?? " ") + local.useDefaultStyle !== undefined &&
+        local.useDefaultStyle
+          ? +styles.ColorSwatch
+          : ""
       }
       classList={{
         ...styling.classList,

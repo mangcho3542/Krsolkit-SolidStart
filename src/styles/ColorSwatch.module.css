@@ -1,4 +1,6 @@
 .ColorSwatch {
     width: 20px;
-    height: 20px;    
+    height: 20px;
+    cursor: pointer;
+    border-radius: 2px;
 }
