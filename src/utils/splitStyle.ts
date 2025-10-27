@@ -14,13 +14,11 @@ interface StyleI extends Pick<ComponentProps, "class" | "classList" | "id"> {
 export function splitStyle(props: SplitStyleProps | undefined, style: StyleI) {
   if(!props) return style;
 
-  if (props.useDefaultStyle !== undefined && props.useDefaultStyle) {
-    const obj = omit(props, ["useDefaultStyle"]);
-    obj.classList = {
-      ...(style.class ? {[style.class]: true}: {}),
-      ...style.classList
+  return {
+    ...omit(props, ["classList"]),
+    classList: {
+      ...props.classList,
+      [style.class ?? ""]: props.useDefaultStyle === undefined ? true : props.useDefaultStyle
     }
-    return obj;
-  }  
-  else return omit(props, ["useDefaultStyle"]);
+  }
 }
