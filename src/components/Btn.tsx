@@ -3,8 +3,12 @@ import { splitProps } from "@/utils/splitProps";
 import { mergeProps, JSX } from "solid-js";
 import styles from "@styles/Btn.module.css";
 
-export default function Btn(props: ComponentProps): JSX.Element {
-  const [local, styling, others] = splitProps(props, ["children"]);
+interface BtnProps extends ComponentProps {
+  ref?: HTMLButtonElement | ((el: HTMLButtonElement) => void);
+}
+
+export default function Btn(props: BtnProps): JSX.Element {
+  const [local, styling, others] = splitProps(props, ["children", "ref"]);
 
   const defaultStyle = {
     "min-width": "40px",
@@ -19,6 +23,7 @@ export default function Btn(props: ComponentProps): JSX.Element {
       class={styles.Btn + " " + styling.class}
       classList={styling.classList}
       style={style}
+      ref={local.ref}
       {...others}
     >
       {local.children}

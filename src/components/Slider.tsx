@@ -39,23 +39,26 @@ export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   RangeProps?: SliderRangeProps;
   ThumbProps?: Omit<SliderThumbProps, "index">;
   defaultValue?: number;
-  useDefaultStyle?: boolean; // 슬라이더 전체에 대한 기본 스타일 on/off
+  useDefaultStyle?: boolean; 
 }
 
 interface Obj {
   class?: string;
+  classList?: {[k: string]: boolean | undefined};
+  id?: string;
   useDefaultStyle?: boolean;
 }
 
 function withDefaultClass(obj: Obj | undefined, baseClass: string) {
   if (!obj) return { class: baseClass };
 
-  const className =
-    obj.class ??
-    " " + (obj.useDefaultStyle !== undefined && obj.useDefaultStyle)
-      ? baseClass
-      : "";
-  return { ...omit(obj, ["class"]), class: className };
+  const className = obj.class ?? ""
+  return {
+    class: className,
+    classList: {...obj.classList,
+      baseClass: obj.useDefaultStyle === undefined ? true : obj.useDefaultStyle
+    },
+   };
 }
 
 export function Slider(p: SliderProps) {

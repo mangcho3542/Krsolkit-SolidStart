@@ -13,7 +13,7 @@ export function Svg(props: SvgProps) {
       class={props.class}
       classList={props.classList}
       id={props.id}
-      style={{ color: props.color ?? "#000000" }}
+      style={{ color: props.color ?? "var(--svg-color)" }}
       innerHTML={props.src}
     />
   );

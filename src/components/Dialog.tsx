@@ -54,17 +54,23 @@ export function Dialog(props: DialogProps) {
         <dialog
           class={props.class}
           classList={{
-            [styles.Dialog]: local.useDefaultStyle,
+            [styles.Dialog]:
+              local.useDefaultStyle === undefined
+                ? true
+                : local.useDefaultStyle,
             ...rest.classList,
           }}
-          ref={(el) => dialogRef=el}
+          ref={(el) => (dialogRef = el)}
         >
           {/**Title */}
           <div
             class={local.TitleProps?.class}
             id={local.TitleProps?.id}
             classList={{
-              [styles.DialogTitle]: local.TitleProps?.useDefaultStyle,
+              [styles.DialogTitle]:
+                local.TitleProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.TitleProps?.useDefaultStyle,
               ...local.TitleProps?.classList,
             }}
           >
@@ -78,7 +84,10 @@ export function Dialog(props: DialogProps) {
                 id={local.CloseTriggerProps?.id}
                 classList={{
                   ...local.CloseTriggerProps?.classList,
-                  [styles.CloseBtn]: local.CloseTriggerProps?.useDefaultStyle,
+                  [styles.CloseBtn]:
+                    local.CloseTriggerProps?.useDefaultStyle === undefined
+                      ? true
+                      : local.CloseTriggerProps?.useDefaultStyle,
                 }}
               />
             )}
@@ -89,7 +98,10 @@ export function Dialog(props: DialogProps) {
             class={local.DescProps?.class}
             id={local.DescProps?.id}
             classList={{
-              [styles.DialogDesc]: local.DescProps?.useDefaultStyle,
+              [styles.DialogDesc]:
+                local.DescProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.DescProps?.useDefaultStyle,
               ...local.DescProps?.classList,
             }}
           >
@@ -101,7 +113,10 @@ export function Dialog(props: DialogProps) {
             class={local.ContentProps?.class}
             id={local.ContentProps?.id}
             classList={{
-              [styles.DialogContent]: local.ContentProps?.useDefaultStyle,
+              [styles.DialogContent]:
+                local.ContentProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.DescProps?.useDefaultStyle,
               ...local.ContentProps?.classList,
             }}
           >
@@ -123,12 +138,11 @@ export function Dialog(props: DialogProps) {
 
   //dialog업데이트
   createEffect(() => {
-    if(open()) dialogRef.showModal();
+    if (open()) dialogRef.showModal();
     else {
-      if(dialogRef.open) dialogRef.close();
-
+      if (dialogRef.open) dialogRef.close();
     }
-  })
+  });
 
   //closeTrgRef 업데이트
   createEffect(() => {
