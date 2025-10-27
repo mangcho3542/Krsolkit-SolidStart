@@ -1,11 +1,23 @@
-@media(prefers-color-scheme: light) {
-    .CloseBtn {
-        color: var(--svg-light-color);
+.Content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+}
+
+.DialogTtitle {
+    font-family: "SuitSemiBold";
+    display: inline-block;
+}
+
+@media (perfers-color-scheme: light) {
+    .DialogDescription {
+        color: #63635e;
     }
 }
 
-@media(prefers-color-scheme: dark) {
-    .CloseBtn {
-        color: var(--svg-dark-color);
+@media (prefers-color-scheme: dark) {
+    .DialogDescription {
+        color: #b5b3ad;
     }
 }
