@@ -1,0 +1,11 @@
+@media (prefers-color-scheme: light) {
+  .CloseBtn {
+    color: var(--svg-light-color);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .CloseBtn {
+    color: var(--svg-dark-color);
+  }
+}
