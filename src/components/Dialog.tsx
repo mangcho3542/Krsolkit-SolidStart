@@ -1,72 +1,144 @@
-import { splitProps } from "solid-js";
-import {
-  Dialog as ArkDialog,
-  DialogRootProps,
-  DialogTriggerProps,
-  DialogPositionerProps,
-  DialogContentProps,
-  DialogTitleProps,
-  DialogDescriptionProps,
-  DialogCloseTriggerProps,
-} from "@ark-ui/solid";
+import { createEffect, createSignal, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import CloseBtn from "./CloseBtn";
-import { splitStyle } from "@/utils/splitStyle";
 import styles from "@styles/Dialog.module.css";
+import { ComponentBaseProps } from "@/types/ComponentProps";
 
-interface ContentProps extends DialogContentProps {useDefaultStyle?: boolean;}
-interface TitleProps extends DialogTitleProps {useDefaultStyle?: boolean;}
-interface DescriptionProps extends DialogDescriptionProps {useDefaultStyle?: boolean};
+interface ComponentProps extends ComponentBaseProps {
+  useDefaultStyle?: boolean;
+}
 
-export interface DialogProps extends DialogRootProps {
-  TriggerProps?: DialogTriggerProps;
-  PositionerProps?: DialogPositionerProps;
-  ContentProps?: ContentProps;
-  TitleProps?: TitleProps;
+export interface DialogProps extends ComponentProps {
+  useDefaultStyle?: boolean;
+  open?: boolean;
+  CloseTrigger?: HTMLElement;
+  CloseTriggerProps?: ComponentProps;
+  onClose?: () => void;
+  mount?: Element;
+  TitleProps?: ComponentProps;
   Title?: Element;
-  DescriptionProps?: DescriptionProps;
-  Description?: Element;
-  CloseTriggerProps?: DialogCloseTriggerProps;
-  CloseTrigger?: Element;
+  DescProps?: ComponentProps;
+  Desc?: Element;
+  ContentProps?: ComponentProps;
+  Content?: Element;
 }
 
 export function Dialog(props: DialogProps) {
   const [local, rest] = splitProps(props, [
-    "TriggerProps",
-    "PositionerProps",
-    "ContentProps",
+    "open",
+    "useDefaultStyle",
+    "CloseTrigger",
+    "CloseTriggerProps",
+    "onClose",
+    "mount",
     "TitleProps",
     "Title",
-    "DescriptionProps",
-    "Description",
-    "CloseTriggerProps",
-    "CloseTrigger",
+    "DescProps",
+    "Desc",
+    "ContentProps",
+    "Content",
   ]);
 
-  return (
-    <ArkDialog.Root {...rest}>
-      <ArkDialog.Trigger {...local.TriggerProps} />
-
-      <Portal>
-        <ArkDialog.Backdrop />
-        <ArkDialog.Positioner {...local.PositionerProps}>
-          <ArkDialog.Content {...splitStyle(local.ContentProps, {class: styles.DialogContent})}>
-            <ArkDialog.Title {...local.TitleProps}>
-              {local.Title}
-            </ArkDialog.Title>
-
-            <ArkDialog.Description {...local.DescriptionProps}>
-              {local.Description}
-            </ArkDialog.Description>
-
-            <ArkDialog.CloseTrigger {...local.CloseTriggerProps}>
-              {local.CloseTrigger ?? <CloseBtn />}
-            </ArkDialog.CloseTrigger>
-          </ArkDialog.Content>
-        </ArkDialog.Positioner>
-      </Portal>
-    </ArkDialog.Root>
+  //open의 default값은 false로 설정
+  const [open, setOpen] = createSignal<boolean | undefined>(
+    local.open !== undefined ? local.open : false
   );
+
+  //ref
+  let dialogRef: HTMLDialogElement;
+
+  //실제 렌더링될 컴포넌트
+  function display() {
+    return (
+      <Portal mount={local.mount ?? document.getElementsByClassName("Main")[0]}>
+        <dialog
+          class={props.class}
+          classList={{
+            [styles.Dialog]: local.useDefaultStyle,
+            ...rest.classList,
+          }}
+          ref={(el) => dialogRef=el}
+        >
+          {/**Title */}
+          <div
+            class={local.TitleProps?.class}
+            id={local.TitleProps?.id}
+            classList={{
+              [styles.DialogTitle]: local.TitleProps?.useDefaultStyle,
+              ...local.TitleProps?.classList,
+            }}
+          >
+            {local.Title}
+
+            {/**CloseTrigger */}
+            {local.CloseTrigger ?? (
+              <CloseBtn
+                ref={closeTrgRef as SVGSVGElement}
+                class={local.CloseTriggerProps?.class}
+                id={local.CloseTriggerProps?.id}
+                classList={{
+                  ...local.CloseTriggerProps?.classList,
+                  [styles.CloseBtn]: local.CloseTriggerProps?.useDefaultStyle,
+                }}
+              />
+            )}
+          </div>
+
+          {/**Desc */}
+          <div
+            class={local.DescProps?.class}
+            id={local.DescProps?.id}
+            classList={{
+              [styles.DialogDesc]: local.DescProps?.useDefaultStyle,
+              ...local.DescProps?.classList,
+            }}
+          >
+            {local.Desc}
+          </div>
+
+          {/**Content */}
+          <div
+            class={local.ContentProps?.class}
+            id={local.ContentProps?.id}
+            classList={{
+              [styles.DialogContent]: local.ContentProps?.useDefaultStyle,
+              ...local.ContentProps?.classList,
+            }}
+          >
+            {local.Content}
+          </div>
+        </dialog>
+      </Portal>
+    );
+  }
+
+  let closeTrgRef: HTMLElement | SVGSVGElement | undefined;
+
+  //^effect
+
+  //open업데이트
+  createEffect(() => {
+    setOpen(local.open);
+  });
+
+  //dialog업데이트
+  createEffect(() => {
+    if(open()) dialogRef.showModal();
+    else {
+      if(dialogRef.open) dialogRef.close();
+
+    }
+  })
+
+  //closeTrgRef 업데이트
+  createEffect(() => {
+    closeTrgRef = local.CloseTrigger;
+    closeTrgRef?.addEventListener("click", () => {
+      setOpen(false);
+    });
+  });
+
+  return <>{open() && display()}</>;
 }
 
 export default Dialog;

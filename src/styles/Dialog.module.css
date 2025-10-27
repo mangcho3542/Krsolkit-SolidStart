@@ -5,9 +5,14 @@
     padding: 1%;
 }
 
-.DialogTtitle {
+.DialogTitle {
     font-family: "SuitSemiBold";
     display: inline-block;
+}
+
+.CloseBtn {
+    display: inline-block;
+    margin-left: auto;
 }
 
 @media (perfers-color-scheme: light) {
@@ -20,4 +25,12 @@
     .DialogDescription {
         color: #b5b3ad;
     }
+}
+
+::backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.48);
 }
