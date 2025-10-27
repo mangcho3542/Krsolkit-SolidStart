@@ -1,4 +1,10 @@
-import { createEffect, createSignal, splitProps } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  splitProps,
+  onCleanup,
+  JSX,
+} from "solid-js";
 import { Portal } from "solid-js/web";
 import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
@@ -11,16 +17,16 @@ interface ComponentProps extends ComponentBaseProps {
 export interface DialogProps extends ComponentProps {
   useDefaultStyle?: boolean;
   open?: boolean;
-  CloseTrigger?: HTMLElement;
+  CloseTrigger?: HTMLElement; // 기존 API를 유지
   CloseTriggerProps?: ComponentProps;
   onClose?: () => void;
   mount?: Element;
-  TitleProps?: ComponentProps;
-  Title?: Element;
-  DescProps?: ComponentProps;
-  Desc?: Element;
+  TitleProps?: ComponentProps & { id?: string };
+  Title?: JSX.Element;
+  DescProps?: ComponentProps & { id?: string };
+  Desc?: JSX.Element;
   ContentProps?: ComponentProps;
-  Content?: Element;
+  Content?: JSX.Element;
 }
 
 export function Dialog(props: DialogProps) {
@@ -39,30 +45,104 @@ export function Dialog(props: DialogProps) {
     "Content",
   ]);
 
-  //open의 default값은 false로 설정
-  const [open, setOpen] = createSignal<boolean | undefined>(
-    local.open !== undefined ? local.open : false
-  );
+  // 내부 상태: 기본값 false
+  const [open, setOpen] = createSignal<boolean>(local.open ?? false);
 
-  //ref
-  let dialogRef: HTMLDialogElement;
+  // refs
+  let dialogRef: HTMLDialogElement | undefined;
+  let closeTrgRef: HTMLElement | SVGSVGElement | undefined;
 
-  //실제 렌더링될 컴포넌트
+  // 외부 open prop과 동기화
+  createEffect(() => {
+    if (local.open !== undefined) setOpen(local.open);
+  });
+
+  // dialog 열고/닫기 동기화
+  createEffect(() => {
+    const dlg = dialogRef;
+    const isOpen = open();
+    if (!dlg) return;
+
+    if (isOpen) {
+      if (!dlg.open) {
+        try {
+          dlg.showModal();
+        } catch {
+          // 아직 DOM에 안붙은 경우 등 안전 fallback
+          dlg.setAttribute("open", "");
+        }
+      }
+    } else {
+      if (dlg.open) dlg.close();
+    }
+  });
+
+  // Esc로 닫히거나 외부적으로 close()가 호출된 경우 내부 상태와 동기화
+  createEffect(() => {
+    const dlg = dialogRef;
+    if (!dlg) return;
+
+    const handleClose = () => {
+      // 외부에서 닫혔다면 내부 상태도 false로 맞추고 onClose 호출
+      const wasOpen = open();
+      setOpen(false);
+      if (wasOpen) local.onClose?.();
+    };
+
+    dlg.addEventListener("close", handleClose);
+    onCleanup(() => dlg.removeEventListener("close", handleClose));
+  });
+
+  // open -> closed로 전환될 때만 onClose 호출 (중복 호출 방지)
+  {
+    let prev = open();
+    createEffect(() => {
+      const cur = open();
+      if (prev && !cur) local.onClose?.();
+      prev = cur;
+    });
+  }
+
+  // CloseTrigger(사용자 제공 요소 또는 기본 CloseBtn)에 안전하게 click 핸들러 연결
+  createEffect(() => {
+    const el = local.CloseTrigger ?? closeTrgRef;
+    if (!el) return;
+
+    const handler = () => setOpen(false);
+    el.addEventListener("click", handler);
+    onCleanup(() => el.removeEventListener("click", handler));
+  });
+
+  // SSR 안전한 mount 결정
+  const getMount = (): Element | undefined => {
+    if (local.mount) return local.mount;
+    if (typeof document !== "undefined") {
+      return document.querySelector(".Main") ?? document.body;
+    }
+    return undefined;
+  };
+
+  // 실제 렌더
   function display() {
     return (
-      <Portal mount={local.mount ?? document.getElementsByClassName("Main")[0]}>
+      <Portal mount={getMount()}>
         <dialog
-          class={props.class}
+          ref={(el) => (dialogRef = el)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={local.TitleProps?.id}
+          aria-describedby={local.DescProps?.id}
+          class={rest.class}
+          id={rest.id}
           classList={{
             [styles.Dialog]:
               local.useDefaultStyle === undefined
                 ? true
-                : local.useDefaultStyle,
+                : !!local.useDefaultStyle,
             ...rest.classList,
           }}
-          ref={(el) => (dialogRef = el)}
         >
-          {/**Title */}
+          {/* Title */}
           <div
             class={local.TitleProps?.class}
             id={local.TitleProps?.id}
@@ -70,30 +150,30 @@ export function Dialog(props: DialogProps) {
               [styles.DialogTitle]:
                 local.TitleProps?.useDefaultStyle === undefined
                   ? true
-                  : local.TitleProps?.useDefaultStyle,
+                  : !!local.TitleProps?.useDefaultStyle,
               ...local.TitleProps?.classList,
             }}
           >
             {local.Title}
 
-            {/**CloseTrigger */}
+            {/* CloseTrigger */}
             {local.CloseTrigger ?? (
               <CloseBtn
                 ref={closeTrgRef as SVGSVGElement}
                 class={local.CloseTriggerProps?.class}
                 id={local.CloseTriggerProps?.id}
                 classList={{
-                  ...local.CloseTriggerProps?.classList,
                   [styles.CloseBtn]:
                     local.CloseTriggerProps?.useDefaultStyle === undefined
                       ? true
-                      : local.CloseTriggerProps?.useDefaultStyle,
+                      : !!local.CloseTriggerProps?.useDefaultStyle,
+                  ...local.CloseTriggerProps?.classList,
                 }}
               />
             )}
           </div>
 
-          {/**Desc */}
+          {/* Desc */}
           <div
             class={local.DescProps?.class}
             id={local.DescProps?.id}
@@ -101,14 +181,14 @@ export function Dialog(props: DialogProps) {
               [styles.DialogDesc]:
                 local.DescProps?.useDefaultStyle === undefined
                   ? true
-                  : local.DescProps?.useDefaultStyle,
+                  : !!local.DescProps?.useDefaultStyle,
               ...local.DescProps?.classList,
             }}
           >
             {local.Desc}
           </div>
 
-          {/**Content */}
+          {/* Content */}
           <div
             class={local.ContentProps?.class}
             id={local.ContentProps?.id}
@@ -116,7 +196,7 @@ export function Dialog(props: DialogProps) {
               [styles.DialogContent]:
                 local.ContentProps?.useDefaultStyle === undefined
                   ? true
-                  : local.DescProps?.useDefaultStyle,
+                  : !!local.ContentProps?.useDefaultStyle, // 오타 수정됨
               ...local.ContentProps?.classList,
             }}
           >
@@ -126,31 +206,6 @@ export function Dialog(props: DialogProps) {
       </Portal>
     );
   }
-
-  let closeTrgRef: HTMLElement | SVGSVGElement | undefined;
-
-  //^effect
-
-  //open업데이트
-  createEffect(() => {
-    setOpen(local.open);
-  });
-
-  //dialog업데이트
-  createEffect(() => {
-    if (open()) dialogRef.showModal();
-    else {
-      if (dialogRef.open) dialogRef.close();
-    }
-  });
-
-  //closeTrgRef 업데이트
-  createEffect(() => {
-    closeTrgRef = local.CloseTrigger;
-    closeTrgRef?.addEventListener("click", () => {
-      setOpen(false);
-    });
-  });
 
   return <>{open() && display()}</>;
 }
