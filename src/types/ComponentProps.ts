@@ -13,4 +13,5 @@ export interface ComponentBaseProps {
   class?: string;
   classList?: { [k: string]: boolean | undefined };
   id?: string;
+  style?: JSX.CSSProperties | string;
 }
