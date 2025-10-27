@@ -2,3 +2,15 @@
     --svg-light-color: #454746;
     --svg-dark-color: #c4c8c6;
 }
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --svg-color: var(--svg-light-color);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --svg-color: var(--svg-dark-color);
+    }
+}
