@@ -5,7 +5,6 @@ import {
   onCleanup,
   JSX,
 } from "solid-js";
-import { Portal } from "solid-js/web";
 import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
 import { ComponentBaseProps } from "@/types/ComponentProps";
@@ -20,7 +19,6 @@ export interface DialogProps extends ComponentProps {
   CloseTrigger?: HTMLElement; // 기존 API를 유지
   CloseTriggerProps?: ComponentProps;
   onClose?: () => void;
-  mount?: Element;
   TitleProps?: ComponentProps & { id?: string };
   Title?: JSX.Element;
   DescProps?: ComponentProps & { id?: string };
@@ -36,7 +34,6 @@ export function Dialog(props: DialogProps) {
     "CloseTrigger",
     "CloseTriggerProps",
     "onClose",
-    "mount",
     "TitleProps",
     "Title",
     "DescProps",
@@ -113,97 +110,86 @@ export function Dialog(props: DialogProps) {
     onCleanup(() => el.removeEventListener("click", handler));
   });
 
-  // SSR 안전한 mount 결정
-  const getMount = (): Element | undefined => {
-    if (local.mount) return local.mount;
-    if (typeof document !== "undefined") {
-      return document.querySelector(".Main") ?? document.body;
-    }
-    return undefined;
-  };
-
   // 실제 렌더
   function display() {
     return (
-      <Portal mount={getMount()}>
-        <dialog
-          ref={(el) => (dialogRef = el)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={local.TitleProps?.id}
-          aria-describedby={local.DescProps?.id}
-          class={rest.class}
-          id={rest.id}
+      <dialog
+        ref={(el) => (dialogRef = el)}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={local.TitleProps?.id}
+        aria-describedby={local.DescProps?.id}
+        class={rest.class}
+        id={rest.id}
+        classList={{
+          [styles.Dialog]:
+            local.useDefaultStyle === undefined
+              ? true
+              : !!local.useDefaultStyle,
+          ...rest.classList,
+        }}
+      >
+        {/* Title */}
+        <div
+          class={local.TitleProps?.class}
+          id={local.TitleProps?.id}
           classList={{
-            [styles.Dialog]:
-              local.useDefaultStyle === undefined
+            [styles.DialogTitle]:
+              local.TitleProps?.useDefaultStyle === undefined
                 ? true
-                : !!local.useDefaultStyle,
-            ...rest.classList,
+                : !!local.TitleProps?.useDefaultStyle,
+            ...local.TitleProps?.classList,
           }}
         >
-          {/* Title */}
-          <div
-            class={local.TitleProps?.class}
-            id={local.TitleProps?.id}
-            classList={{
-              [styles.DialogTitle]:
-                local.TitleProps?.useDefaultStyle === undefined
-                  ? true
-                  : !!local.TitleProps?.useDefaultStyle,
-              ...local.TitleProps?.classList,
-            }}
-          >
-            {local.Title}
+          {local.Title}
 
-            {/* CloseTrigger */}
-            {local.CloseTrigger ?? (
-              <CloseBtn
-                ref={closeTrgRef as SVGSVGElement}
-                class={local.CloseTriggerProps?.class}
-                id={local.CloseTriggerProps?.id}
-                classList={{
-                  [styles.CloseBtn]:
-                    local.CloseTriggerProps?.useDefaultStyle === undefined
-                      ? true
-                      : !!local.CloseTriggerProps?.useDefaultStyle,
-                  ...local.CloseTriggerProps?.classList,
-                }}
-              />
-            )}
-          </div>
+          {/* CloseTrigger */}
+          {local.CloseTrigger ?? (
+            <CloseBtn
+              ref={closeTrgRef as SVGSVGElement}
+              class={local.CloseTriggerProps?.class}
+              id={local.CloseTriggerProps?.id}
+              classList={{
+                [styles.CloseBtn]:
+                  local.CloseTriggerProps?.useDefaultStyle === undefined
+                    ? true
+                    : !!local.CloseTriggerProps?.useDefaultStyle,
+                ...local.CloseTriggerProps?.classList,
+              }}
+            />
+          )}
+        </div>
 
-          {/* Desc */}
-          <div
-            class={local.DescProps?.class}
-            id={local.DescProps?.id}
-            classList={{
-              [styles.DialogDesc]:
-                local.DescProps?.useDefaultStyle === undefined
-                  ? true
-                  : !!local.DescProps?.useDefaultStyle,
-              ...local.DescProps?.classList,
-            }}
-          >
-            {local.Desc}
-          </div>
+        {/* Desc */}
+        <div
+          class={local.DescProps?.class}
+          id={local.DescProps?.id}
+          classList={{
+            [styles.DialogDesc]:
+              local.DescProps?.useDefaultStyle === undefined
+                ? true
+                : !!local.DescProps?.useDefaultStyle,
+            ...local.DescProps?.classList,
+          }}
+        >
+          {local.Desc}
+        </div>
 
-          {/* Content */}
-          <div
-            class={local.ContentProps?.class}
-            id={local.ContentProps?.id}
-            classList={{
-              [styles.DialogContent]:
-                local.ContentProps?.useDefaultStyle === undefined
-                  ? true
-                  : !!local.ContentProps?.useDefaultStyle, // 오타 수정됨
-              ...local.ContentProps?.classList,
-            }}
-          >
-            {local.Content}
-          </div>
-        </dialog>
-      </Portal>
+        {/* Content */}
+        <div
+          class={local.ContentProps?.class}
+          id={local.ContentProps?.id}
+          classList={{
+            [styles.DialogContent]:
+              local.ContentProps?.useDefaultStyle === undefined
+                ? true
+                : !!local.ContentProps?.useDefaultStyle, // 오타 수정됨
+            ...local.ContentProps?.classList,
+          }}
+        >
+          {local.Content}
+        </div>
+      </dialog>
     );
   }
 

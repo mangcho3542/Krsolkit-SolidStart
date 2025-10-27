@@ -1,4 +1,4 @@
-.Content {
+.Dialog {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -11,8 +11,8 @@
 }
 
 .CloseBtn {
-    display: inline-block;
-    margin-left: auto;
+    position: relative;
+    float: right;
 }
 
 @media (perfers-color-scheme: light) {
