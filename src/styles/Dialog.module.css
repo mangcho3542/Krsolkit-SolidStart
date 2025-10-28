@@ -1,4 +1,9 @@
 .Dialog {
+    min-width: 100%;
+    width: 100%;
+}
+
+.Root {
     min-width: 25%;
     display: inline-flex;
     aspect-ratio: 1/2;
