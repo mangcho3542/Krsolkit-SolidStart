@@ -1,30 +1,30 @@
 import {
+  splitProps,
+  JSX,
   createEffect,
   createSignal,
-  splitProps,
-  onCleanup,
-  JSX,
 } from "solid-js";
 import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
-import { ComponentBaseProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
+import { convertCss } from './../utils/converCss';
 
-interface ComponentProps extends ComponentBaseProps {
+interface ComponentPropsWithChoice extends ComponentProps {
   useDefaultStyle?: boolean;
 }
 
-export interface DialogProps extends ComponentProps {
+export interface DialogProps extends ComponentPropsWithChoice {
   useDefaultStyle?: boolean;
   open?: boolean;
   CloseTrigger?: HTMLElement; // 기존 API를 유지
-  CloseTriggerProps?: ComponentProps;
+  CloseTriggerProps?: ComponentPropsWithChoice;
   onClose?: () => void;
-  WrapperProps?: ComponentProps;
-  TitleProps?: ComponentProps;
+  WrapperProps?: ComponentPropsWithChoice;
+  TitleProps?: ComponentPropsWithChoice;
   Title?: JSX.Element;
-  DescProps?: ComponentProps;
+  DescProps?: ComponentPropsWithChoice;
   Desc?: JSX.Element;
-  ContentProps?: ComponentProps;
+  ContentProps?: ComponentPropsWithChoice;
   Content?: JSX.Element;
 }
 
@@ -44,73 +44,36 @@ export function Dialog(props: DialogProps) {
     "Content",
   ]);
 
-  // 내부 상태: 기본값 false
-  const [open, setOpen] = createSignal<boolean>(local.open ?? false);
+  //^컴포넌트 내부에서 사용할 siganl
+  const [open, setOpen] = createSignal<bool>(local.open ?? false);
 
-  // refs
-  let dialogRef: HTMLDialogElement | undefined;
-  let closeTrgRef: HTMLElement | SVGSVGElement | undefined;
+  //^ref들
+  let dialogRef: HTMLDialogElement | null;
+  let closeTrgRef: HTMLElement | SVGSVGElement | null;
 
-  // 외부 open prop과 동기화
+  //~effect
   createEffect(() => {
-    if (local.open !== undefined) setOpen(local.open);
-  });
+    //dialogRef가 존재할 때만
+    if(!dialogRef) return;
 
-  // dialog 열고/닫기 동기화
-  createEffect(() => {
-    const dlg = dialogRef;
-    const isOpen = open();
-    if (!dlg) return;
-
-    if (isOpen) {
-      if (!dlg.open) {
-        try {
-          dlg.showModal();
-        } catch {
-          // 아직 DOM에 안붙은 경우 등 안전 fallback
-          dlg.setAttribute("open", "");
-        }
-      }
-    } else {
-      if (dlg.open) dlg.close();
+    if(local.open) {  //open이 true라면 dialog 보여주기
+      setOpen(true);
+      //렌더링 안되어있을때만 열어주기
+      if(!dialogRef.open) dialogRef.showModal();
+    }
+    else {
+      setOpen(false);
+      //렌더링 되었을때만 닫아주기
+      if(dialogRef.open) dialogRef.close();
     }
   });
 
-  // Esc로 닫히거나 외부적으로 close()가 호출된 경우 내부 상태와 동기화
   createEffect(() => {
-    const dlg = dialogRef;
-    if (!dlg) return;
-
-    const handleClose = () => {
-      // 외부에서 닫혔다면 내부 상태도 false로 맞추고 onClose 호출
-      const wasOpen = open();
-      setOpen(false);
-      if (wasOpen) local.onClose?.();
-    };
-
-    dlg.addEventListener("close", handleClose);
-    onCleanup(() => dlg.removeEventListener("close", handleClose));
+    //dialog가 닫힐 때 onClose 실행
+    if(!open()) local.onClose?.();
   });
 
-  // open -> closed로 전환될 때만 onClose 호출 (중복 호출 방지)
-  {
-    let prev = open();
-    createEffect(() => {
-      const cur = open();
-      if (prev && !cur) local.onClose?.();
-      prev = cur;
-    });
-  }
 
-  // CloseTrigger(사용자 제공 요소 또는 기본 CloseBtn)에 안전하게 click 핸들러 연결
-  createEffect(() => {
-    const el = local.CloseTrigger ?? closeTrgRef;
-    if (!el) return;
-
-    const handler = () => setOpen(false);
-    el.addEventListener("click", handler);
-    onCleanup(() => el.removeEventListener("click", handler));
-  });
 
   // 실제 렌더
   function display() {
@@ -121,86 +84,92 @@ export function Dialog(props: DialogProps) {
         aria-modal="true"
         aria-labelledby={local.TitleProps?.id}
         aria-describedby={local.DescProps?.id}
-        class={rest.class}
-        id={rest.id}
-        classList={{
-          [styles.Dialog]:
-            local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
-          ...rest.classList,
-        }}
       >
-        {/**Wrapper */}
+        {/**Root */}
         <div
-          class={local.WrapperProps?.class}
-          id={local.WrapperProps?.id}
-          classList={{
-            [styles.DialogWrapper]:
-              local.WrapperProps?.useDefaultStyle === undefined
-                ? true
-                : local.TitleProps?.useDefaultStyle,
-            ...local.WrapperProps?.classList,
-          }}
+        class={rest.class}
+        classList={{
+          [styles.Root]: local.useDefaultStyle === undefined
+          ? true 
+          : local.useDefaultStyle
+        }}
+        id={rest.id}
+        style={convertCss(rest.css)}
+        {...rest}
         >
-          {/* Title */}
+          {/**Wrapper */}
           <div
-            class={local.TitleProps?.class}
-            id={local.TitleProps?.id}
+            class={local.WrapperProps?.class}
+            id={local.WrapperProps?.id}
             classList={{
-              [styles.DialogTitle]:
-                local.TitleProps?.useDefaultStyle === undefined
+              [styles.DialogWrapper]:
+                local.WrapperProps?.useDefaultStyle === undefined
                   ? true
                   : local.TitleProps?.useDefaultStyle,
-              ...local.TitleProps?.classList,
+              ...local.WrapperProps?.classList,
             }}
           >
-            {local.Title}
+            {/* Title */}
+            <div
+              class={local.TitleProps?.class}
+              id={local.TitleProps?.id}
+              classList={{
+                [styles.DialogTitle]:
+                  local.TitleProps?.useDefaultStyle === undefined
+                    ? true
+                    : local.TitleProps?.useDefaultStyle,
+                ...local.TitleProps?.classList,
+              }}
+            >
+              {local.Title}
+            </div>
+
+            {/* CloseTrigger */}
+            {local.CloseTrigger ?? (
+              <CloseBtn
+                ref={(el) => closeTrgRef=el}
+                class={local.CloseTriggerProps?.class}
+                id={local.CloseTriggerProps?.id}
+                classList={{
+                  [styles.CloseBtn]:
+                    local.CloseTriggerProps?.useDefaultStyle === undefined
+                      ? true
+                      : local.CloseTriggerProps?.useDefaultStyle,
+                  ...local.CloseTriggerProps?.classList,
+                }}
+              />
+            )}
           </div>
 
-          {/* CloseTrigger */}
-          {local.CloseTrigger ?? (
-            <CloseBtn
-              ref={closeTrgRef as SVGSVGElement}
-              class={local.CloseTriggerProps?.class}
-              id={local.CloseTriggerProps?.id}
-              classList={{
-                [styles.CloseBtn]:
-                  local.CloseTriggerProps?.useDefaultStyle === undefined
-                    ? true
-                    : local.CloseTriggerProps?.useDefaultStyle,
-                ...local.CloseTriggerProps?.classList,
-              }}
-            />
-          )}
-        </div>
+          {/* Desc */}
+          <div
+            class={local.DescProps?.class}
+            id={local.DescProps?.id}
+            classList={{
+              [styles.DialogDesc]:
+                local.DescProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.DescProps?.useDefaultStyle,
+              ...local.DescProps?.classList,
+            }}
+          >
+            {local.Desc}
+          </div>
 
-        {/* Desc */}
-        <div
-          class={local.DescProps?.class}
-          id={local.DescProps?.id}
-          classList={{
-            [styles.DialogDesc]:
-              local.DescProps?.useDefaultStyle === undefined
-                ? true
-                : local.DescProps?.useDefaultStyle,
-            ...local.DescProps?.classList,
-          }}
-        >
-          {local.Desc}
-        </div>
-
-        {/* Content */}
-        <div
-          class={local.ContentProps?.class}
-          id={local.ContentProps?.id}
-          classList={{
-            [styles.DialogContent]:
-              local.ContentProps?.useDefaultStyle === undefined
-                ? true
-                : local.ContentProps?.useDefaultStyle, // 오타 수정됨
-            ...local.ContentProps?.classList,
-          }}
-        >
-          {local.Content}
+          {/* Content */}
+          <div
+            class={local.ContentProps?.class}
+            id={local.ContentProps?.id}
+            classList={{
+              [styles.DialogContent]:
+                local.ContentProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.ContentProps?.useDefaultStyle, // 오타 수정됨
+              ...local.ContentProps?.classList,
+            }}
+          >
+            {local.Content}
+          </div>
         </div>
       </dialog>
     );
