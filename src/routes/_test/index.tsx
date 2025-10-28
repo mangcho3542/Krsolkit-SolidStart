@@ -7,16 +7,22 @@ export default function test() {
   const [open, setOpen] = createSignal<bool>(false);
 
   return (
-    <main class="Main">
+    <main class="Main" id={styles.Main}>
       <div id={styles.BtnWrapper}>
-        <Btn id={styles.TrgBtn}>
+        <Btn id={styles.TrgBtn} onClick={() => {setOpen(true)}}>
           Open Dialog
         </Btn>
       </div>
 
-      <Dialog class={styles.DialogRoot}
-
-        />
+      <Dialog id={styles.DialogRoot}
+      Title="타이틀"
+      DescProps={{id: styles.DialogDesc}}
+      Desc="설명"
+      ContentProps={{id: styles.DialogContent}}
+      Content="콘텐트"
+      open={open()}
+      onClose={() => {setOpen(false);}}
+      />
     </main>
   );
 }

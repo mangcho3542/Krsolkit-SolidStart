@@ -125,9 +125,7 @@ export function Dialog(props: DialogProps) {
         id={rest.id}
         classList={{
           [styles.Dialog]:
-            local.useDefaultStyle === undefined
-              ? true
-              : local.useDefaultStyle,
+            local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
           ...rest.classList,
         }}
       >
@@ -156,23 +154,23 @@ export function Dialog(props: DialogProps) {
             }}
           >
             {local.Title}
-
-            {/* CloseTrigger */}
-            {local.CloseTrigger ?? (
-              <CloseBtn
-                ref={closeTrgRef as SVGSVGElement}
-                class={local.CloseTriggerProps?.class}
-                id={local.CloseTriggerProps?.id}
-                classList={{
-                  [styles.CloseBtn]:
-                    local.CloseTriggerProps?.useDefaultStyle === undefined
-                      ? true
-                      : local.CloseTriggerProps?.useDefaultStyle,
-                  ...local.CloseTriggerProps?.classList,
-                }}
-              />
-            )}
           </div>
+
+          {/* CloseTrigger */}
+          {local.CloseTrigger ?? (
+            <CloseBtn
+              ref={closeTrgRef as SVGSVGElement}
+              class={local.CloseTriggerProps?.class}
+              id={local.CloseTriggerProps?.id}
+              classList={{
+                [styles.CloseBtn]:
+                  local.CloseTriggerProps?.useDefaultStyle === undefined
+                    ? true
+                    : local.CloseTriggerProps?.useDefaultStyle,
+                ...local.CloseTriggerProps?.classList,
+              }}
+            />
+          )}
         </div>
 
         {/* Desc */}
