@@ -1,11 +1,12 @@
 import { JSX, JSXElement } from "solid-js";
-import { CSSProperties } from "./CSSProperties";
+import { CssProperties } from "./CssProperties";
 
 export interface ComponentProps
-  extends Omit<JSX.HTMLAttributes<HTMLElement>, "style" | "ref">,
-    CSSProperties {
+  extends Omit<JSX.HTMLAttributes<HTMLElement>, "style" | "ref" | "translate">,
+    CssProperties {
   class?: string;
   classList?: { [k: string]: boolean | undefined };
+  css?: CssProperties
   children?: JSXElement;
 }
 
@@ -13,5 +14,5 @@ export interface ComponentBaseProps {
   class?: string;
   classList?: { [k: string]: boolean | undefined };
   id?: string;
-  style?: JSX.CSSProperties | string;
+  css?: CssProperties;
 }
