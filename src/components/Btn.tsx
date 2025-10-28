@@ -1,8 +1,11 @@
 import { ComponentBaseProps } from "@/types/ComponentProps";
 import { splitProps, JSX } from "solid-js";
 import styles from "@styles/Btn.module.css";
+import { convertCss } from "@/utils/converCss";
 
-interface BtnProps extends ComponentBaseProps {
+interface BtnIntrinsic extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, ""> {}
+
+interface BtnProps extends ComponentBaseProps, BtnIntrinsic {
   ref?: HTMLButtonElement | ((el: HTMLButtonElement) => void);
   children?: JSX.Element;
   useDefaultStyle?: bool;
@@ -14,7 +17,7 @@ export default function Btn(props: BtnProps): JSX.Element {
     "useDefaultStyle",
     "classList",
     "id",
-    "style",
+    "css",
     "children",
     "ref",
   ]);
@@ -28,7 +31,7 @@ export default function Btn(props: BtnProps): JSX.Element {
           local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
       }}
       id={local.id}
-      style={local.style}
+      style={convertCss(local.css)}
       ref={local.ref}
       {...rest}
     >

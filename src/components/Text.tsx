@@ -1,14 +1,14 @@
 import { ComponentProps } from "@/types/ComponentProps";
-import { splitProps } from "@utils/splitProps";
+import { convertCss } from "@/utils/converCss";
+import { splitProps, createMemo } from "solid-js";
 
 export default function Text(props: ComponentProps) {
-  const [local, styling, rest] = splitProps(props, ["children"]);
+  const [local, rest] = splitProps(props, ["css", "children"]);
 
+  const style = createMemo(() => convertCss(local.css));
   return (
     <p
-      style={styling.style}
-      class={styling.class}
-      classList={styling.classList}
+      style={style()}
       {...rest}
     >
       {local.children}

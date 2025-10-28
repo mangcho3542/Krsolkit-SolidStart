@@ -9,11 +9,11 @@ import {
   SliderThumbProps as ArkSliderThumbProps,
 } from "@ark-ui/solid/slider";
 import Stack from "./Stack";
-import { JSXElement, mergeProps } from "solid-js";
-import { splitProps } from "@/utils/splitProps";
+import { createMemo, JSXElement, mergeProps } from "solid-js";
+import { splitProps } from "solid-js";
 import styles from "@styles/Slider.module.css";
-import { omit } from "@/utils/object";
-
+import { CssProperties } from "@/types/CssProperties";
+import { convertCss } from "@/utils/converCss";
 interface SliderValueTextProps extends ArkSliderValueTextProps {
   useDefaultStyle?: boolean;
 }
@@ -39,12 +39,13 @@ export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
   RangeProps?: SliderRangeProps;
   ThumbProps?: Omit<SliderThumbProps, "index">;
   defaultValue?: number;
-  useDefaultStyle?: boolean; 
+  useDefaultStyle?: boolean;
+  css?: CssProperties;
 }
 
 interface Obj {
   class?: string;
-  classList?: {[k: string]: boolean | undefined};
+  classList?: { [k: string]: boolean | undefined };
   id?: string;
   useDefaultStyle?: boolean;
 }
@@ -52,27 +53,19 @@ interface Obj {
 function withDefaultClass(obj: Obj | undefined, baseClass: string) {
   if (!obj) return { class: baseClass };
 
-  const className = obj.class ?? ""
+  const className = obj.class ?? "";
   return {
     class: className,
-    classList: {...obj.classList,
-      baseClass: obj.useDefaultStyle === undefined ? true : obj.useDefaultStyle
+    classList: {
+      ...obj.classList,
+      baseClass: obj.useDefaultStyle === undefined ? true : obj.useDefaultStyle,
     },
-   };
+    id: obj.id,
+  };
 }
 
-export function Slider(p: SliderProps) {
-  // 이전과 동일하게 min/max와 defaultValue 기본값을 정해줌
-  const props = mergeProps(
-    {
-      min: 0,
-      max: 100,
-      defaultValue: p.min ?? 0, // 이전 컴포넌트와 동일한 기본값 정책
-    },
-    p
-  );
-
-  const [local, styling, rest] = splitProps(props, [
+export function Slider(props: SliderProps) {
+  const [local, rest] = splitProps(props, [
     "LabelProps",
     "Label",
     "ValueTextProps",
@@ -90,6 +83,7 @@ export function Slider(p: SliderProps) {
     "form",
     "getAriaValueText",
     "id",
+    "css",
     "ids",
     "invalid",
     "max",
@@ -106,10 +100,10 @@ export function Slider(p: SliderProps) {
     "thumbAlignment",
     "thumbSize",
     "value",
+    "class",
+    "classList",
+    "id",
   ]);
-
-  // 루트 useDefaultStyle의 기본값은 true로 동작
-  const rootUseDefault = local.useDefaultStyle ?? true;
 
   const valueTextProps = withDefaultClass(
     local.ValueTextProps,
@@ -124,22 +118,25 @@ export function Slider(p: SliderProps) {
 
   const thumbProps = withDefaultClass(local.ThumbProps, styles.Thumb);
 
+  const style = createMemo(() => convertCss(local.css));
+
   return (
     <ArkSlider.Root
-      class={styling.class}
-      classList={styling.classList}
+      class={local.class}
+      classList={{ ...local.classList }}
       style={{
-        display: styling.style?.display ?? "flex",
-        "flex-direction": styling.style?.["flex-direction"] ?? "column",
-        ...styling.style,
+        display: style().display ?? "flex",
+        "flex-direction": style()["flex-direction"] ?? "column",
+        ...style(),
       }}
       {...rest}
       aria-label={local["aria-label"]}
       aria-labelledby={local["aria-labelledby"]}
       asChild={local.asChild}
-      // 0도 올바르게 처리되도록 복구
       defaultValue={
-        local.defaultValue !== undefined ? [local.defaultValue] : undefined
+        local.defaultValue !== undefined
+          ? [local.defaultValue]
+          : [local.min ?? 0]
       }
       disabled={local.disabled}
       form={local.form}
@@ -147,8 +144,8 @@ export function Slider(p: SliderProps) {
       id={local.id}
       ids={local.ids}
       invalid={local.invalid}
-      max={local.max}
-      min={local.min}
+      max={local.max ?? 100}
+      min={local.min ?? 0}
       minStepsBetweenThumbs={local.minStepsBetweenThumbs}
       name={local.name}
       onFocusChange={local.onFocusChange}

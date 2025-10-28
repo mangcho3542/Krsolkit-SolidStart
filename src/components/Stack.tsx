@@ -1,19 +1,27 @@
 import styles from "@styles/Stack.module.css";
 import { ComponentProps } from "@/types/ComponentProps";
-import { splitProps } from "@utils/splitProps";
+import { createMemo, splitProps } from "solid-js";
+import { convertCss } from "@/utils/converCss";
 
-export interface StackProps extends Omit<ComponentProps, "display"> {}
+export interface StackProps extends ComponentProps {
+  useDefaultStyle?: boolean;
+}
 
 export default function Stack(props: StackProps) {
-  const [local, styling, rest] = splitProps(props, ["children"]);
+  const [local, rest] = splitProps(props, ["children", "useDefaultStyle", "class", "classList", "id", "css"]);
 
+  const style = createMemo(() => convertCss(local.css));
   return (
     <div
-      class={styles.Stack + " " + styling.class}
-      classList={styling.classList}
+      class={local.class}
+      classList={{
+          [styles.Stack]: local.useDefaultStyle === undefined
+          ? true
+          : local.useDefaultStyle
+      }}
       style={{
-        ...styling.style,
-        "flex-direction": styling.style["flex-direction"] ?? "column",
+        "flex-direction": style()["flex-direction"] ?? "column",
+        ...style()
       }}
       {...rest}
     >

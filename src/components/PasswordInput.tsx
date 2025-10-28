@@ -8,11 +8,13 @@ import {
   PasswordInputIndicatorProps as IndicatorProps,
 } from "@ark-ui/solid/password-input";
 import { JSXElement } from "solid-js";
-import { splitProps } from "@utils/splitProps";
-import EyeIcon from "@images/EyeIcon.svg";
-import EyeOff from "@images/EyeOff.svg";
+import { splitProps } from "solid-js";
+import EyeIcon from "@images/EyeIcon.svg?raw";
+import EyeOff from "@images/EyeOff.svg?raw";
 import { SvgProps, Svg } from "./Svg";
 import { Hex } from "@/types/ColorType";
+import { CssProperties } from "@/types/CssProperties";
+import { convertCss } from "@/utils/converCss";
 
 interface PasswordInputProps extends RootProps {
   LabelProps?: LabelProps;
@@ -23,34 +25,35 @@ interface PasswordInputProps extends RootProps {
   IndicatorProps?: Omit<IndicatorProps, "fallback">;
   EyeProps?: Omit<SvgProps, "src">;
   EyeOffProps?: Omit<SvgProps, "src">;
+  css?: CssProperties;
 }
 
-function EyeIconComp(props: Omit<SvgProps, "src">) {
+function EyeIconComp(props: Omit<SvgProps, "value">) {
   return (
     <Svg
       class={props.class}
       classList={props.classList}
       id={props.id}
       color={props.color ?? ("#262628" as Hex)}
-      src={EyeIcon}
+      value={EyeIcon}
     />
   );
 }
 
-function EyeOffComp(props: Omit<SvgProps, "src">) {
+function EyeOffComp(props: Omit<SvgProps, "value">) {
   return (
     <Svg
       class={props.class}
       classList={props.classList}
       id={props.id}
       color={props.color ?? ("#262628" as Hex)}
-      src={EyeOff}
+      value={EyeOff}
     />
   );
 }
 
 export function PasswordInput(props: PasswordInputProps) {
-  const [local, style, others] = splitProps(props, [
+  const [local, rest] = splitProps(props, [
     "LabelProps",
     "Label",
     "ControlProps",
@@ -59,10 +62,11 @@ export function PasswordInput(props: PasswordInputProps) {
     "IndicatorProps",
     "EyeProps",
     "EyeOffProps",
+    "css"
   ]);
 
   return (
-    <PI.Root {...style} {...others}>
+    <PI.Root style={convertCss(local.css)} {...rest}>
       <PI.Label {...local.LabelProps}>{local.Label}</PI.Label>
 
       <PI.Control {...local.ControlProps}>

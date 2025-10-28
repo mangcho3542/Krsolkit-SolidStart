@@ -1,10 +1,10 @@
 import { SvgProps, Svg } from "./Svg";
 import { splitProps } from "solid-js";
-import CloseIcon from "@images/CloseIcon.svg";
+import CloseIcon from "@images/CloseIcon.svg?raw";
 import { splitStyle } from "@/utils/splitStyle";
 import styles from "@styles/CloseBtn.module.css";
 
-export interface CloseBtnProps extends Omit<SvgProps, "src"> {
+export interface CloseBtnProps extends Omit<SvgProps, "value"> {
   useDefaultStyle?: boolean;
 }
 
@@ -18,7 +18,7 @@ export function CloseBtn(props: CloseBtnProps) {
 
   return (
     <Svg
-      src={CloseIcon}
+      value={CloseIcon}
       {...rest}
       {...splitStyle(local, { class: styles.CloseBtn })}
     />

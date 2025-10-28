@@ -1,3 +1,5 @@
+import { CssProperties } from "@/types/CssProperties";
+import { convertCss } from "@/utils/converCss";
 import {
   Highlight as ArkHighlight,
   HighlightProps as ArkHighlightProps,
@@ -6,20 +8,17 @@ import { splitProps } from "solid-js";
 
 export interface HighlightProps extends Omit<ArkHighlightProps, "text"> {
   children: string;
+  css?: CssProperties
 }
 
 export function Highlight(props: HighlightProps) {
-  const [local, style, rest] = splitProps(
-    props,
-    ["query", "children"],
-    ["class", "style"]
-  );
+  const [local, rest] = splitProps(props, ["query", "children", "css"]);
 
   return (
     <ArkHighlight
       query={local.query}
       text={local.children}
-      class={style.class}
+      style={convertCss(local.css)}
       {...rest}
     />
   );

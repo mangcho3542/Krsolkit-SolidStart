@@ -2,42 +2,38 @@ import { ComponentProps } from "@/types/ComponentProps";
 import { Dynamic } from "solid-js/web";
 import { Hex, RGB, RGBA, HSL, HSLA } from "@/types/ColorType";
 import { JSX, ValidComponent } from "solid-js";
-import { splitProps } from "@/utils/splitProps";
+import { splitProps } from "solid-js";
 import styles from "@styles/ColorSwatch.module.css";
-import { omit } from "@/utils/object";
+import { convertCss } from "@/utils/converCss";
 
 export interface ColorSwatchProps
-  extends Pick<ComponentProps, "class" | "classList" | "id"> {
+  extends Pick<ComponentProps, "class" | "classList" | "id" | "css"> {
   color: Hex | RGB | RGBA | HSL | HSLA;
   as?: ValidComponent | keyof JSX.IntrinsicElements;
   useDefaultStyle?: boolean;
 }
 
 export function ColorSwatch(props: ColorSwatchProps) {
-  const [local, styling, rest] = splitProps(props, styles.ColorSwatch, [
+  const [local, rest] = splitProps(props, [
     "color",
     "as",
+    "class",
+    "classList",
+    "id",
     "useDefaultStyle",
+    "css",
   ]);
-
-  const style = {
-    ...omit(styling.style, ["background-color"]),
-    "background-color": local.color,
-  };
 
   return (
     <Dynamic
       component={local.as ?? "div"}
-      class={
-        (styling.class ?? " ")
-      }
+      class={local.class}
       classList={{
-        ...styling.classList,
-        [styles.ColorSwatch]: props.useDefaultStyle !== undefined
-        ? props.useDefaultStyle
-        : true
+        [styles.ColorSwatch]:
+          local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
+        ...local.classList,
       }}
-      style={style}
+      style={convertCss(local.css)}
       {...rest}
     />
   );

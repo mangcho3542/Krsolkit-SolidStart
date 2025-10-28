@@ -1,11 +1,12 @@
 import { ComponentProps } from "@/types/ComponentProps";
-import { splitProps } from "@utils/splitProps";
+import { convertCss } from "@/utils/converCss";
+import { splitProps } from "solid-js";
 
 export default function Box(props: ComponentProps) {
-  const [local, style, rest] = splitProps(props, ["children"]);
+  const [local, rest] = splitProps(props, ["css", "children"]);
 
   return (
-    <div {...style} {...rest}>
+    <div {...rest} style={convertCss(local.css)}>
       {local.children}
     </div>
   );

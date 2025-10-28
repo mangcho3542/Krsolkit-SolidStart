@@ -1,20 +1,22 @@
 import { ComponentBaseProps } from "@/types/ComponentProps";
 import { AllColorType } from "@/types/ColorType";
-import { JSX } from "solid-js";
+import { JSX, splitProps } from "solid-js";
 
 export interface SvgProps extends ComponentBaseProps, JSX.SvgSVGAttributes<SVGSVGElement> {
-  src: string;
+  value: string;
   color?: AllColorType;
 }
 
 export function Svg(props: SvgProps) {
+  const [local, rest] = splitProps(props, ["class", "classList", "id", "style", "value"]);
+  
   return (
     <div
-      class={props.class}
-      classList={props.classList}
-      id={props.id}
-      style={{ color: props.color ?? "var(--svg-color)" }}
-      innerHTML={props.src}
+      class={local.class}
+      classList={local.classList}
+      id={local.id}
+      style={{ color: props.color ?? "var(--svg-color)"}}
+      innerHTML={props.value}
     />
   );
 }

@@ -19,9 +19,10 @@ export interface DialogProps extends ComponentProps {
   CloseTrigger?: HTMLElement; // 기존 API를 유지
   CloseTriggerProps?: ComponentProps;
   onClose?: () => void;
-  TitleProps?: ComponentProps & { id?: string };
+  WrapperProps?: ComponentProps;
+  TitleProps?: ComponentProps;
   Title?: JSX.Element;
-  DescProps?: ComponentProps & { id?: string };
+  DescProps?: ComponentProps;
   Desc?: JSX.Element;
   ContentProps?: ComponentProps;
   Content?: JSX.Element;
@@ -34,6 +35,7 @@ export function Dialog(props: DialogProps) {
     "CloseTrigger",
     "CloseTriggerProps",
     "onClose",
+    "WrapperProps",
     "TitleProps",
     "Title",
     "DescProps",
@@ -125,39 +127,52 @@ export function Dialog(props: DialogProps) {
           [styles.Dialog]:
             local.useDefaultStyle === undefined
               ? true
-              : !!local.useDefaultStyle,
+              : local.useDefaultStyle,
           ...rest.classList,
         }}
       >
-        {/* Title */}
+        {/**Wrapper */}
         <div
-          class={local.TitleProps?.class}
-          id={local.TitleProps?.id}
+          class={local.WrapperProps?.class}
+          id={local.WrapperProps?.id}
           classList={{
-            [styles.DialogTitle]:
-              local.TitleProps?.useDefaultStyle === undefined
+            [styles.DialogWrapper]:
+              local.WrapperProps?.useDefaultStyle === undefined
                 ? true
-                : !!local.TitleProps?.useDefaultStyle,
-            ...local.TitleProps?.classList,
+                : local.TitleProps?.useDefaultStyle,
+            ...local.WrapperProps?.classList,
           }}
         >
-          {local.Title}
+          {/* Title */}
+          <div
+            class={local.TitleProps?.class}
+            id={local.TitleProps?.id}
+            classList={{
+              [styles.DialogTitle]:
+                local.TitleProps?.useDefaultStyle === undefined
+                  ? true
+                  : local.TitleProps?.useDefaultStyle,
+              ...local.TitleProps?.classList,
+            }}
+          >
+            {local.Title}
 
-          {/* CloseTrigger */}
-          {local.CloseTrigger ?? (
-            <CloseBtn
-              ref={closeTrgRef as SVGSVGElement}
-              class={local.CloseTriggerProps?.class}
-              id={local.CloseTriggerProps?.id}
-              classList={{
-                [styles.CloseBtn]:
-                  local.CloseTriggerProps?.useDefaultStyle === undefined
-                    ? true
-                    : !!local.CloseTriggerProps?.useDefaultStyle,
-                ...local.CloseTriggerProps?.classList,
-              }}
-            />
-          )}
+            {/* CloseTrigger */}
+            {local.CloseTrigger ?? (
+              <CloseBtn
+                ref={closeTrgRef as SVGSVGElement}
+                class={local.CloseTriggerProps?.class}
+                id={local.CloseTriggerProps?.id}
+                classList={{
+                  [styles.CloseBtn]:
+                    local.CloseTriggerProps?.useDefaultStyle === undefined
+                      ? true
+                      : local.CloseTriggerProps?.useDefaultStyle,
+                  ...local.CloseTriggerProps?.classList,
+                }}
+              />
+            )}
+          </div>
         </div>
 
         {/* Desc */}
@@ -168,7 +183,7 @@ export function Dialog(props: DialogProps) {
             [styles.DialogDesc]:
               local.DescProps?.useDefaultStyle === undefined
                 ? true
-                : !!local.DescProps?.useDefaultStyle,
+                : local.DescProps?.useDefaultStyle,
             ...local.DescProps?.classList,
           }}
         >
@@ -183,7 +198,7 @@ export function Dialog(props: DialogProps) {
             [styles.DialogContent]:
               local.ContentProps?.useDefaultStyle === undefined
                 ? true
-                : !!local.ContentProps?.useDefaultStyle, // 오타 수정됨
+                : local.ContentProps?.useDefaultStyle, // 오타 수정됨
             ...local.ContentProps?.classList,
           }}
         >

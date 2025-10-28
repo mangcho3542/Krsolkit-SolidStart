@@ -1,3 +1,5 @@
+import { CssProperties } from "@/types/CssProperties";
+import { convertCss } from "@/utils/converCss";
 import {
   Field as ArkField,
   FieldRootProps,
@@ -6,8 +8,8 @@ import {
   FieldHelperTextProps,
   FieldErrorTextProps,
 } from "@ark-ui/solid/field";
-import { JSXElement } from "solid-js";
-import { splitProps } from "@/utils/splitProps";
+import { JSXElement, splitProps } from "solid-js";
+
 
 export interface FieldProps extends FieldRootProps {
   InputProps?: FieldInputProps;
@@ -17,10 +19,11 @@ export interface FieldProps extends FieldRootProps {
   HelperText?: JSXElement;
   ErrorTextProps?: FieldErrorTextProps;
   ErrorText?: JSXElement;
+  css?: CssProperties;
 }
 
 export function Field(props: FieldProps) {
-  const [local, style, others] = splitProps(props, [
+  const [local, others] = splitProps(props, [
     "InputProps",
     "LabelProps",
     "Label",
@@ -29,10 +32,11 @@ export function Field(props: FieldProps) {
     "ErrorText",
     "ErrorTextProps",
     "required",
+    "css"
   ]);
 
   return (
-    <ArkField.Root {...style} {...others}>
+    <ArkField.Root style={convertCss(local.css)} {...others}>
       <ArkField.Label {...local.LabelProps}>
         {local.Label}
         {local.required && <ArkField.RequiredIndicator />}
