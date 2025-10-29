@@ -15,4 +15,5 @@ export interface ComponentBaseProps {
   classList?: { [k: string]: boolean | undefined };
   id?: string;
   css?: CssProperties;
+  children?: JSXElement;
 }
