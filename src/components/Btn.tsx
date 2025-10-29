@@ -3,9 +3,10 @@ import { splitProps, JSX } from "solid-js";
 import styles from "@styles/Btn.module.css";
 import { convertCss } from "@/utils/converCss";
 
-interface BtnIntrinsic extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, ""> {}
+export interface BtnIntrinsic
+  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, ""> {}
 
-interface BtnProps extends ComponentBaseProps, BtnIntrinsic {
+export interface BtnProps extends ComponentBaseProps, BtnIntrinsic {
   ref?: HTMLButtonElement | ((el: HTMLButtonElement) => void);
   children?: JSX.Element;
   useDefaultStyle?: bool;
