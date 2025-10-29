@@ -1,3 +1,7 @@
+.Label {
+  display: inline-block;
+}
+
 .ValueText {
   display: inline-block;
   margin-left: auto;

@@ -1,7 +1,7 @@
 import {
   Slider as ArkSlider,
   SliderRootProps,
-  SliderLabelProps,
+  SliderLabelProps as ArkSliderLabelProps,
   SliderValueTextProps as ArkSliderValueTextProps,
   SliderControlProps as ArkSliderControlProps,
   SliderTrackProps as ArkSliderTrackProps,
@@ -9,11 +9,15 @@ import {
   SliderThumbProps as ArkSliderThumbProps,
 } from "@ark-ui/solid/slider";
 import Stack from "./Stack";
-import { createMemo, JSXElement, mergeProps } from "solid-js";
+import { createMemo, JSXElement } from "solid-js";
 import { splitProps } from "solid-js";
 import styles from "@styles/Slider.module.css";
 import { CssProperties } from "@/types/CssProperties";
 import { convertCss } from "@/utils/converCss";
+
+interface SliderLabelProps  extends ArkSliderLabelProps {
+  useDefaultStyle?: boolean;
+}
 interface SliderValueTextProps extends ArkSliderValueTextProps {
   useDefaultStyle?: boolean;
 }
@@ -48,20 +52,6 @@ interface Obj {
   classList?: { [k: string]: boolean | undefined };
   id?: string;
   useDefaultStyle?: boolean;
-}
-
-function withDefaultClass(obj: Obj | undefined, baseClass: string) {
-  if (!obj) return { class: baseClass };
-
-  const className = obj.class ?? "";
-  return {
-    class: className,
-    classList: {
-      ...obj.classList,
-      baseClass: obj.useDefaultStyle === undefined ? true : obj.useDefaultStyle,
-    },
-    id: obj.id,
-  };
 }
 
 export function Slider(props: SliderProps) {
@@ -105,19 +95,6 @@ export function Slider(props: SliderProps) {
     "id",
   ]);
 
-  const valueTextProps = withDefaultClass(
-    local.ValueTextProps,
-    styles.ValueText
-  );
-
-  const controlProps = withDefaultClass(local.ControlProps, styles.Control);
-
-  const trackProps = withDefaultClass(local.TrackProps, styles.Track);
-
-  const rangeProps = withDefaultClass(local.RangeProps, styles.Range);
-
-  const thumbProps = withDefaultClass(local.ThumbProps, styles.Thumb);
-
   const style = createMemo(() => convertCss(local.css));
 
   return (
@@ -159,15 +136,82 @@ export function Slider(props: SliderProps) {
       thumbSize={local.thumbSize}
       value={local.value}
     >
-      <Stack flexDirection="row">
-        <ArkSlider.Label {...local.LabelProps}>{local.Label}</ArkSlider.Label>
-        <ArkSlider.ValueText {...valueTextProps} />
-      </Stack>
-      <ArkSlider.Control {...controlProps}>
-        <ArkSlider.Track {...trackProps}>
-          <ArkSlider.Range {...rangeProps} />
+      <div style={{display:"inline-block", width: "100%"}}>
+        <ArkSlider.Label 
+        class={local.LabelProps?.class}
+        id={local.LabelProps?.id}
+        classList={{
+          [styles.Label]: local.LabelProps?.useDefaultStyle === undefined
+          ? true
+          : local.LabelProps.useDefaultStyle,
+          ...local.LabelProps?.classList
+        }}
+        >
+          {local.Label}
+        </ArkSlider.Label>
+
+        <ArkSlider.ValueText 
+        class={local.ValueTextProps?.class}
+        id={local.ValueTextProps?.id}
+        classList={{
+          [styles.ValueText]: local.ValueTextProps === undefined
+          ? true 
+          : local.ValueTextProps.useDefaultStyle === undefined
+            ? true
+            : local.ValueTextProps.useDefaultStyle,
+          ...local.ValueTextProps?.classList
+        }}
+        />
+      </div>
+
+      <ArkSlider.Control
+      class={local.ControlProps?.class}
+      id={local.ControlProps?.id}
+      classList={{
+        [styles.Control]: local.ControlProps === undefined 
+        ? true
+        : local.ControlProps?.useDefaultStyle === undefined
+          ? true
+          : local.ControlProps.useDefaultStyle,
+        ...local.ControlProps?.classList
+      }}
+      >
+        <ArkSlider.Track 
+        class={local.TrackProps?.class}
+        id={local.TrackProps?.id}
+        classList={{
+          [styles.Track]: local.TrackProps === undefined
+          ? true
+          : local.TrackProps?.useDefaultStyle === undefined
+            ? true
+            : local.TrackProps.useDefaultStyle,
+          ...local.TrackProps?.classList
+        }}
+        >
+          <ArkSlider.Range 
+          class={local.RangeProps?.class}
+          id={local.RangeProps?.id}
+          classList={{
+            [styles.Range]: local.RangeProps === undefined
+            ? true
+            : local.RangeProps.useDefaultStyle === undefined
+              ? true
+              : local.RangeProps.useDefaultStyle,
+            ...local.RangeProps?.classList
+          }}
+          />
         </ArkSlider.Track>
-        <ArkSlider.Thumb {...thumbProps} index={0}>
+        <ArkSlider.Thumb
+        class={local.ThumbProps?.class}
+        id={local.ThumbProps?.id}
+        classList={{
+          [styles.Thumb]: local.ThumbProps === undefined
+          ? true
+          : local.ThumbProps.useDefaultStyle === undefined
+            ? true
+            : local.ThumbProps.useDefaultStyle
+        }}
+        index={0}>
           <ArkSlider.HiddenInput />
         </ArkSlider.Thumb>
       </ArkSlider.Control>
