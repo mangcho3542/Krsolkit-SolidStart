@@ -45,6 +45,10 @@
   width: 40%;
 }
 
+.SliderLabel {
+  display: inline-block;
+}
+
 .SliderControl {
   width: 100%;
 }
@@ -93,9 +97,11 @@
 }
 
 .AvailTable {
-  background-color: #4ade80;
+  background-color: #4ADE80;
 }
 
 .UnavailTable {
-  background-color: #eb0000;
+  background-color: #EB0000;
 }
+
+/**Dialog */

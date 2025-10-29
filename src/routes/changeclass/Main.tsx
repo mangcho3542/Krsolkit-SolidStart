@@ -1,23 +1,40 @@
-import styles from "./chageclass.module.css";
+import styles from "./chageclass.module.css"
 import QuestionImg from "@images/QuestionCircleIcon.svg";
 import Stack from "@components/Stack";
 import Slider from "@components/Slider";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
+import Dialog from "@/components/Dialog";
+import DlgContent from "./DlgContent";
 
 export default function Main() {
   const [col, setCol] = createSignal(5);
   const [row, setRow] = createSignal(6);
+  const [trgRef, setTrgRef] = createSignal<HTMLButtonElement | undefined>();
 
   return (
     <main class="Main" id={styles.Main}>
       <header id={styles.Header}>자리 바꾸기</header>
 
       <div id={styles.QuestionBtnWrapper}>
-        <button id={styles.QBtn}>
+        <button id={styles.QBtn} ref={setTrgRef}>
           <img id={styles.QImg} src={QuestionImg} />
         </button>
       </div>
+
+
+      {/**Dialog */}
+      <Dialog
+        TrgRef={trgRef()}
+        TitleProps={{ id: styles.DlgTitle }}
+        Title="자리 바꾸기"
+        DescProps={{ id: styles.DlgDesc }}
+        Desc="설명서"
+        ContentProps={{ id: styles.DlgContent }}
+        Content={<DlgContent />}
+        id={styles.DlgRoot}
+        useDefaultStyle={false}
+      />
 
       <Stack id={styles.SliderWrapper}>
         <Slider
@@ -28,7 +45,6 @@ export default function Main() {
           class={styles.SliderRoot}
           ControlProps={{ class: styles.SliderControl, useDefaultStyle: true }}
           Label="분단 수"
-          LabelProps={{ class: styles.SliderLabel }}
           ValueTextProps={{ class: styles.SliderValueText, id: "VT" }}
           onValueChange={(e) => {
             setCol(e.value[0]);
@@ -43,7 +59,6 @@ export default function Main() {
           class={styles.SliderRoot}
           ControlProps={{ class: styles.SliderControl }}
           Label="행의 수"
-          LabelProps={{ class: styles.SliderLabel }}
           ValueTextProps={{ class: styles.SliderValueText }}
           onValueChange={(e) => {
             setRow(e.value[0]);
