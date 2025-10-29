@@ -1,10 +1,10 @@
 import { ComponentProps } from "@/types/ComponentProps";
-import { splitProps } from "@/utils/splitProps";
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, splitProps } from "solid-js";
 import { createStore } from "solid-js/store";
 import { shuffle } from "@/utils/shuffle";
 import styles from "./chageclass.module.css";
 import Btn from "@components/Btn";
+import { convertCss } from "@/utils/converCss";
 
 interface StudentTableProps extends Omit<ComponentProps, "children"> {
   row: number;
@@ -12,7 +12,7 @@ interface StudentTableProps extends Omit<ComponentProps, "children"> {
 }
 
 export default function StudentTable(props: StudentTableProps) {
-  const [local, styling, other] = splitProps(props, ["row", "column"]);
+  const [local, rest] = splitProps(props, ["row", "column"]);
 
   //실제 배치될 학생들의 이름(번호)
   const [content, setContent] = createStore<string[][]>(
@@ -103,9 +103,19 @@ export default function StudentTable(props: StudentTableProps) {
         <Btn class={styles.Btn} onClick={handleBtnClick}>
           자리 배치하기
         </Btn>
+
+        <Btn class={styles.Btn}>
+          캡쳐하기
+        </Btn>
       </div>
 
-      <div {...styling} {...other}>
+      <div id={styles.WhiteBoardWrapper}>
+        <div id={styles.WhiteBoard}>
+          칠판
+        </div>
+      </div>
+
+      <div {...rest} style={convertCss(rest.css)}>
         {Array.from({ length: local.column }, (_1, i) => (
           <div
             class={styles.TableColumn}
