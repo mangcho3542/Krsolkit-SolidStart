@@ -131,9 +131,9 @@ export function Dialog(props: DialogProps) {
       >
         {/**Root */}
         <div
-          class={rest.class}
+          class={rest.class + " " + styles.Root}
           classList={{
-            [styles.Root]:
+            [styles.RootDefaultStyle]:
               local.useDefaultStyle === undefined
                 ? true
                 : local.useDefaultStyle,

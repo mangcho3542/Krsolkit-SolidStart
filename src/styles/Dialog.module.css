@@ -58,7 +58,7 @@
   /* 내부 스크롤 */
   max-height: calc(100vh - clamp(24px, 10vh, 100px) - 2rem);
   background: var(--dlg-bg);
-  color: var(--dlg-fg);
+  color: inherit;
   border-radius: var(--dlg-radius);
   border: 1px solid var(--dlg-border);
   box-shadow: var(--dlg-shadow);
