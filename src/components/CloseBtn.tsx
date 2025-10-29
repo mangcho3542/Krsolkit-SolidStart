@@ -1,27 +1,52 @@
 import { SvgProps, Svg } from "./Svg";
 import { splitProps } from "solid-js";
 import CloseIcon from "@images/CloseIcon.svg?raw";
-import { splitStyle } from "@/utils/splitStyle";
 import styles from "@styles/CloseBtn.module.css";
+import { BtnProps } from "./Btn";
+import { convertCss } from "@/utils/converCss";
 
-export interface CloseBtnProps extends Omit<SvgProps, "value"> {
-  useDefaultStyle?: boolean;
+interface SvgPropsI extends Omit<SvgProps, "value"> {
+  useDefaultStyle: boolean;
+}
+
+export interface CloseBtnProps extends BtnProps {
+  SvgProps?: SvgPropsI;
 }
 
 export function CloseBtn(props: CloseBtnProps) {
   const [local, rest] = splitProps(props, [
-    "class",
-    "classList",
-    "id",
     "useDefaultStyle",
+    "ref",
+    "SvgProps",
   ]);
 
   return (
-    <Svg
-      value={CloseIcon}
+    <button
+      ref={local.ref}
+      class={rest.class}
+      id={rest.id}
+      classList={{
+        [styles.CloseBtn]:
+          local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
+        ...rest.classList,
+      }}
+      style={convertCss(rest.css)}
       {...rest}
-      {...splitStyle(local, { class: styles.CloseBtn })}
-    />
+    >
+      <Svg
+        value={CloseIcon}
+        class={local.SvgProps?.class}
+        id={local.SvgProps?.id}
+        classList={{
+          [styles.Svg]: local.SvgProps
+            ? local.SvgProps.useDefaultStyle === undefined
+              ? true
+              : local.SvgProps.useDefaultStyle
+            : true,
+        }}
+        style={convertCss(local.SvgProps?.css)}
+      />
+    </button>
   );
 }
 
