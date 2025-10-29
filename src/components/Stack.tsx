@@ -23,6 +23,7 @@ export default function Stack(props: StackProps) {
         "flex-direction": style()["flex-direction"] ?? "column",
         ...style()
       }}
+      id={local.id}
       {...rest}
     >
       {local.children}
