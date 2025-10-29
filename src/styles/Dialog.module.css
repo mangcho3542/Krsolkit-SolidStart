@@ -1,53 +1,186 @@
+/* Dialog.module.css */
 .Dialog {
-    min-width: 100%;
-    width: 100%;
+  /* 토큰 (공통) */
+  --dlg-bg: #ffffff;
+  --dlg-fg: #1a202c; /* gray.800 */
+  --dlg-muted: #4a5568; /* gray.600 */
+  --dlg-border: rgba(0, 0, 0, 0.08);
+  --dlg-hover: rgba(0, 0, 0, 0.06);
+  --dlg-accent: #3182ce; /* blue.600 */
+  --dlg-radius: 12px;
+  --dlg-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --dlg-max-w: 560px; /* md */
+  --dlg-padding-x: 1rem;  /* 16px */
+  --dlg-padding-y: 1rem;  /* 16px */
+  --dlg-gap: 0.75rem;     /* 12px */
+
+  border: none;
+  padding: 0;
+  background: transparent;
+  color-scheme: light dark;
 }
 
+/* 열리지 않았을 때는 무조건 렌더 안 함 */
+.Dialog:not([open]) {
+  display: none !important;
+}
+
+/* 열렸을 때만 overlay/grid 레이아웃 적용 */
+.Dialog[open] {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  /* top-center 배치 */
+  align-items: start;
+  justify-items: center;
+  overflow: hidden; 
+  z-index: 1400;
+}
+
+/* 오버레이 */
+.Dialog[open]::backdrop {
+  background: rgba(0, 0, 0, 0.45); /* blackAlpha.600 느낌 */
+  backdrop-filter: saturate(180%) blur(2px);
+  animation: backdropFade 180ms ease-out both;
+}
+
+/* 실제 카드 컨텐츠 컨테이너 */
 .Root {
-    min-width: 25%;
-    display: inline-flex;
-    aspect-ratio: 1/2;
-    display: flex;
-    flex-direction: column;
-    padding: 1%;
-    border: none;
-    border-radius: 6px;
+  position: relative;
+  width: 32vw;
+  /* top-center: 상단 마진을 줘서 화면 상단 쪽에 위치 */
+  margin-top: clamp(24px, 15vh, 150px);
+
+  /* 내부 스크롤 */
+  max-height: calc(100vh - clamp(24px, 10vh, 100px) - 2rem);
+  background: var(--dlg-bg);
+  color: var(--dlg-fg);
+  border-radius: var(--dlg-radius);
+  border: 1px solid var(--dlg-border);
+  box-shadow: var(--dlg-shadow);
+  padding: var(--dlg-padding-y) var(--dlg-padding-x) calc(var(--dlg-padding-y) + 0.25rem);
+  transform-origin: center;
+
+  overflow: auto;
+
+  /* 등장 애니메이션 */
+  animation: modalIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
+/* 헤더(타이틀 + 닫기 버튼 영역) */
 .DialogWrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    padding: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
+/* 타이틀 */
 .DialogTitle {
-    font-family: "SuitSemiBold";
-    display: inline-block;
+  font-weight: 600;
+  font-size: 1.125rem; /* lg */
+  line-height: 1.4;
+  margin-right: 2.25rem;
+  color: var(--dlg-fg);
 }
 
+/* 우측 상단 닫기 버튼 */
 .CloseBtn {
-    display: inline-block;
-    color: var(--svg-color);
-    cursor: pointer;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  appearance: none;
+  border: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--dlg-fg);
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease, transform 120ms ease;
+}
+.CloseBtn:hover { background: var(--dlg-hover); }
+.CloseBtn:active { transform: scale(0.96); }
+.CloseBtn:focus-visible {
+  outline: 2px solid var(--dlg-accent);
+  outline-offset: 2px;
 }
 
-@media (perfers-color-scheme: light) {
-    .DialogDescription {
-        color: #63635e;
-    }
+/* 설명 */
+.DialogDesc {
+  color: var(--dlg-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
+/* 본문 */
+.DialogContent {
+  margin-top: var(--dlg-gap);
+}
+
+/* 반응형 */
+@media (min-width: 480px) {
+  .Dialog {
+    --dlg-padding-x: 1.25rem;
+    --dlg-padding-y: 1.25rem;
+  }
+}
+@media (min-width: 768px) {
+  .Dialog {
+    --dlg-padding-x: 1.5rem;
+    --dlg-padding-y: 1.25rem;
+    --dlg-max-w: 640px;
+  }
+}
+
+/* 안전영역 */
+@supports (padding: max(0px)) {
+  .Root {
+    margin: max(clamp(24px, 10vh, 96px), env(safe-area-inset-top))
+            max(1rem, env(safe-area-inset-right))
+            max(1rem, env(safe-area-inset-bottom))
+            max(1rem, env(safe-area-inset-left));
+  }
+}
+
+/* 다크 모드 */
 @media (prefers-color-scheme: dark) {
-    .DialogDescription {
-        color: #b5b3ad;
-    }
+  .Dialog {
+    --dlg-bg: #1a202c;
+    --dlg-fg: #edf2f7;
+    --dlg-muted: #a0aec0;
+    --dlg-border: rgba(255, 255, 255, 0.12);
+    --dlg-hover: rgba(255, 255, 255, 0.08);
+    --dlg-accent: #63b3ed;
+    --dlg-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.45),
+      0 4px 6px -4px rgba(0, 0, 0, 0.45);
+  }
+  .Dialog[open]::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 
-::backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    backdrop-filter: blur(4px);
-    background-color: rgba(0, 0, 0, 0.48);
+/* 모션 줄이기 */
+@media (prefers-reduced-motion: reduce) {
+  .Dialog[open]::backdrop { animation: none; }
+  .Root { animation: none; }
+}
+
+/* 애니메이션 */
+@keyframes modalIn {
+  from { transform: scale(0.97) translateY(6px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes backdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
