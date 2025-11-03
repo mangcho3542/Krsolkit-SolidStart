@@ -5,14 +5,14 @@ interface Props extends ComponentBaseProps {
   [k: string]: any;
 }
 
-function splitComponentProps(props: Props | undefined, defaultClass: string) {
+export function splitComponentProps(props: Props | undefined, defaultClass: string) {
   if(!props) return {};
 
   return {
     class:props.class,
     id: props.id,
     classList: {
-      defaultClass: props.useDefaultStyle === undefined
+      [defaultClass]: props.useDefaultStyle === undefined
       ? true
       : props.useDefaultStyle
     }
