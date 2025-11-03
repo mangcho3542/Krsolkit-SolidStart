@@ -1,163 +1,103 @@
+import styles from "@styles/Slider.module.css";
 import {
   Slider as ArkSlider,
   SliderRootProps,
-  SliderLabelProps as ArkSliderLabelProps,
-  SliderValueTextProps as ArkSliderValueTextProps,
-  SliderControlProps as ArkSliderControlProps,
-  SliderTrackProps as ArkSliderTrackProps,
-  SliderRangeProps as ArkSliderRangeProps,
-  SliderThumbProps as ArkSliderThumbProps,
-} from "@ark-ui/solid/slider";
-import { createMemo, JSXElement } from "solid-js";
-import { splitProps } from "solid-js";
-import styles from "@styles/Slider.module.css";
-import { CssProperties } from "@/types/CssProperties";
-import { convertCss } from "@/utils/converCss";
+  SliderLabelProps,
+  SliderValueTextProps,
+  SliderControlProps,
+  SliderRangeProps,
+  SliderTrackProps,
+  SliderThumbProps,
+} from "@ark-ui/solid";
+import { JSXElement, splitProps } from "solid-js";
 import { splitComponentProps } from "@/utils/splitComponentProps";
+import { ClientOnly } from "@ark-ui/solid";
 
-interface SliderLabelProps extends ArkSliderLabelProps {
+interface LabelProps extends SliderLabelProps {
   useDefaultStyle?: boolean;
 }
-interface SliderValueTextProps extends ArkSliderValueTextProps {
+interface ValueTextProps extends SliderValueTextProps {
   useDefaultStyle?: boolean;
 }
-interface SliderControlProps extends ArkSliderControlProps {
+interface ControlProps extends SliderControlProps {
   useDefaultStyle?: boolean;
 }
-interface SliderTrackProps extends ArkSliderTrackProps {
+interface RangeProps extends SliderRangeProps {
   useDefaultStyle?: boolean;
 }
-interface SliderRangeProps extends ArkSliderRangeProps {
+interface TrackProps extends SliderTrackProps {
   useDefaultStyle?: boolean;
 }
-interface SliderThumbProps extends ArkSliderThumbProps {
+interface ThumbProps extends Omit<SliderThumbProps, "index"> {
   useDefaultStyle?: boolean;
 }
 
-export interface SliderProps extends Omit<SliderRootProps, "defaultValue"> {
-  LabelProps?: SliderLabelProps;
+export interface SliderProps extends Omit<SliderRootProps, "value"> {
+  LabelProps?: LabelProps;
   Label?: JSXElement;
-  ValueTextProps?: SliderValueTextProps;
-  ControlProps?: SliderControlProps;
-  TrackProps?: SliderTrackProps;
-  RangeProps?: SliderRangeProps;
-  ThumbProps?: Omit<SliderThumbProps, "index">;
-  defaultValue?: number;
-  useDefaultStyle?: boolean;
-  css?: CssProperties;
+  ValueTextProps?: ValueTextProps;
+  ControlProps?: ControlProps;
+  RangeProps?: RangeProps;
+  TrackProps?: TrackProps;
+  ThumbProps?: ThumbProps;
 }
 
-interface Obj {
-  class?: string;
-  classList?: { [k: string]: boolean | undefined };
-  id?: string;
-  useDefaultStyle?: boolean;
-}
-
-export function Slider(p: SliderProps) {
-  const [local, style, other, rest] = splitProps(
-    p,
-    [
-      "useDefaultStyle",
-      "aria-label",
-      "aria-labelledby",
-      "asChild",
-      "defaultValue",
-      "disabled",
-      "form",
-      "getAriaValueText",
-      "css",
-      "ids",
-      "invalid",
-      "max",
-      "min",
-      "minStepsBetweenThumbs",
-      "name",
-      "onFocusChange",
-      "onValueChange",
-      "onValueChangeEnd",
-      "orientation",
-      "origin",
-      "readOnly",
-      "step",
-      "thumbAlignment",
-      "thumbSize",
-      "value",
-    ],
-    ["class", "id", "classList"],
+export function Slider(props: SliderProps) {
+  const [local, other, rest] = splitProps(
+    props,
+    ["min", "max", "thumbAlignment"],
     [
       "LabelProps",
       "Label",
       "ValueTextProps",
       "ControlProps",
-      "TrackProps",
       "RangeProps",
+      "TrackProps",
       "ThumbProps",
     ]
   );
 
   return (
-    <ArkSlider.Root
-      {...splitComponentProps(style, styles.Root)}
-      {...rest}
-      aria-label={local["aria-label"]}
-      aria-labelledby={local["aria-labelledby"]}
-      asChild={local.asChild}
-      defaultValue={
-        local.defaultValue !== undefined
-          ? [local.defaultValue]
-          : [local.min ?? 0]
-      }
-      disabled={local.disabled}
-      form={local.form}
-      getAriaValueText={local.getAriaValueText}
-      ids={local.ids}
-      invalid={local.invalid}
-      max={local.max ?? 100}
-      min={local.min ?? 0}
-      minStepsBetweenThumbs={local.minStepsBetweenThumbs}
-      name={local.name}
-      onFocusChange={local.onFocusChange}
-      onValueChange={local.onValueChange}
-      onValueChangeEnd={local.onValueChangeEnd}
-      orientation={local.orientation}
-      origin={local.origin}
-      readOnly={local.readOnly}
-      step={local.step}
-      thumbAlignment={local.thumbAlignment}
-      thumbSize={local.thumbSize}
-      value={local.value}
-    >
-      <div style={{ display: "inline-block", width: "100%" }}>
-        <ArkSlider.Label
-          {...splitComponentProps(other.LabelProps, styles.Label)}
-        >
-          {other.Label}
-        </ArkSlider.Label>
-
-        <ArkSlider.ValueText
-          {...splitComponentProps(other.ValueTextProps, styles.ValueText)}
-        />
-      </div>
-
-      <ArkSlider.Control
-        {...splitComponentProps(other.ControlProps, styles.Control)}
+    <ClientOnly>
+      <ArkSlider.Root
+        min={local.min ?? 0}
+        max={local.max ?? 100}
+        style={{ width: "100%" }}
+        thumbAlignment={local.thumbAlignment ?? "center"}
+        {...rest}
       >
-        <ArkSlider.Track
-          {...splitComponentProps(other.TrackProps, styles.Track)}
-        >
-          <ArkSlider.Range
-            {...splitComponentProps(other.RangeProps, styles.Range)}
+        <div class={styles.LabelWrapper}>
+          <ArkSlider.Label
+            {...splitComponentProps(other.LabelProps, styles.Label)}
+          >
+            {other.Label}
+          </ArkSlider.Label>
+
+          <ArkSlider.ValueText
+            {...splitComponentProps(other.ValueTextProps, styles.ValueText)}
           />
-        </ArkSlider.Track>
-        <ArkSlider.Thumb
-          {...splitComponentProps(other.ThumbProps, styles.Thumb)}
-          index={0}
+        </div>
+
+        <ArkSlider.Control
+          {...splitComponentProps(other.ControlProps, styles.Control)}
         >
-          <ArkSlider.HiddenInput />
-        </ArkSlider.Thumb>
-      </ArkSlider.Control>
-    </ArkSlider.Root>
+          <ArkSlider.Track
+            {...splitComponentProps(other.TrackProps, styles.Track)}
+          >
+            <ArkSlider.Range
+              {...splitComponentProps(other.RangeProps, styles.Range)}
+            />
+          </ArkSlider.Track>
+
+          <ArkSlider.Thumb
+            index={0}
+            {...splitComponentProps(other.ThumbProps, styles.Thumb)}
+          >
+            <ArkSlider.HiddenInput />
+          </ArkSlider.Thumb>
+        </ArkSlider.Control>
+      </ArkSlider.Root>
+    </ClientOnly>
   );
 }
 
