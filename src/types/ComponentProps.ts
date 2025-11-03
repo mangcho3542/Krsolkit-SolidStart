@@ -17,3 +17,11 @@ export interface ComponentBaseProps {
   css?: CssProperties;
   children?: JSXElement;
 }
+
+export interface ComponentBaseStyleProps {
+  class?: string;
+  classList?: { [k: string]: boolean | undefined };
+  id?: string;
+  style?: string | JSX.CSSProperties;
+  children?: JSXElement;
+}
