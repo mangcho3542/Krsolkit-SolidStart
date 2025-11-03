@@ -1,5 +1,11 @@
 import { ComponentBaseProps } from "@/types/ComponentProps";
-import { splitProps, JSX } from "solid-js";
+import {
+  splitProps,
+  JSX,
+  mergeProps,
+  createSignal,
+  createEffect,
+} from "solid-js";
 import styles from "@styles/Btn.module.css";
 import { convertCss } from "@/utils/converCss";
 
@@ -23,6 +29,14 @@ export default function Btn(props: BtnProps): JSX.Element {
     "ref",
   ]);
 
+  const [style, setStyle] = createSignal<JSX.CSSProperties>(
+    mergeProps(rest.style ?? {}, convertCss(local.css))
+  );
+
+  createEffect(() => {
+    setStyle(mergeProps(rest.style, convertCss(local.css)));
+  });
+
   return (
     <button
       class={local.class}
@@ -32,7 +46,7 @@ export default function Btn(props: BtnProps): JSX.Element {
           local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
       }}
       id={local.id}
-      style={convertCss(local.css)}
+      style={style()}
       ref={local.ref}
       {...rest}
     >
