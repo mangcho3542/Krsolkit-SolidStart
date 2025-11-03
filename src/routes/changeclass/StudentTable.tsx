@@ -1,10 +1,17 @@
 import { ComponentProps } from "@/types/ComponentProps";
-import { createEffect, createSignal, splitProps } from "solid-js";
+import {
+  createEffect,
+  createMemo,
+  createSignal,
+  JSX,
+  splitProps,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 import { shuffle } from "@/utils/shuffle";
 import styles from "./chageclass.module.css";
 import Btn from "@components/Btn";
 import { convertCss } from "@/utils/converCss";
+import { capture } from "@/utils/capture";
 
 interface StudentTableProps extends Omit<ComponentProps, "children"> {
   row: number;
@@ -33,6 +40,9 @@ export default function StudentTable(props: StudentTableProps) {
 
   //보여줄지 말지 결정하는 signal
   const [canShow, setCanShow] = createSignal(false);
+
+  //ref
+  let wrpRef: HTMLDivElement | null = null;
 
   //effect
   //row, column변할때마다 canShow, isAssignable, conent 업데이트
@@ -79,12 +89,11 @@ export default function StudentTable(props: StudentTableProps) {
     let k = 0;
     for (let i = 0; i < local.column; i++) {
       for (let j = 0; j < local.row; j++) {
-
         //isAssignable[i][j]가 false라면 ""
         if (!isAssignable[i][j]) {
           setContent(i, j, "");
         }
-        
+
         //isAssignable[i][j]가 true라면 번호 배치
         else {
           setContent(i, j, tmpAry[k]);
@@ -97,6 +106,12 @@ export default function StudentTable(props: StudentTableProps) {
     setCanShow(true);
   }
 
+  //캡쳐하는 함수
+  async function captureWrp() {
+    setTimeout(() => {}, 300);
+    await capture(wrpRef, "자리배치_결과.png");
+  }
+
   return (
     <>
       <div id={styles.BtnWrapper}>
@@ -104,43 +119,41 @@ export default function StudentTable(props: StudentTableProps) {
           자리 배치하기
         </Btn>
 
-        <Btn class={styles.Btn}>
-          캡쳐하기
+        <Btn class={styles.Btn} onClick={async () => {captureWrp()}}>
+          &nbsp;&nbsp;&nbsp;&nbsp;캡쳐하기&nbsp;&nbsp;&nbsp;&nbsp;
         </Btn>
       </div>
 
-      <div id={styles.WhiteBoardWrapper}>
-        <div id={styles.WhiteBoard}>
-          칠판
-        </div>
-      </div>
+      <div id={styles.Wrapper} ref={(el) => wrpRef=el}>
+        <div id={styles.WhiteBoard}>칠판</div>
 
-      <div {...rest} style={convertCss(rest.css)}>
-        {Array.from({ length: local.column }, (_1, i) => (
-          <div
-            class={styles.TableColumn}
-            style={{
-              width: `${100 / (local.column + 1)}%`,
-            }}
-          >
-            {Array.from({ length: local.row }, (_2, j) => (
-              <div
-                class={
-                  styles.Table +
-                  " " +
-                  (isAssignable[i]?.[j]
-                    ? styles.AvailTable
-                    : styles.UnavailTable)
-                }
-                onClick={() => {
-                  changeIsAssignable(i, j);
-                }}
-              >
-                {canShow() && isAssignable[i]?.[j] && content[i][j]}
-              </div>
-            ))}
-          </div>
-        ))}
+        <div {...rest} style={convertCss(rest.css)}>
+          {Array.from({ length: local.column }, (_1, i) => (
+            <div
+              class={styles.TableColumn}
+              style={{
+                width: `${80 / (local.column + 1)}%`,
+              }}
+            >
+              {Array.from({ length: local.row }, (_2, j) => (
+                <div
+                  class={
+                    styles.Table +
+                    " " +
+                    (isAssignable[i]?.[j]
+                      ? styles.AvailTable
+                      : styles.UnavailTable)
+                  }
+                  onClick={() => {
+                    changeIsAssignable(i, j);
+                  }}
+                >
+                  {canShow() && isAssignable[i]?.[j] && content[i][j]}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

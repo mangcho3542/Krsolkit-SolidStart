@@ -1,11 +1,12 @@
 import styles from "./chageclass.module.css"
-import QuestionImg from "@images/QuestionCircleIcon.svg";
+import QuestionImg from "@images/QuestionCircleIcon.svg?raw";
 import Stack from "@components/Stack";
 import Slider from "@components/Slider";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
 import Dialog from "@/components/Dialog";
 import DlgContent from "./DlgContent";
+import Svg from "@/components/Svg";
 
 export default function Main() {
   const [col, setCol] = createSignal(5);
@@ -18,7 +19,7 @@ export default function Main() {
 
       <div id={styles.QuestionBtnWrapper}>
         <button id={styles.QBtn} ref={setTrgRef}>
-          <img id={styles.QImg} src={QuestionImg} />
+          <Svg value={QuestionImg} id={styles.QImg} />
         </button>
       </div>
 

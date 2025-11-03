@@ -32,6 +32,18 @@
   aspect-ratio: 1;
 }
 
+@media (prefers-color-scheme: dark) {
+  #QImg {
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  #QImg {
+    color: black;
+  }
+}
+
 #SliderWrapper {
   width: 40%;
   align-items: center;
@@ -55,11 +67,44 @@
   height: auto;
   width: 100%;
   justify-content: center;
+  gap: 0 2%;
 }
 
 .Btn {
   font-family: "SuitBold";
   font-size: 1.2rem;
+  text-align: center;
+}
+
+#Wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#WhiteBoard {
+  display: inline-block;
+  margin-top: 10%;
+  margin-bottom: 3%;
+  text-align: center;
+  font-size: 1.6rem;
+  border-radius: 6px;
+  padding: 2% 6%
+}
+
+@media (prefers-color-scheme: dark) {
+  #WhiteBoard {
+    background-color: gray;
+    border: 1px solid white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  #WhiteBoard {
+    background-color: white;
+    border: 1px solid black;
+  }
 }
 
 .TableWrapper {
@@ -90,6 +135,7 @@
   margin-bottom: 1vw;
   font-family: "SuitBold";
   font-size: 1.3rem;
+  color: black;
 }
 
 .AvailTable {
