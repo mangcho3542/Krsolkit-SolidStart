@@ -8,11 +8,11 @@
     "version": "vinxi version"
   },
   "dependencies": {
-    "@ark-ui/solid": "^5.26.2",
+    "@ark-ui/solid": "^5.27.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.3",
     "@solidjs/start": "^1.2.0",
-    "solid-js": "^1.9.9",
+    "solid-js": "^1.9.10",
     "vinxi": "^0.5.8"
   },
   "engines": {
