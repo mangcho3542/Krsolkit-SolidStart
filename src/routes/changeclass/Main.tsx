@@ -33,19 +33,17 @@ export default function Main() {
         ContentProps={{ id: styles.DlgContent }}
         Content={<DlgContent />}
         id={styles.DlgRoot}
-        useDefaultStyle={false}
       />
 
       <Stack id={styles.SliderWrapper}>
         <Slider
           step={1}
-          defaultValue={5}
+          defaultValue={[5]}
           min={1}
           max={10}
           class={styles.SliderRoot}
-          ControlProps={{ class: styles.SliderControl, useDefaultStyle: true }}
+          ControlProps={{ class: styles.SliderControl}}
           Label="분단 수"
-          ValueTextProps={{ class: styles.SliderValueText, id: "VT" }}
           onValueChange={(e) => {
             setCol(e.value[0]);
           }}
@@ -53,13 +51,12 @@ export default function Main() {
 
         <Slider
           step={1}
-          defaultValue={6}
+          defaultValue={[6]}
           min={1}
           max={10}
           class={styles.SliderRoot}
           ControlProps={{ class: styles.SliderControl }}
           Label="행의 수"
-          ValueTextProps={{ class: styles.SliderValueText }}
           onValueChange={(e) => {
             setRow(e.value[0]);
           }}

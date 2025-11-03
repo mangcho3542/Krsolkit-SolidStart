@@ -33,20 +33,16 @@
 }
 
 #SliderWrapper {
-  width: 100%;
+  width: 40%;
   align-items: center;
   font-family: "SuitBold";
   font-size: 1.2rem;
-  gap: 1rem 0;
+  gap: 1.3rem 0;
   margin-bottom: 4%;
 }
 
 .SliderRoot {
   width: 40%;
-}
-
-.SliderLabel {
-  display: inline-block;
 }
 
 .SliderControl {
