@@ -50,7 +50,6 @@ export interface CssProperties {
   animationTimingFunction?: string;
   animationComposition?: string;
   animationTimeline?: string;
-  appearance?: string;
   aspectRatio?: string;
   backdropFilter?: string;
   backfaceVisibility?: string;
