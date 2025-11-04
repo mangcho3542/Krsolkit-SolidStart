@@ -148,15 +148,29 @@
 /**Dialog */
 #DlgRoot {
   width: 70vw;
-  padding: 1%;
+  padding: 2%;
   white-space: pre-wrap;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-top: 2%;
+}
+
+#DlgWrapper {
+  display: inline-block;
+  width: 100%;
+  padding: 0;
 }
 
 #DlgTitle {
   font-size: 1.6rem;
-  padding-left: 5%;
+}
+
+#DlgContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 #DlgCttUl {
@@ -164,6 +178,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
 }
 
 .DlgCttLi {
@@ -171,7 +186,7 @@
   list-style: none;
   font-size: 1.2rem;
   line-height: 100%;
-  margin: 0 20%;
+  margin: 2% 0;
 }
 
 .DlgLiTtl {

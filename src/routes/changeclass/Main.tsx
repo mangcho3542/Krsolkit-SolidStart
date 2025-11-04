@@ -27,6 +27,7 @@ export default function Main() {
       {/**Dialog */}
       <Dialog
         TrgRef={trgRef()}
+        WrapperProps={{id: styles.DlgWrapper}}
         TitleProps={{ id: styles.DlgTitle }}
         Title="자리 바꾸기"
         ContentProps={{ id: styles.DlgContent }}
