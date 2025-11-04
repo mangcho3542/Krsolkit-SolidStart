@@ -148,6 +148,7 @@
 /**Dialog */
 #DlgRoot {
   width: 70vw;
+  max-height: 80vh;
   padding: 2%;
   white-space: pre-wrap;
   display: flex;

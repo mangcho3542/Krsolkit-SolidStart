@@ -58,3 +58,11 @@ body,
   font-family: inherit;
   font-weight: inherit;
 }
+
+.Main:has(dialog[open]) {
+  overflow: hidden;
+}
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
