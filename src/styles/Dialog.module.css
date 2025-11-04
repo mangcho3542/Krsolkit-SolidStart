@@ -26,6 +26,11 @@
   display: none !important;
 }
 
+/*스크롤 체이닝 방지*/
+.Dialog[open], .Root {
+  overscroll-behavior: contain;
+}
+
 /* 열렸을 때만 overlay/grid 레이아웃 적용 */
 .Dialog[open] {
   position: fixed;
@@ -61,7 +66,6 @@
   margin-top: clamp(24px, 15vh, 150px);
 
   /* 내부 스크롤 */
-  max-height: calc(100vh - clamp(24px, 10vh, 100px) - 2rem);
   background: var(--dlg-bg);
   color: inherit;
   border-radius: var(--dlg-radius);
@@ -70,11 +74,11 @@
   padding: 5%;
   transform-origin: center;
 
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: auto;
 
   /* 등장 애니메이션 */
   animation: modalIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  max-height: 60vh;
 }
 
 /* 헤더(타이틀 + 닫기 버튼 영역) */
