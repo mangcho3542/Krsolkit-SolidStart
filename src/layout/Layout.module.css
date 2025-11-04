@@ -14,7 +14,7 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
-  margin: 0 0 4% 0;
+  margin: 0 0 2% 0;
   padding: 0.5%;
   border-bottom: 1px solid black;
 }
@@ -61,14 +61,42 @@
 
 .SideMenu {
   display: inline-block;
-  font-family: "SuitMedium";
+  font-family: "SuitSemiBold";
   font-size: 1.2rem;
   white-space: nowrap;
 }
 
+#SideMenuWrapper2 {
+  display: inline-block;
+  font-family: "SuitSemiBold";
+  margin-bottom: 4%;
+  padding-left: 2%;
+}
+
+.SideMenu2 {
+  display: inline-block;
+  margin-right: 2%;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.SideMenu2:hover {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: inherit;
+}
+
+.SideMenu2.Inactive {
+  color: #BFBFBF !important;
+}
+
+.SideMenu2.Active {
+  color: inherit !important;
+}
+
 @media (prefers-color-scheme: light) {
   #Footer {
-    background-color: black;
+    background-color: #000000;
     color: white;
   }
 }

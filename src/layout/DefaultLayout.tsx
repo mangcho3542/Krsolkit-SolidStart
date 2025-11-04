@@ -4,6 +4,7 @@ import Text from "@components/Text";
 import Logo from "@images/Logo.svg";
 import A from "@components/A";
 import { Link } from "@solidjs/meta";
+import { useNavigate } from "@solidjs/router";
 
 interface LayoutProps {
   children: JSX.Element;
@@ -13,15 +14,25 @@ export default function DefaultLayout({ children }: LayoutProps) {
   const sideMenuAry = ["블로그", "가이드", "로그인"];
   const sideMenuLinks = ["/blog", "/guide", "/login"];
 
+  const sideMenuAry2 = ["자리 바꾸기", "영단어 학습"];
+  const sideMenuLinks2 = ["/changeclass", "/eng_word"];
+
   const footerUlAry = [["문의하기"]];
   const footerUlLinks = [["/ask"]];
+
+  const navigate = useNavigate();
 
   return (
     <>
       <Link rel="icon" href="/favicon.ico" />
 
       <nav id={styles.Nav}>
-        <div id={styles.LogoWrapper}>
+        <div
+          id={styles.LogoWrapper}
+          onClick={() => {
+            navigate("/", { replace: false });
+          }}
+        >
           <img id={styles.Logo} src={Logo} />
           <Text id={styles.LogoText}>ClassHelper</Text>
         </div>
@@ -33,6 +44,19 @@ export default function DefaultLayout({ children }: LayoutProps) {
             </A>
           ))}
         </div>
+      </nav>
+
+      <nav id={styles.SideMenuWrapper2}>
+        {sideMenuAry2.map((sideMenu, index) => (
+          <A
+          inactiveClass={styles.Inactive}
+          activeClass={styles.Active}
+          href={sideMenuLinks2[index]}
+          class={styles.SideMenu2}
+          >
+            {sideMenu}
+          </A>
+        ))}
       </nav>
 
       {children}
