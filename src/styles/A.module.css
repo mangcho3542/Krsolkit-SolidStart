@@ -1,6 +1,6 @@
 .A:hover {
   text-decoration: underline;
-  text-decoration-color: #cccccc;
+  text-decoration-color: inherit;
 }
 
 .A {

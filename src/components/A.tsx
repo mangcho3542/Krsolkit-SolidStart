@@ -1,13 +1,14 @@
 import { A as Anchor } from "@solidjs/router";
-import { ComponentProps } from "@/types/ComponentProps";
+import { ComponentBaseStyleProps } from "@/types/ComponentProps";
 import styles from "@styles/A.module.css";
 import { splitProps } from "solid-js";
-import { convertCss } from "@/utils/converCss";
 
-export interface AProps extends ComponentProps {
+export interface AProps extends ComponentBaseStyleProps {
   href: string;
   target?: "_self" | "_blank" | "_parent" | "_top";
   useDefaultStyle?: boolean;
+  inactiveClass?: string;
+  activeClass?: string;
 }
 
 export default function A(props: AProps) {
@@ -19,7 +20,8 @@ export default function A(props: AProps) {
     "class",
     "classList",
     "id",
-    "css"
+    "inactiveClass",
+    "activeClass"
   ]);
 
   return (
@@ -31,9 +33,10 @@ export default function A(props: AProps) {
         : local.useDefaultStyle
       }}
       id={local.id}
-      style={convertCss(local.css)}
       target={local.target ?? "_self"}
       href={local.href}
+      inactiveClass={local.inactiveClass}
+      activeClass={local.activeClass}
       {...rest}
     >
       {local.children}
