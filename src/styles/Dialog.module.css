@@ -2,18 +2,25 @@
 .Dialog {
   /* 토큰 (공통) */
   --dlg-bg: #ffffff;
-  --dlg-fg: #1a202c; /* gray.800 */
-  --dlg-muted: #4a5568; /* gray.600 */
+  --dlg-fg: #1a202c;
+  /* gray.800 */
+  --dlg-muted: #4a5568;
+  /* gray.600 */
   --dlg-border: rgba(0, 0, 0, 0.08);
   --dlg-hover: rgba(0, 0, 0, 0.06);
-  --dlg-accent: #3182ce; /* blue.600 */
+  --dlg-accent: #3182ce;
+  /* blue.600 */
   --dlg-radius: 12px;
   --dlg-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --dlg-max-w: 560px; /* md */
-  --dlg-padding-x: 1rem;  /* 16px */
-  --dlg-padding-y: 1rem;  /* 16px */
-  --dlg-gap: 0.75rem;     /* 12px */
+  --dlg-max-w: 560px;
+  /* md */
+  --dlg-padding-x: 1rem;
+  /* 16px */
+  --dlg-padding-y: 1rem;
+  /* 16px */
+  --dlg-gap: 0.75rem;
+  /* 12px */
 
   border: none;
   padding: 0;
@@ -27,7 +34,8 @@
 }
 
 /*스크롤 체이닝 방지*/
-.Dialog[open], .Root {
+.Dialog[open],
+.Root {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
@@ -43,13 +51,14 @@
   /* top-center 배치 */
   align-items: start;
   justify-items: center;
-  overflow: hidden; 
+  overflow: hidden;
   z-index: 1200;
 }
 
 /* 오버레이 */
 .Dialog[open]::backdrop {
-  background: rgba(0, 0, 0, 0.45); /* blackAlpha.600 느낌 */
+  background: rgba(0, 0, 0, 0.45);
+  /* blackAlpha.600 느낌 */
   backdrop-filter: saturate(180%) blur(2px);
   animation: backdropFade 180ms ease-out both;
 }
@@ -94,7 +103,8 @@
 /* 타이틀 */
 .DialogTitle {
   font-weight: 600;
-  font-size: 1.125rem; /* lg */
+  font-size: 1.125rem;
+  /* lg */
   line-height: 1.4;
   margin-right: 2.25rem;
   color: var(--dlg-fg);
@@ -117,8 +127,15 @@
   cursor: pointer;
   transition: background-color 120ms ease, color 120ms ease, transform 120ms ease;
 }
-.CloseBtn:hover { background: var(--dlg-hover); }
-.CloseBtn:active { transform: scale(0.96); }
+
+.CloseBtn:hover {
+  background: var(--dlg-hover);
+}
+
+.CloseBtn:active {
+  transform: scale(0.96);
+}
+
 .CloseBtn:focus-visible {
   outline: 2px solid var(--dlg-accent);
   outline-offset: 2px;
@@ -145,6 +162,7 @@
     --dlg-padding-y: 1.25rem;
   }
 }
+
 @media (min-width: 768px) {
   .Dialog {
     --dlg-padding-x: 1.5rem;
@@ -156,10 +174,7 @@
 /* 안전영역 */
 @supports (padding: max(0px)) {
   .Root {
-    margin: max(clamp(24px, 10vh, 96px), env(safe-area-inset-top))
-            max(1rem, env(safe-area-inset-right))
-            max(1rem, env(safe-area-inset-bottom))
-            max(1rem, env(safe-area-inset-left));
+    margin: max(clamp(24px, 10vh, 96px), env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
   }
 }
 
@@ -175,6 +190,7 @@
     --dlg-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.45),
       0 4px 6px -4px rgba(0, 0, 0, 0.45);
   }
+
   .Dialog[open]::backdrop {
     background: rgba(0, 0, 0, 0.6);
   }
@@ -182,16 +198,34 @@
 
 /* 모션 줄이기 */
 @media (prefers-reduced-motion: reduce) {
-  .Dialog[open]::backdrop { animation: none; }
-  .Root { animation: none; }
+  .Dialog[open]::backdrop {
+    animation: none;
+  }
+
+  .Root {
+    animation: none;
+  }
 }
 
 /* 애니메이션 */
 @keyframes modalIn {
-  from { transform: scale(0.97) translateY(6px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
+  from {
+    transform: scale(0.97) translateY(6px);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
 }
+
 @keyframes backdropFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

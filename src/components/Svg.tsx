@@ -97,7 +97,8 @@ export function Svg(props: SvgProps) {
       classList={local.classList}
       id={local.id}
       {...(rest as JSX.SvgSVGAttributes<SVGSVGElement>)}
-      // style prop을 사용자가 주었으면 그게 우선. local.color가 있으면 setRef에서 style.color를 덮어씀.
+      // style prop을 사용자가 주었으면 그게 우선. local.color가 있으면 
+      // setRef에서 style.color를 덮어씀.
     />
   );
 }

@@ -21,16 +21,15 @@ export default function A(props: AProps) {
     "classList",
     "id",
     "inactiveClass",
-    "activeClass"
+    "activeClass",
   ]);
 
   return (
     <Anchor
       class={local.class}
       classList={{
-        [styles.A]: local.useDefaultStyle === undefined
-        ? true
-        : local.useDefaultStyle
+        [styles.A]:
+          local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
       }}
       id={local.id}
       target={local.target ?? "_self"}

@@ -3,15 +3,13 @@ import Main from "./Main";
 import { ClientOnly } from "@ark-ui/solid";
 
 export default function ChangeClass() {
+  return (
+    <>
+      <Title>자리 바꾸기</Title>
 
-
-    return (
-        <>
-        <Title>자리 바꾸기</Title>
-
-        <ClientOnly>
-            <Main />
-        </ClientOnly>
-        </>
-    )
+      <ClientOnly>
+        <Main />
+      </ClientOnly>
+    </>
+  );
 }

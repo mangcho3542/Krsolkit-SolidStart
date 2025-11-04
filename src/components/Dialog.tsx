@@ -127,7 +127,9 @@ export function Dialog(props: DialogProps) {
         onClose={() => {
           setOpen(false); //open을 false로 설정
         }}
-        onCancel={() => {setOpen(false)}}
+        onCancel={() => {
+          setOpen(false);
+        }}
       >
         {/**Root */}
         <div

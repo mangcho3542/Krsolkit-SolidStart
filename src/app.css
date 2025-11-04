@@ -29,6 +29,7 @@ body,
 /* a 및 기타 태그들 관련 설정 */
 
 @media (prefers-color-scheme: light) {
+
   html,
   body,
   #app {
@@ -39,6 +40,7 @@ body,
 }
 
 @media (prefers-color-schema: dark) {
+
   html,
   body,
   #app {

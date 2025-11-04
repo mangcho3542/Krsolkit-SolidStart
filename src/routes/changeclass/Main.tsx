@@ -1,4 +1,4 @@
-import styles from "./chageclass.module.css"
+import styles from "./chageclass.module.css";
 import QuestionImg from "@images/QuestionCircleIcon.svg?raw";
 import Stack from "@components/Stack";
 import Slider from "@components/Slider";
@@ -23,11 +23,10 @@ export default function Main() {
         </button>
       </div>
 
-
       {/**Dialog */}
       <Dialog
         TrgRef={trgRef()}
-        WrapperProps={{id: styles.DlgWrapper}}
+        WrapperProps={{ id: styles.DlgWrapper }}
         TitleProps={{ id: styles.DlgTitle }}
         Title="자리 바꾸기"
         ContentProps={{ id: styles.DlgContent }}
@@ -42,7 +41,7 @@ export default function Main() {
           min={1}
           max={10}
           class={styles.SliderRoot}
-          ControlProps={{ class: styles.SliderControl}}
+          ControlProps={{ class: styles.SliderControl }}
           Label="분단 수"
           onValueChange={(e) => {
             setCol(e.value[0]);

@@ -1,10 +1,5 @@
 import { ComponentProps } from "@/types/ComponentProps";
-import {
-  createEffect,
-  createSignal,
-  JSX,
-  splitProps,
-} from "solid-js";
+import { createEffect, createSignal, JSX, splitProps } from "solid-js";
 import { createStore } from "solid-js/store";
 import { shuffle } from "@/utils/shuffle";
 import styles from "./chageclass.module.css";
@@ -118,12 +113,17 @@ export default function StudentTable(props: StudentTableProps) {
           자리 배치하기
         </Btn>
 
-        <Btn class={styles.Btn} onClick={async () => {captureWrp()}}>
+        <Btn
+          class={styles.Btn}
+          onClick={async () => {
+            captureWrp();
+          }}
+        >
           &nbsp;&nbsp;&nbsp;&nbsp;캡쳐하기&nbsp;&nbsp;&nbsp;&nbsp;
         </Btn>
       </div>
 
-      <div id={styles.Wrapper} ref={(el) => wrpRef=el}>
+      <div id={styles.Wrapper} ref={(el) => (wrpRef = el)}>
         <div id={styles.WhiteBoard}>칠판</div>
 
         <div {...rest} style={convertCss(rest.css)}>
