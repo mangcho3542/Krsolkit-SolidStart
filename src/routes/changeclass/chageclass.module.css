@@ -29,7 +29,7 @@
 
 #QImg {
   height: 8vh;
-  aspect-ratio: 1;
+  width: 8vh;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -90,19 +90,18 @@
   text-align: center;
   font-size: 1.6rem;
   border-radius: 6px;
-  padding: 2% 6%
+  padding: 2% 6%;
+  background-color: #D2B48C;
 }
 
 @media (prefers-color-scheme: dark) {
   #WhiteBoard {
-    background-color: gray;
     border: 1px solid white;
   }
 }
 
 @media (prefers-color-scheme: light) {
   #WhiteBoard {
-    background-color: white;
     border: 1px solid black;
   }
 }
@@ -147,3 +146,41 @@
 }
 
 /**Dialog */
+#DlgRoot {
+  width: 70vw;
+  padding: 1%;
+  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+}
+
+#DlgTitle {
+  font-size: 1.6rem;
+  padding-left: 5%;
+}
+
+#DlgCttUl {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DlgCttLi {
+  width: 100%;
+  list-style: none;
+  font-size: 1.2rem;
+  line-height: 100%;
+  margin: 0 20%;
+}
+
+.DlgLiTtl {
+  font-size: 1.4rem;
+  line-height: 70%;
+  margin-bottom: 0;
+}
+
+.ColorSwatch {
+  border: 1px solid black;
+  line-height: 100%;
+}

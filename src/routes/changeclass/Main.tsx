@@ -29,8 +29,6 @@ export default function Main() {
         TrgRef={trgRef()}
         TitleProps={{ id: styles.DlgTitle }}
         Title="자리 바꾸기"
-        DescProps={{ id: styles.DlgDesc }}
-        Desc="설명서"
         ContentProps={{ id: styles.DlgContent }}
         Content={<DlgContent />}
         id={styles.DlgRoot}

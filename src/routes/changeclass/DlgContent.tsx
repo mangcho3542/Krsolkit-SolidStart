@@ -12,20 +12,21 @@ export default function DlgContent() {
     </>,
 
     <>
-      기본적으로 학생들의 자리는 모두{" "}
+      기본적으로 학생들의 자리는 모두&nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#4ade80" as Hex} />색
       입니다. <br />
-      자리를 클릭하게 되면{" "}
+      자리를 클릭하게 되면&nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#4ade80" as Hex} />
-      색의 자리는
+      색의 자리는 &nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#EB0000" as Hex} />
-      색으로,
+      색으로, &nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#EB0000" as Hex} />
-      색의 자리는{" "}
+      색의 자리는&nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#4ade80" as Hex} />
       색으로 바뀌게 됩니다.
+      <br />
       <ColorSwatch class={styles.ColorSwatch} color={"#4ade80" as Hex} />
-      색의 자리에는 학생이 배치될 수 있고,
+      색의 자리에는 학생이 배치될 수 있고, &nbsp;
       <ColorSwatch class={styles.ColorSwatch} color={"#EB0000" as Hex} />
       색의 자리에는 학생이 배치될 수 없습니다.
     </>,
@@ -50,6 +51,7 @@ export default function DlgContent() {
           {/**DlgLiTtl : Dialog > Li > Title*/}
           <p class={styles.DlgLiTtl}>
             {i + 1}
+            .&nbsp;
             {title}
           </p>
           <br />
