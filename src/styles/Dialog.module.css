@@ -50,6 +50,11 @@
 
 /* 실제 카드 컨텐츠 컨테이너 */
 .Root {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  white-space: normal;
+
   position: relative;
   width: 32vw;
   /* top-center: 상단 마진을 줘서 화면 상단 쪽에 위치 */
@@ -62,10 +67,11 @@
   border-radius: var(--dlg-radius);
   border: 1px solid var(--dlg-border);
   box-shadow: var(--dlg-shadow);
-  padding: var(--dlg-padding-y) var(--dlg-padding-x) calc(var(--dlg-padding-y) + 0.25rem);
+  padding: 5%;
   transform-origin: center;
 
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   /* 등장 애니메이션 */
   animation: modalIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
