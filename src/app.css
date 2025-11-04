@@ -34,6 +34,7 @@ body,
   #app {
     color: #000000;
     background-color: #ffffff;
+    text-decoration-color: #000000;
   }
 }
 
@@ -43,6 +44,7 @@ body,
   #app {
     color: #ffffff;
     background-color: #000000;
+    text-decoration-color: #ffffff;
   }
 }
 
