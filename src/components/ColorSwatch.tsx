@@ -1,7 +1,7 @@
 import { ComponentProps } from "@/types/ComponentProps";
 import { Dynamic } from "solid-js/web";
 import { Hex, RGB, RGBA, HSL, HSLA } from "@/types/ColorType";
-import { JSX, ValidComponent } from "solid-js";
+import { createMemo, JSX, mergeProps, ValidComponent } from "solid-js";
 import { splitProps } from "solid-js";
 import styles from "@styles/ColorSwatch.module.css";
 import { convertCss } from "@/utils/converCss";
@@ -24,18 +24,25 @@ export function ColorSwatch(props: ColorSwatchProps) {
     "css",
   ]);
 
+  const getStyle = createMemo(() => {
+    const style = mergeProps(convertCss(local.css), {"background-color": local.color});
+    return style;
+  })
+
   return (
     <Dynamic
-      component={local.as ?? "div"}
+      component={local.as ?? "span"}
       class={local.class}
       classList={{
         [styles.ColorSwatch]:
           local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
         ...local.classList,
       }}
-      style={convertCss(local.css)}
+      style={getStyle()}
       {...rest}
-    />
+    >
+      &nbsp;
+    </Dynamic>
   );
 }
 

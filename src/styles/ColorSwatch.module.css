@@ -1,6 +1,9 @@
 .ColorSwatch {
-    width: 20px;
-    height: 20px;
+    height: 1em;
+    aspect-ratio: 1/1;
     cursor: pointer;
     border-radius: 2px;
+    display: inline-block;
+    margin:0; 
+    padding:0;
 }
