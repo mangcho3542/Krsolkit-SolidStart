@@ -9,27 +9,33 @@ import {
   SliderTrackProps,
   SliderThumbProps,
 } from "@ark-ui/solid";
-import { JSXElement, splitProps } from "solid-js";
+import { JSX, JSXElement, splitProps } from "solid-js";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 import { ClientOnly } from "@ark-ui/solid";
 
-interface LabelProps extends SliderLabelProps {
+interface LabelProps extends Omit<SliderLabelProps, "style"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
-interface ValueTextProps extends SliderValueTextProps {
+interface ValueTextProps extends Omit<SliderValueTextProps, "style"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
-interface ControlProps extends SliderControlProps {
+interface ControlProps extends Omit<SliderControlProps, "style"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
-interface RangeProps extends SliderRangeProps {
+interface RangeProps extends Omit<SliderRangeProps, "style"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
-interface TrackProps extends SliderTrackProps {
+interface TrackProps extends Omit<SliderTrackProps, "style"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
-interface ThumbProps extends Omit<SliderThumbProps, "index"> {
+interface ThumbProps extends Omit<SliderThumbProps, "style" | "index"> {
   useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
 }
 
 export interface SliderProps extends Omit<SliderRootProps, "value"> {
