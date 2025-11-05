@@ -1,14 +1,89 @@
-#Main {
+#Intro {
+  padding: 0 2%;
+  font-family: "SuitExtraBold", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 3.5rem;
   display: flex;
   flex-direction: column;
-  min-width: 100%;
-  min-height: 80vh;
+  margin: 10% 0;
 }
 
-#MainText {
-  font-family: "SuitExtraBold";
-  font-size: 2.5rem;
-  display: block;
-  padding-left: 2%;
-  margin-bottom: 1%;
+#H1 {
+  font-family: inherit;
+  font-size: inherit;
+  display: inline-block;
+  margin: 1% 0;
+}
+
+#Mark,
+#H2 {
+  color: #2f9ffc;
+  background-color: #d1faff;
+  max-width: fit-content;
+  border-radius: 6px;
+}
+
+#Mark {
+  font-family: inherit;
+  font-size: inherit;
+  flex: 0 0 auto;
+  padding: 1%;
+}
+
+#MainIntro {
+  padding: 0 2%;
+  display: inline-block;
+}
+
+#H2 {
+  padding: 0 0.2%;
+  font-family: "SuitBold";
+  font-size: 2rem;
+}
+
+.Card {
+  padding: 0.5%;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 4%;
+}
+
+.CardIcon {
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.CardDesc {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 2% 2% 2% 3%;
+}
+
+.CardTtl {
+  font-family: "SuitBold", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 1.5rem;
+}
+
+.CardDescTxt {
+  font-family: "SuitMedium", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  white-space: pre-wrap;
+  margin-top: 5%;
+  font-size: 1.3rem;
+}
+
+.BtnWrapper {
+  margin-top: 5%;
+  padding-left: 6%;
+}
+
+.Btn {
+  font-size: 1.5rem;
 }
