@@ -63,8 +63,10 @@ body,
 
 .Main:has(dialog[open]) {
   overflow: hidden;
+  position: fixed;
 }
 
 body:has(dialog[open]) {
   overflow: hidden;
+  position: fixed;
 }
