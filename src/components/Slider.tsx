@@ -1,110 +1,57 @@
 import styles from "@styles/Slider.module.css";
-import {
-  Slider as ArkSlider,
-  SliderRootProps,
-  SliderLabelProps,
-  SliderValueTextProps,
-  SliderControlProps,
-  SliderRangeProps,
-  SliderTrackProps,
-  SliderThumbProps,
-} from "@ark-ui/solid";
-import { JSX, JSXElement, splitProps } from "solid-js";
+import { ComponentBaseStyleProps } from "@/types/ComponentProps";
 import { splitComponentProps } from "@/utils/splitComponentProps";
-import { ClientOnly } from "@ark-ui/solid";
+import { createMemo, createSignal, JSXElement, splitProps } from "solid-js";
 
-interface LabelProps extends Omit<SliderLabelProps, "style"> {
+interface PUD extends ComponentBaseStyleProps {
   useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
-}
-interface ValueTextProps extends Omit<SliderValueTextProps, "style"> {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
-}
-interface ControlProps extends Omit<SliderControlProps, "style"> {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
-}
-interface RangeProps extends Omit<SliderRangeProps, "style"> {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
-}
-interface TrackProps extends Omit<SliderTrackProps, "style"> {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
-}
-interface ThumbProps extends Omit<SliderThumbProps, "style" | "index"> {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
 }
 
-export interface SliderProps extends Omit<SliderRootProps, "value"> {
-  LabelProps?: LabelProps;
+interface SliderProps extends PUD {
+  LabelWrapperProps?: PUD;
+  LabelProps?: PUD;
   Label?: JSXElement;
-  ValueTextProps?: ValueTextProps;
-  ControlProps?: ControlProps;
-  RangeProps?: RangeProps;
-  TrackProps?: TrackProps;
-  ThumbProps?: ThumbProps;
+  ValueTextProps?: PUD;
+  RangeProps?: PUD;
+  ThumbProps?: PUD;
+  TrackProps?: PUD;
+  defaultValue?: number;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export function Slider(props: SliderProps) {
   const [local, other, rest] = splitProps(
     props,
-    ["min", "max", "thumbAlignment"],
+    ["defaultValue", "min", "max", "step"],
     [
+      "LabelWrapperProps",
       "LabelProps",
       "Label",
       "ValueTextProps",
-      "ControlProps",
       "RangeProps",
-      "TrackProps",
       "ThumbProps",
+      "TrackProps",
     ]
   );
 
+  const min = createMemo(() => local.min ?? 0);
+  const max = createMemo(() => local.max ?? 0);
+
   return (
-    <ClientOnly>
-      <ArkSlider.Root
-        min={local.min ?? 0}
-        max={local.max ?? 100}
-        style={{ width: "100%" }}
-        thumbAlignment={local.thumbAlignment ?? "center"}
-        {...rest}
+    <div {...splitComponentProps(rest, styles.Root)}>
+      <div
+        {...splitComponentProps(other.LabelWrapperProps, styles.LabelWrapper)}
       >
-        <div class={styles.LabelWrapper}>
-          <ArkSlider.Label
-            {...splitComponentProps(other.LabelProps, styles.Label)}
-          >
+        {other.Label && (
+          <label {...splitComponentProps(other.LabelProps, styles.Label)}>
             {other.Label}
-          </ArkSlider.Label>
+          </label>
+        )}
 
-          <ArkSlider.ValueText
-            {...splitComponentProps(other.ValueTextProps, styles.ValueText)}
-          />
-        </div>
-
-        <ArkSlider.Control
-          {...splitComponentProps(other.ControlProps, styles.Control)}
-        >
-          <ArkSlider.Track
-            {...splitComponentProps(other.TrackProps, styles.Track)}
-          >
-            <ArkSlider.Range
-              {...splitComponentProps(other.RangeProps, styles.Range)}
-            />
-          </ArkSlider.Track>
-
-          <ArkSlider.Thumb
-            index={0}
-            {...splitComponentProps(other.ThumbProps, styles.Thumb)}
-          >
-            <ArkSlider.HiddenInput />
-          </ArkSlider.Thumb>
-        </ArkSlider.Control>
-      </ArkSlider.Root>
-    </ClientOnly>
+        {}
+      </div>
+    </div>
   );
 }
-
-export default Slider;

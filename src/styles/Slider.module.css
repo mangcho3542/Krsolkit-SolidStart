@@ -6,11 +6,13 @@
 }
 
 .Label {
-  display: inline-block;
+  max-width: fit-content;
+  flex-shrink: 0;
+  display: block;
 }
 
 .ValueText {
-  display: inline-block;
+  display: block;
   margin-left: auto;
 }
 
