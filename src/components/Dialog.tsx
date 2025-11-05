@@ -55,18 +55,6 @@ export function Dialog(props: DialogProps) {
   const [dlgRef, setDlgRef] = createSignal<HTMLDialogElement | undefined>();
 
   //~effect
-  //~test
-  createEffect(() => {
-    console.log("open : ", open());
-    console.log("\ndlgRef\n", dlgRef());
-    console.log("\nlocal.TrgRef\n", local.TrgRef);
-  });
-
-  //~test2
-  createEffect(() => {
-    console.log("\ndlgRef\n", dlgRef());
-  });
-
   //~TrgRef가 클릭되면 dialog열어주기
   createEffect(() => {
     const el = local.TrgRef;
@@ -94,7 +82,6 @@ export function Dialog(props: DialogProps) {
     //~dialog닫힐 때는 onClose실행
     else {
       local.onClose?.();
-      local.TrgRef?.focus();
     }
   });
 
