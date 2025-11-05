@@ -27,7 +27,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
       <Link rel="icon" href="/favicon.ico" />
 
       <nav id={styles.Nav}>
-        <div
+        <header
           id={styles.LogoWrapper}
           onClick={() => {
             navigate("/", { replace: false });
@@ -35,7 +35,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
         >
           <img id={styles.Logo} src={Logo} />
           <Text id={styles.LogoText}>ClassHelper</Text>
-        </div>
+        </header>
 
         <div id={styles.SideMenuWrapper}>
           {sideMenuAry.map((sideMenu, index) => (
