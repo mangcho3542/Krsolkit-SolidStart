@@ -33,9 +33,9 @@ body,
   html,
   body,
   #app {
-    color: #000000;
+    color: #09090b;
     background-color: #ffffff;
-    text-decoration-color: #000000;
+    text-decoration-color: #09090b;
   }
 }
 
@@ -44,9 +44,9 @@ body,
   html,
   body,
   #app {
-    color: #ffffff;
-    background-color: #000000;
-    text-decoration-color: #ffffff;
+    color: #fafafa;
+    background-color: #0a0b0d;
+    text-decoration-color: #fafafa;
   }
 }
 
