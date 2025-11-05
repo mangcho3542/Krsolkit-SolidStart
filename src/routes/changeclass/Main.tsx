@@ -14,7 +14,7 @@ export default function Main() {
   const [trgRef, setTrgRef] = createSignal<HTMLButtonElement | undefined>();
 
   return (
-    <main class="Main" id={styles.Main}>
+    <>
       <header id={styles.Header}>자리 바꾸기</header>
 
       <div id={styles.QuestionBtnWrapper}>
@@ -63,6 +63,6 @@ export default function Main() {
       </Stack>
 
       <StudentTable class={styles.TableWrapper} column={col()} row={row()} />
-    </main>
+    </>
   );
 }
