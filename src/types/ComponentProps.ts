@@ -22,6 +22,6 @@ export interface ComponentBaseStyleProps {
   class?: string;
   classList?: { [k: string]: boolean | undefined };
   id?: string;
-  style?: string | JSX.CSSProperties;
+  style?: JSX.CSSProperties;
   children?: JSXElement;
 }
