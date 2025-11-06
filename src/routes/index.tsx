@@ -6,7 +6,6 @@ import { Card } from "@/components/Card";
 import Svg from "@/components/Svg";
 import ChangeClassIcon from "@images/ChangeClassIcon.svg?raw";
 import EngWordIcon from "@images/EngWordsIcon.svg?raw";
-import Text from "@/components/Text";
 import Btn from "@/components/Btn";
 import { useNavigate } from "@solidjs/router";
 
@@ -55,8 +54,8 @@ export default function Home() {
           Icon={<Svg class={styles.CardIcon} value={icon} />}
           DescProps={{class: styles.CardDesc}}
           >
-            <Text class={styles.CardTtl}>{cardDescTitleAry[index]}</Text>
-            <Text class={styles.CardDescTxt}>{cardDescAry[index]}</Text>
+            <p class={styles.CardTtl}>{cardDescTitleAry[index]}</p>
+            <p class={styles.CardDescTxt}>{cardDescAry[index]}</p>
             <div class={styles.BtnWrapper}>
               <Btn class={styles.Btn} onClick={() => {navigate(btnLinkAry[index])}}>
                 바로 가기
