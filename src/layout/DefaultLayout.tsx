@@ -1,6 +1,5 @@
 import { JSX } from "solid-js";
 import styles from "./Layout.module.css";
-import Text from "@components/Text";
 import Logo from "@images/Logo.svg";
 import A from "@components/A";
 import { Link } from "@solidjs/meta";
@@ -34,7 +33,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
           }}
         >
           <img id={styles.Logo} src={Logo} />
-          <Text id={styles.LogoText}>ClassHelper</Text>
+          <p id={styles.LogoText}>ClassHelper</p>
         </header>
 
         <div id={styles.SideMenuWrapper}>
