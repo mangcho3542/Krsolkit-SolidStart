@@ -3,13 +3,13 @@ import { JSXElement, splitProps } from "solid-js";
 import styles from "@styles/Card.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-interface CUS extends ComponentBaseStyleProps {
+interface PUD extends ComponentBaseStyleProps {
   useDefaultStyle?: boolean;
 }
 
-export interface CardProps extends CUS {
+export interface CardProps extends PUD {
   Icon?: JSXElement;
-  DescProps?: CUS;
+  DescProps?: PUD;
 }
 
 export function Card(props: CardProps) {
