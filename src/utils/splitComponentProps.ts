@@ -7,25 +7,22 @@ interface I extends Omit<ComponentBaseStyleProps, "children"> {
 
 export function splitComponentProps(
   props: I | undefined,
-  defaultClass: string
+  defaultClass: string | undefined
 ): typeof props {
   if (!props) {
-    console.log("defaultClass return함.");
-    console.log("defaultClass : ", defaultClass);
-    return { class: defaultClass };
+    return defaultClass ? {class: defaultClass} : {}
   }
 
   const res = {
     class:
       (props.class ? props.class + " " : "") + props.useDefaultStyle ===
         undefined || true
-        ? defaultClass
+        ? (defaultClass ?? "")
         : "",
     id: props.id ?? "",
     classList: props.classList ?? {},
     style: props.style ?? {},
   };
 
-  console.log(res);
   return res;
 }
