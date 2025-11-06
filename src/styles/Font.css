@@ -1,3 +1,9 @@
+/*Css 변수들*/
+:root {
+  /*기본 font family*/
+  --default-font-family: system-ui, -apple-system, "Malgun Gothic", 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 /*SuitThin 100*/
 @font-face {
   font-family: "SuitThin";
