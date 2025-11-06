@@ -10,18 +10,18 @@ export function splitComponentProps(
   defaultClass: string | undefined
 ): typeof props {
   if (!props) {
-    return defaultClass ? {class: defaultClass} : {}
+    return defaultClass ? { class: defaultClass } : {};
   }
 
   const res = {
     class:
-      (props.class ? props.class + " " : "") + props.useDefaultStyle ===
-        undefined || true
-        ? (defaultClass ?? "")
-        : "",
-    id: props.id ?? "",
-    classList: props.classList ?? {},
-    style: props.style ?? {},
+      (props.class !== undefined ? props.class + " " : "") +
+      (props.useDefaultStyle === undefined || props.useDefaultStyle === true
+        ? defaultClass ?? ""
+        : ""),
+    ...(props.id && { id: props.id }),
+    ...(props.classList && { classList: props.classList }),
+    ...(props.style && { style: props.style }),
   };
 
   return res;
