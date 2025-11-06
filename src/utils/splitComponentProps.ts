@@ -1,25 +1,31 @@
 import { ComponentBaseStyleProps } from "@/types/ComponentProps";
 
-interface I extends ComponentBaseStyleProps {
+interface I extends Omit<ComponentBaseStyleProps, "children"> {
   useDefaultStyle?: boolean;
   [k: string]: any;
 }
 
-export function splitComponentProps<T extends I>(
+export function splitComponentProps(
   props: I | undefined,
   defaultClass: string
 ): typeof props {
-  if(!props) return {};
+  if (!props) {
+    console.log("defaultClass return함.");
+    console.log("defaultClass : ", defaultClass);
+    return { class: defaultClass };
+  }
 
-  const { useDefaultStyle = true, class: cls, ...rest } = props;
+  const res = {
+    class:
+      (props.class ? props.class + " " : "") + props.useDefaultStyle ===
+        undefined || true
+        ? defaultClass
+        : "",
+    id: props.id ?? "",
+    classList: props.classList ?? {},
+    style: props.style ?? {},
+  };
 
-  const combined = [cls, useDefaultStyle ? defaultClass : ""]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
-
-  return {
-    ...rest,
-    class: combined,
-  } as T;
+  console.log(res);
+  return res;
 }
