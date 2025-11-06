@@ -72,7 +72,7 @@ export function Slider(props: SliderProps) {
   );
 
   return (
-    <ArkSlider.Root {...splitComponentProps(style, styles.Root)}>
+    <ArkSlider.Root {...splitComponentProps(style, styles.Root)} {...rest}>
       <div
         {...splitComponentProps(other.LabelWrapperProps, styles.LabelWrapper)}
       >
@@ -81,15 +81,27 @@ export function Slider(props: SliderProps) {
         >
           {other.Label}
         </ArkSlider.Label>
-        <ArkSlider.ValueText {...splitComponentProps(other.ValueTextProps, styles.ValueText)} />
+        <ArkSlider.ValueText
+          {...splitComponentProps(other.ValueTextProps, styles.ValueText)}
+        />
       </div>
 
-      <ArkSlider.Control {...splitComponentProps(other.ControlProps, styles.Control)}>
-        <ArkSlider.Track {...splitComponentProps(other.TrackProps, styles.Track)}>
-          <ArkSlider.Range {...splitComponentProps(other.RangeProps, styles.Range)} />
+      <ArkSlider.Control
+        {...splitComponentProps(other.ControlProps, styles.Control)}
+      >
+        <ArkSlider.Track
+          {...splitComponentProps(other.TrackProps, styles.Track)}
+        >
+          <ArkSlider.Range
+            {...splitComponentProps(other.RangeProps, styles.Range)}
+          />
         </ArkSlider.Track>
 
-        <ArkSlider.Thumb index={0} {...splitComponentProps(other.ThumbProps, styles.Thumb)}>
+        <ArkSlider.Thumb
+          index={0}
+          {...splitComponentProps(other.ThumbProps, styles.Thumb)}
+          draggable={true}
+        >
           <ArkSlider.HiddenInput />
         </ArkSlider.Thumb>
       </ArkSlider.Control>
