@@ -57,10 +57,6 @@
   width: 40%;
 }
 
-.SliderControl {
-  width: 100%;
-}
-
 #BtnWrapper {
   display: flex;
   flex-direction: row;

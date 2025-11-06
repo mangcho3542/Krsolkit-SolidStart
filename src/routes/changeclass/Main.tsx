@@ -41,7 +41,6 @@ export default function Main() {
           min={1}
           max={10}
           class={styles.SliderRoot}
-          ControlProps={{ class: styles.SliderControl }}
           Label="분단 수"
           onValueChange={(e) => {
             setCol(e.value[0]);
@@ -54,7 +53,6 @@ export default function Main() {
           min={1}
           max={10}
           class={styles.SliderRoot}
-          ControlProps={{ class: styles.SliderControl }}
           Label="행의 수"
           onValueChange={(e) => {
             setRow(e.value[0]);
