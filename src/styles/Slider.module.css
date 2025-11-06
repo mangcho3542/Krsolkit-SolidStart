@@ -1,8 +1,6 @@
-.LabelWrapper {
-  width: 100%;
+.Root {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 7px;
+  flex-direction: column;
 }
 
 .Label {
@@ -51,10 +49,6 @@
   position: absolute;
   height: 8px;
   border-radius: 0px;
-  top:50%;
-  transform: translateY(-50%);
-  left: 0;
-  right:0;
 }
 
 @media (prefers-color-scheme: light) {
@@ -74,15 +68,12 @@
   height: 20px;
   border-radius: 9999px;
   cursor: pointer;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) !important;
 }
 
 @media (prefers-color-scheme: light) {
   .Thumb {
     background-color: #ffffff;
-    border: 2px solid #18181b; 
+    border: 2px solid #18181b; /* 이전 인라인 스타일과 동일 */
     box-shadow: 0px 1px 2px color-mix(in srgb, #18181b 10%, transparent),
       0px 0px 1px color-mix(in srgb, #18181b 20%, transparent);
   }
@@ -91,7 +82,7 @@
 @media (prefers-color-scheme: dark) {
   .Thumb {
     background-color: #09090b;
-    border: 2px solid #fafafa;
+    border: 2px solid #fafafa; /* 이전 인라인 스타일과 동일 느낌으로 수정 */
     box-shadow: 0px 1px 2px color-mix(in srgb, #fafafa 10%, transparent),
       0px 0px 1px color-mix(in srgb, #fafafa 20%, transparent);
   }
