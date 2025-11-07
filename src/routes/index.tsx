@@ -1,4 +1,4 @@
-import { Title } from "@solidjs/meta";
+import { Meta, Title } from "@solidjs/meta";
 import styles from "./index.module.css";
 import Mark from "@components/Mark";
 import { JSXElement } from "solid-js";
@@ -11,6 +11,31 @@ import { useNavigate } from "@solidjs/router";
 
 export const prerender = true;
 
+const metaData = (
+  <>
+    <Title>ClassHelper</Title>
+    <Meta
+      name="description"
+      content="교사와 학생을 위한 도구. 자리 바꾸는 것을 돕는 기능을 제공합니다."
+    />
+    <Meta
+      name="keywords"
+      content="학급 관리, 자리 바꾸기, 교사용 도구, 학생 관리, 학교 앱, 수업 도우미"
+    />
+    <Meta
+      property="og:title"
+      content="클래스 헬퍼 - 교사와 학생을 위한 학급 도우미"
+    />
+    <Meta
+      property="og:description"
+      content="자리 바꾸기를 도와주는 학급 도우미 사이트"
+    />
+    <Meta property="og:url" content="https://classhelper.kr" />
+    <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
+    <Meta property="og:type" content="website" />
+  </>
+);
+
 export default function Home() {
   const iconAry: string[] = [ChangeClassIcon, EngWordIcon];
 
@@ -20,8 +45,7 @@ export default function Home() {
     <>
       학생들의 자리 배치를 선택한 후, 자리 바꾸기 버튼을 누르면 학생들의 자리를
       바꿀 수 있습니다. <br />
-      또한 캡쳐하기 버튼을 통해 자리 배치가 완료돤 사진을
-      저장할 수 있습니다.
+      또한 캡쳐하기 버튼을 통해 자리 배치가 완료돤 사진을 저장할 수 있습니다.
     </>,
 
     <>
@@ -31,41 +55,46 @@ export default function Home() {
     </>,
   ];
 
-  const btnLinkAry:string[] = [
-    "/changeclass", "/eng"
-  ];
+  const btnLinkAry: string[] = ["/changeclass", "/eng"];
 
   const navigate = useNavigate();
 
   return (
-    <main class="Main">
-      <Title>ClassHelper</Title>
+    <>
+      {metaData}
 
-      <section id={styles.Intro}>
-        <h1 id={styles.H1}>ClassHelper</h1>
+      <main class="Main">
+        <section id={styles.Intro}>
+          <h1 id={styles.H1}>ClassHelper</h1>
 
-        <Mark id={styles.Mark}>선생님들 및 학생을 돕는 사이트</Mark>
-      </section>
+          <Mark id={styles.Mark}>선생님들 및 학생을 돕는 사이트</Mark>
+        </section>
 
-      <section id={styles.MainIntro}>
-        <h2 id={styles.H2}>주요 기능</h2>
+        <section id={styles.MainIntro}>
+          <h2 id={styles.H2}>주요 기능</h2>
 
-        {iconAry.map((icon, index) => (
-          <Card 
-          class={styles.Card}
-          Icon={<Svg class={styles.CardIcon} value={icon} />}
-          DescProps={{class: styles.CardDesc}}
-          >
-            <p class={styles.CardTtl}>{cardDescTitleAry[index]}</p>
-            <p class={styles.CardDescTxt}>{cardDescAry[index]}</p>
-            <div class={styles.BtnWrapper}>
-              <Btn class={styles.Btn} onClick={() => {navigate(btnLinkAry[index])}}>
-                바로 가기
-              </Btn>
-            </div>
-          </Card>
-        ))}
-      </section>
-    </main>
+          {iconAry.map((icon, index) => (
+            <Card
+              class={styles.Card}
+              Icon={<Svg class={styles.CardIcon} value={icon} />}
+              DescProps={{ class: styles.CardDesc }}
+            >
+              <p class={styles.CardTtl}>{cardDescTitleAry[index]}</p>
+              <p class={styles.CardDescTxt}>{cardDescAry[index]}</p>
+              <div class={styles.BtnWrapper}>
+                <Btn
+                  class={styles.Btn}
+                  onClick={() => {
+                    navigate(btnLinkAry[index]);
+                  }}
+                >
+                  바로 가기
+                </Btn>
+              </div>
+            </Card>
+          ))}
+        </section>
+      </main>
+    </>
   );
 }

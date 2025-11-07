@@ -8,6 +8,22 @@ export default createHandler(() => (
         <head>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="robots" content="index, follow" />
+          <meta
+            name="author"
+            content="https://www.threads.com/@hyeon_cherish__?igshid=NTc4MTIwNjQ2YQ=="
+          />
+          <meta
+            name="twitter:creator"
+            content="https://www.threads.com/@hyeon_cherish__?igshid=NTc4MTIwNjQ2YQ=="
+          />
+          <meta
+            name="naver-site-verification"
+            content="3cff97800409b4e18a8e88da2b6adf021e976123"
+          />
+          <meta name="application-name" content="ClassHelper" />
+          <meta name="referrer" content="origin-when-cross-origin" />
+          <link rel="canonical" href="https://yourdomain.com/" />
           <link rel="icon" href="/favicon.ico" />
           {assets}
         </head>
