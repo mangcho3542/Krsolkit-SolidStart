@@ -10,8 +10,8 @@ interface LayoutProps {
 }
 
 export default function DefaultLayout({ children }: LayoutProps) {
-  const sideMenuAry = ["블로그", "가이드", "로그인"];
-  const sideMenuLinks = ["/blog", "/guide", "/login"];
+  const sideMenuAry = ["가이드", "로그인"];
+  const sideMenuLinks = ["/about", "/login"];
 
   const sideMenuAry2 = ["자리 바꾸기", "영단어 학습"];
   const sideMenuLinks2 = ["/changeclass", "/eng_word"];
