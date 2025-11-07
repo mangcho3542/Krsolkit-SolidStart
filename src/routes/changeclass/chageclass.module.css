@@ -45,7 +45,7 @@
 }
 
 #SliderWrapper {
-  width: 40%;
+  width: 40%; /*모바일이 아닐 때는 width: 40%*/
   align-items: center;
   font-family: "SuitBold";
   font-size: 1.2rem;
@@ -53,8 +53,11 @@
   margin-bottom: 4%;
 }
 
-.SliderRoot {
-  width: 40%;
+/*모바일 일때만 width: 80%;*/
+@media (max-width: 768px) {
+  #SliderWrapper {
+    width: 80%;
+  }
 }
 
 #BtnWrapper {
