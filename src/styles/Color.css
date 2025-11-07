@@ -1,6 +1,8 @@
 :root {
     --svg-light-color: #454746;
     --svg-dark-color: #c4c8c6;
+    --border-light-color: #d1d5db;
+    --border-dark-color: #6b7280;
 }
 
 @media (prefers-color-scheme: light) {
