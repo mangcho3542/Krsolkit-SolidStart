@@ -57,7 +57,7 @@ export default function Home() {
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
       <Meta property="og:type" content="website" />
 
-      <main class="Main">
+      <main class={`Main ${styles.Main}`}>
         <section id={styles.Intro}>
           <h1 id={styles.H1}>ClassHelper</h1>
 

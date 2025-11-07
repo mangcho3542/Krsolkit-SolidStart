@@ -20,20 +20,13 @@ body,
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: light) {
-  :root,
-  html,
-  body,
-  #app {
-    color: #09090b;
-    background-color: #ffffff;
-    text-decoration-color: #09090b;
-  }
+  color: #09090b;
+  background-color: #ffffff;
+  text-decoration-color: #09090b;
 }
 
 @media (prefers-color-schema: dark) {
