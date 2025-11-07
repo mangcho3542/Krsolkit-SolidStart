@@ -1,8 +1,16 @@
 .Card {
   display: flex;
   flex-direction: row;
-  border:1px solid #E4E4E7;
   border-radius: 6px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--border-light-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .Card {
+    border-color: var(--border-dark-color);
+  }
 }
 
 .CardDesc {
