@@ -9,6 +9,8 @@ import EngWordIcon from "@images/EngWordsIcon.svg?raw";
 import Btn from "@/components/Btn";
 import { useNavigate } from "@solidjs/router";
 
+export const prerender = true;
+
 export default function Home() {
   const iconAry: string[] = [ChangeClassIcon, EngWordIcon];
 

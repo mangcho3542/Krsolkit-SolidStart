@@ -5,4 +5,10 @@ export default defineConfig({
   vite: {
     plugins: [tsconfigPath()],
   },
+  server: {
+    prerender: {
+      routes: ["/"],
+      crawlLinks: true
+    }
+  }
 });
