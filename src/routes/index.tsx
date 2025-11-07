@@ -11,31 +11,6 @@ import { useNavigate } from "@solidjs/router";
 
 export const prerender = true;
 
-const metaData = (
-  <>
-    <Title>ClassHelper</Title>
-    <Meta
-      name="description"
-      content="교사와 학생을 위한 도구. 자리 바꾸는 것을 돕는 기능을 제공합니다."
-    />
-    <Meta
-      name="keywords"
-      content="학급 관리, 자리 바꾸기, 교사용 도구, 학생 관리, 학교 앱, 수업 도우미"
-    />
-    <Meta
-      property="og:title"
-      content="클래스 헬퍼 - 교사와 학생을 위한 학급 도우미"
-    />
-    <Meta
-      property="og:description"
-      content="자리 바꾸기를 도와주는 학급 도우미 사이트"
-    />
-    <Meta property="og:url" content="https://classhelper.kr" />
-    <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
-    <Meta property="og:type" content="website" />
-  </>
-);
-
 export default function Home() {
   const iconAry: string[] = [ChangeClassIcon, EngWordIcon];
 
@@ -61,7 +36,26 @@ export default function Home() {
 
   return (
     <>
-      {metaData}
+      <Title>ClassHelper</Title>
+      <Meta
+        name="description"
+        content="교사와 학생을 위한 도구. 자리 바꾸는 것을 돕는 기능을 제공합니다."
+      />
+      <Meta
+        name="keywords"
+        content="학급 관리, 자리 바꾸기, 교사용 도구, 학생 관리, 학교 앱, 수업 도우미"
+      />
+      <Meta
+        property="og:title"
+        content="클래스 헬퍼 - 교사와 학생을 위한 학급 도우미"
+      />
+      <Meta
+        property="og:description"
+        content="자리 바꾸기를 도와주는 학급 도우미 사이트"
+      />
+      <Meta property="og:url" content="https://classhelper.kr" />
+      <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
+      <Meta property="og:type" content="website" />
 
       <main class="Main">
         <section id={styles.Intro}>
