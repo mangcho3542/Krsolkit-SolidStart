@@ -1,0 +1,23 @@
+#Wrapper {
+  width: 40%;
+  aspect-ratio: 1;
+  border-radius: 10% 10% 10% 10% / 10% 10% 10% 10%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--border-light-color);
+  display:  flex;
+  flex-direction: column;
+}
+
+@media (prefers-color-scheme: dark) {
+  #Wrapper {
+    border: var(--border-dark-color);
+  }
+}
+
+@media (max-width: 768px) {
+  #Wrapper {
+    width: 60%;
+  }
+}
+

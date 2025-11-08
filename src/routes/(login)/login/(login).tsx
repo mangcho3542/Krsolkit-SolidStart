@@ -9,11 +9,16 @@ export default function Login() {
       <Meta property="og:title" content="ClassHelper-로그인" />
       <Meta property="og:description" content="로그인 페이지입니다." />
       <Meta property="og:url" content="https://classhelper.kr/login" />
-      
-      <main class="Main">
-        <div id={styles.Wrapper}>
-          
-        </div>
+
+      <main
+        class="Main"
+        style={{
+          "align-items": "center",
+          "padding": "4% 2%"
+        }}
+      >
+        
+        <div id={styles.Wrapper}></div>
       </main>
     </>
   );
