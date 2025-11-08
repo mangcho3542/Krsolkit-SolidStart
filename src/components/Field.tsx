@@ -1,5 +1,5 @@
-import { CssProperties } from "@/types/CssProperties";
-import { convertCss } from "@/utils/converCss";
+import styles from "@styles/Filed.module.css";
+import { splitComponentProps } from "@/utils/splitComponentProps";
 import {
   Field as ArkField,
   FieldRootProps,
@@ -8,47 +8,75 @@ import {
   FieldHelperTextProps,
   FieldErrorTextProps,
 } from "@ark-ui/solid/field";
-import { JSXElement, splitProps } from "solid-js";
+import { JSX, JSXElement, splitProps } from "solid-js";
 
+interface InputProps extends Omit<FieldInputProps, "style"> {
+  useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
+}
 
-export interface FieldProps extends FieldRootProps {
-  InputProps?: FieldInputProps;
-  LabelProps?: FieldLabelProps;
+interface LabelProps extends Omit<FieldLabelProps, "style"> {
+  useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
+}
+
+interface HelperTextProps extends Omit<FieldHelperTextProps, "style"> {
+  useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
+}
+
+interface ErrorTextProps extends Omit<FieldErrorTextProps, "style"> {
+  useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
+}
+
+export interface FieldProps extends Omit<FieldRootProps, "style"> {
+  InputProps?: InputProps;
+  LabelProps?: LabelProps;
   Label?: JSXElement;
-  HelperTextProps?: FieldHelperTextProps;
+  HelperTextProps?: HelperTextProps;
   HelperText?: JSXElement;
-  ErrorTextProps?: FieldErrorTextProps;
+  ErrorTextProps?: ErrorTextProps;
   ErrorText?: JSXElement;
-  css?: CssProperties;
+  style?: JSX.CSSProperties;
 }
 
 export function Field(props: FieldProps) {
-  const [local, others] = splitProps(props, [
-    "InputProps",
-    "LabelProps",
-    "Label",
-    "HelperTextProps",
-    "HelperText",
-    "ErrorText",
-    "ErrorTextProps",
-    "required",
-    "css"
-  ]);
+  const [local, style, rest] = splitProps(
+    props,
+    [
+      "InputProps",
+      "LabelProps",
+      "Label",
+      "HelperTextProps",
+      "HelperText",
+      "ErrorText",
+      "ErrorTextProps",
+      "required",
+    ],
+    ["class", "id", "classList", "style"]
+  );
 
   return (
-    <ArkField.Root style={convertCss(local.css)} {...others}>
-      <ArkField.Label {...local.LabelProps}>
+    <ArkField.Root {...rest} {...splitComponentProps(style, styles.Root)}>
+      <ArkField.Label {...splitComponentProps(local.LabelProps, styles.Label)}>
         {local.Label}
         {local.required && <ArkField.RequiredIndicator />}
       </ArkField.Label>
 
-      <ArkField.Input {...local.InputProps} />
+      <ArkField.Input
+        {...splitComponentProps(local.InputProps, styles.Input)}
+      />
 
-      <ArkField.HelperText {...local.HelperTextProps}>
+      <ArkField.HelperText
+        {...splitComponentProps(local.HelperTextProps, styles.HelperText)}
+      >
         {local.HelperText}
       </ArkField.HelperText>
 
-      <ArkField.ErrorText {...local.ErrorTextProps}>
+      <ArkField.ErrorText
+        {...splitComponentProps(local.ErrorTextProps, styles.ErrorText)}
+      >
         {local.ErrorText}
       </ArkField.ErrorText>
     </ArkField.Root>
