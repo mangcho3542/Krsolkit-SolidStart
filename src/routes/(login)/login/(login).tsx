@@ -9,7 +9,7 @@ export default function Login() {
       <Meta property="og:title" content="ClassHelper-로그인" />
       <Meta property="og:description" content="로그인 페이지입니다." />
       <Meta property="og:url" content="https://classhelper.kr/login" />
-
+      <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
       <main
         class="Main"
         style={{
