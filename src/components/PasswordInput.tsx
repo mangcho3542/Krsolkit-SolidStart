@@ -1,22 +1,29 @@
+import styles from "@styles/PasswordInput.module.css";
 import {
   PasswordInput as PI,
   PasswordInputRootProps as RootProps,
-  PasswordInputLabelProps as LabelProps,
-  PasswordInputControlProps as ControlProps,
-  PasswordInputInputProps as InputProps,
-  PasswordInputVisibilityTriggerProps as VisibleProps,
-  PasswordInputIndicatorProps as IndicatorProps,
+  PasswordInputLabelProps as PiLabelProps,
+  PasswordInputControlProps as PiControlProps,
+  PasswordInputInputProps as PiInputProps,
+  PasswordInputVisibilityTriggerProps as PiVisibleProps,
+  PasswordInputIndicatorProps as PiIndicatorProps
 } from "@ark-ui/solid/password-input";
-import { JSXElement } from "solid-js";
+import { JSX, JSXElement } from "solid-js";
 import { splitProps } from "solid-js";
 import EyeIcon from "@images/EyeIcon.svg?raw";
 import EyeOff from "@images/EyeOff.svg?raw";
 import { SvgProps, Svg } from "./Svg";
 import { Hex } from "@/types/ColorType";
-import { CssProperties } from "@/types/CssProperties";
-import { convertCss } from "@/utils/converCss";
+import { splitComponentProps } from "@/utils/splitComponentProps";
+import type { PUS } from "@/types/ComponentProps";
 
-interface PasswordInputProps extends RootProps {
+type LabelProps = PUS<PiLabelProps>;
+type ControlProps = PUS<PiControlProps>;
+type InputProps = PUS<PiInputProps>;
+type VisibleProps = PUS<PiVisibleProps>;
+type IndicatorProps = Omit<PUS<PiIndicatorProps>, "fallback">;
+
+type PasswordInputProps = PUS<RootProps> & {
   LabelProps?: LabelProps;
   Label?: JSXElement;
   ControlProps?: ControlProps;
@@ -25,7 +32,6 @@ interface PasswordInputProps extends RootProps {
   IndicatorProps?: Omit<IndicatorProps, "fallback">;
   EyeProps?: Omit<SvgProps, "src">;
   EyeOffProps?: Omit<SvgProps, "src">;
-  css?: CssProperties;
 }
 
 function EyeIconComp(props: Omit<SvgProps, "value">) {
@@ -53,7 +59,7 @@ function EyeOffComp(props: Omit<SvgProps, "value">) {
 }
 
 export function PasswordInput(props: PasswordInputProps) {
-  const [local, rest] = splitProps(props, [
+  const [local, style, rest] = splitProps(props, [
     "LabelProps",
     "Label",
     "ControlProps",
@@ -61,22 +67,28 @@ export function PasswordInput(props: PasswordInputProps) {
     "VisibleTriggerProps",
     "IndicatorProps",
     "EyeProps",
-    "EyeOffProps",
-    "css"
+    "EyeOffProps"
+  ], 
+  [
+    "class",
+    "id",
+    "classList",
+    "style",
+    "useDefaultStyle"
   ]);
 
   return (
-    <PI.Root style={convertCss(local.css)} {...rest}>
-      <PI.Label {...local.LabelProps}>{local.Label}</PI.Label>
+    <PI.Root {...rest} {...splitComponentProps(style, styles.Root)}>
+      <PI.Label {...splitComponentProps(local.LabelProps, styles.Label)}>{local.Label}</PI.Label>
 
-      <PI.Control {...local.ControlProps}>
-        <PI.Input {...local.InputProps} />
-        <PI.VisibilityTrigger {...local.VisibleTriggerProps}>
+      <PI.Control {...splitComponentProps(local.ControlProps, styles.Control)}>
+        <PI.Input {...splitComponentProps(local.InputProps, styles.Input)} />
+        <PI.VisibilityTrigger {...splitComponentProps(local.VisibleTriggerProps, styles.VisibleTrigger)}>
           <PI.Indicator
-            {...local.IndicatorProps}
-            fallback={<EyeIconComp {...local.EyeProps} />}
+            {...splitComponentProps(local.IndicatorProps, styles.Indicator)}
+            fallback={<EyeIconComp {...splitComponentProps(local.EyeProps, styles.Eye)} />}
           >
-            <EyeOffComp {...local.EyeOffProps} />
+            <EyeOffComp {...splitComponentProps(local.EyeOffProps, styles.EyeOff)} />
           </PI.Indicator>
         </PI.VisibilityTrigger>
       </PI.Control>
