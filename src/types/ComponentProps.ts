@@ -6,7 +6,7 @@ export interface ComponentProps
     CssProperties {
   class?: string;
   classList?: { [k: string]: boolean | undefined };
-  css?: CssProperties
+  css?: CssProperties;
   children?: JSXElement;
 }
 
@@ -25,3 +25,11 @@ export interface ComponentBaseStyleProps {
   style?: JSX.CSSProperties;
   children?: JSXElement;
 }
+
+export type PUS<T extends Omit<ComponentBaseStyleProps, "style">> = Omit<
+  T,
+  "style"
+> & {
+  useDefaultStyle?: boolean;
+  style?: JSX.CSSProperties;
+};
