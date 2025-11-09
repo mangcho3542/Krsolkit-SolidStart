@@ -1,13 +1,14 @@
 // src/components/Svg.tsx
-import { ComponentBaseProps } from "@/types/ComponentProps";
+import { ComponentBaseStyleProps } from "@/types/ComponentProps";
 import { AllColorType } from "@/types/ColorType";
 import { JSX, splitProps } from "solid-js";
 
 export interface SvgProps
-  extends Omit<ComponentBaseProps, "children">,
-    JSX.SvgSVGAttributes<SVGSVGElement> {
+  extends Omit<ComponentBaseStyleProps, "children">,
+    Omit<JSX.SvgSVGAttributes<SVGSVGElement>, "style"> {
   value: string;
   color?: AllColorType;
+  style?: JSX.CSSProperties;
 }
 
 export function Svg(props: SvgProps) {
