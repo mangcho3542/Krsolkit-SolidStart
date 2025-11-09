@@ -1,5 +1,6 @@
 import { Title, Meta } from "@solidjs/meta";
 import styles from "./login.module.css";
+import Field from "@/components/Field";
 
 export default function Login() {
   return (
@@ -14,11 +15,34 @@ export default function Login() {
         class="Main"
         style={{
           "align-items": "center",
-          "padding": "4% 2%"
+          padding: "4% 2%",
         }}
       >
-        
-        <div id={styles.Wrapper}></div>
+        <div id={styles.Wrapper}>
+          <h1
+            style={{
+              display: "inline-block",
+              width: "100%",
+              "text-align": "center",
+              "margin-bottom": "13%",
+              "font-family": "SuitBold, var(--default-font-family)",
+              "font-weight": "700",
+              "font-size": "1.3rem",
+            }}
+          >
+            로그인
+          </h1>
+
+          <Field 
+          class={styles.Field}
+          Label="이메일"
+          LabelProps={{class: styles.FieldLabel}}
+          aria-placeholder="이메일"
+          required={true}
+          />
+
+          
+        </div>
       </main>
     </>
   );
