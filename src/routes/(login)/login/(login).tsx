@@ -7,20 +7,24 @@ import A from "@/components/A";
 import { createStore } from "solid-js/store";
 
 export default function Login() {
-  const linkAry:{text: string, href: string}[] = [
-    {text: "비밀번호 찾기", href:"find_password"},
-    {text: "회원가입", href: "signup"}
+  const linkAry: { text: string; href: string }[] = [
+    { text: "비밀번호 찾기", href: "find_password" },
+    { text: "회원가입", href: "signup" },
   ];
 
   //invalid
-  const [invalid, setInvalid] = createStore<{email: boolean, password: boolean}>({
+  const [invalid, setInvalid] = createStore<{
+    email: boolean;
+    password: boolean;
+  }>({
     email: false,
-    password: false
+    password: false,
   });
 
   //ref
   type IORU = HTMLInputElement | undefined;
-  let emailRef: IORU = undefined, pwRef: IORU = undefined;
+  let emailRef: IORU = undefined,
+    pwRef: IORU = undefined;
 
   //regex
   const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
@@ -30,26 +34,26 @@ export default function Login() {
   //&email검증할 함수
   function validateEmail(email: string) {
     const flag = emailRegex.test(email);
-    if(!flag) setInvalid("email", true);
+    if (!flag) setInvalid("email", true);
 
     return flag;
   }
 
   //&비밀번호 검증할 함수
   function validaetPw(pw: string) {
-    const flag = pwRegex.test(pw) && pw.length >= 12;
-    if(!flag) setInvalid("password", true);
+    const flag = !pwRegex.test(pw) && pw.length >= 12;
+    if (!flag) setInvalid("password", true);
 
     return flag;
   }
 
   function handleLogin() {
-    if(!emailRef || !pwRef) return ;
+    if (!emailRef || !pwRef) return;
     const email = emailRef.value;
     const pw = pwRef.value;
-    if(!validateEmail(email) || validaetPw(pw)) return;
-  
-    //이 부분 작성해야함.
+    if (!validateEmail(email) || validaetPw(pw)) return;
+
+    //todo axios사용해서 서버에 요청 날리는 코드 작성해야함.
   }
 
   return (
@@ -60,9 +64,7 @@ export default function Login() {
       <Meta property="og:description" content="로그인 페이지입니다." />
       <Meta property="og:url" content="https://classhelper.kr/login" />
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
-      <main
-        class={`Main ${styles.Main}`}
-      >
+      <main class={`Main ${styles.Main}`}>
         <div id={styles.Wrapper}>
           <h1
             style={{
@@ -86,11 +88,11 @@ export default function Login() {
             required={true}
             invalid={invalid.email}
             InputProps={{
-              ref: (el) => (emailRef=el),
-              type: "email"
+              ref: (el) => (emailRef = el),
+              type: "email",
             }}
             ErrorText="이메일 형식이 잘못되었습니다."
-            ErrorTextProps={{class: styles.ErrorText}}
+            ErrorTextProps={{ class: styles.ErrorText }}
           />
 
           <PasswordInput
@@ -101,19 +103,21 @@ export default function Login() {
             required={true}
             invalid={invalid.password}
             InputProps={{
-              ref: (el) => (pwRef = el)
+              ref: (el) => (pwRef = el),
             }}
+            ErrorText="비밀번호는 12자리 이상의 영문, 숫자로 구성되어야 합니다."
+            ErrorTextProps={{ class: styles.ErrorText }}
           />
 
           <div id={styles.BtnWrapper}>
-            <Btn id={styles.Btn} onClick={() => handleLogin()}>로그인</Btn>
+            <Btn id={styles.Btn} onClick={() => handleLogin()}>
+              로그인
+            </Btn>
           </div>
 
           <div id={styles.LinkWrapper}>
-            {linkAry.map(({text, href}) => (
-              <A 
-              class={styles.Link}
-              href={href}>
+            {linkAry.map(({ text, href }) => (
+              <A class={styles.Link} href={href}>
                 {text}
               </A>
             ))}
