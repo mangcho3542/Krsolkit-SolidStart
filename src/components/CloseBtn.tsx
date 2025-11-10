@@ -4,6 +4,7 @@ import CloseIcon from "@images/CloseIcon.svg?raw";
 import styles from "@styles/CloseBtn.module.css";
 import { BtnProps } from "./Btn";
 import { convertCss } from "@/utils/converCss";
+import { splitComponentProps } from "@/utils/splitComponentProps";
 
 interface SvgPropsI extends Omit<SvgProps, "value"> {
   useDefaultStyle: boolean;
@@ -35,16 +36,7 @@ export function CloseBtn(props: CloseBtnProps) {
     >
       <Svg
         value={CloseIcon}
-        class={local.SvgProps?.class}
-        id={local.SvgProps?.id}
-        classList={{
-          [styles.Svg]: local.SvgProps
-            ? local.SvgProps.useDefaultStyle === undefined
-              ? true
-              : local.SvgProps.useDefaultStyle
-            : true,
-        }}
-        style={convertCss(local.SvgProps?.css)}
+        {...splitComponentProps(props.SvgProps, styles.CloseBtnSvg)}
       />
     </button>
   );

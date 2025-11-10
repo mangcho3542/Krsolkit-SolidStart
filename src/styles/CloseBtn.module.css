@@ -1,7 +1,8 @@
-@media (prefers-color-scheme: light) {
-  .CloseBtn {
-    color: var(--svg-light-color);
-  }
+.CloseBtn {
+  min-width: 20px;
+  aspect-ratio: 1/1;
+  display: inline-block;
+  color: var(--svg-light-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -10,14 +11,14 @@
   }
 }
 
-.CloseBtn {
+.CloseBtnSvg {
   min-width: 20px;
   aspect-ratio: 1/1;
-  display: inline-block;
+  color: var(--svg-light-color);
 }
 
-.Svg {
-  min-width: 20px;
-  aspect-ratio: 1/1;
-  display: block;
+@media (prefers-color-scheme: dark) {
+  .CloseBtnSvg {
+    color: var(--svg-dark-color);
+  }
 }
