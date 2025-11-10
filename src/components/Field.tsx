@@ -1,4 +1,4 @@
-import styles from "@styles/Filed.module.css";
+import styles from "@styles/Field.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 import {
   Field as ArkField,
@@ -58,10 +58,10 @@ export function Field(props: FieldProps) {
   );
 
   return (
-    <ArkField.Root {...rest} {...splitComponentProps(style, styles.Root)}>
+    <ArkField.Root {...rest} {...splitComponentProps(style, styles.Root)} required={local.required}>
       <ArkField.Label {...splitComponentProps(local.LabelProps, styles.Label)}>
         {local.Label}
-        {local.required && <ArkField.RequiredIndicator />}
+        <ArkField.RequiredIndicator class={styles.RequiredIndicator} />
       </ArkField.Label>
 
       <ArkField.Input

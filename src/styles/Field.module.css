@@ -1,33 +1,43 @@
 .Root {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    position: relative;
+    align-items: center;
+    width: 98%;
     gap: 0.375rem;
-    align-items: flex-start;
     font-family: "SuitRegular", var(--default-font-family);
     font-weight: 400;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 .Label {
     display: inline-block;
-    width: 100%;
+    width: 96%;
+    padding-left: 2%;
+}
+
+.RequiredIndicator {
+    display: inline-block;
+    color: #ef4444;
+    padding-left: 1%;
 }
 
 .Input {
-    width: 100%;
     min-width: 2.5rem;
     outline: 0px;
     position: relative;
     appearance: none;
     text-align: start;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     height: 2.5rem;
     line-height: 1.25rem;
-    padding-inline: 0.75rem;
     border-width: 1px;
     border-style: solid;
     border-color: #e4e4e7;
+    display: inline-block;
+    width: 96%;
+    padding: 1%;
+    font-size: 1rem;
 }
 
 .Input::placeholder {
