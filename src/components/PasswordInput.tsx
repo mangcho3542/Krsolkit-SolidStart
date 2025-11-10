@@ -19,6 +19,8 @@ type ControlProps = PUS<PiControlProps>;
 type InputProps = PUS<PiInputProps>;
 type VisibleProps = PUS<PiVisibleProps>;
 type IndicatorProps = Omit<PUS<PiIndicatorProps>, "fallback">;
+type ErrorTextProps = PUS<ComponentBaseStyleProps>;
+type HelperTextProps = PUS<ComponentBaseStyleProps>;
 
 interface SvgProps extends Omit<ComponentBaseStyleProps, "children"> {}
 
@@ -31,6 +33,10 @@ type PasswordInputProps = PUS<RootProps> & {
   IndicatorProps?: Omit<IndicatorProps, "fallback">;
   EyeProps?: SvgProps;
   EyeOffProps?: SvgProps;
+  ErrorText?: JSXElement;
+  ErrorTextProps?: ErrorTextProps;
+  HelperText?: JSXElement;
+  HelperTextProps?: HelperTextProps;
 };
 
 function EyeIconComp(props: SvgProps) {
@@ -91,13 +97,22 @@ export function PasswordInput(props: PasswordInputProps) {
       "IndicatorProps",
       "EyeProps",
       "EyeOffProps",
-      "required"
+      "ErrorTextProps",
+      "ErrorText",
+      "HelperTextProps",
+      "HelperText",
+      "required",
+      "invalid",
     ],
     ["class", "id", "classList", "style", "useDefaultStyle"]
   );
 
   return (
-    <PI.Root {...rest} {...splitComponentProps(style, styles.Root)} required={local.required}>
+    <PI.Root
+      {...rest}
+      {...splitComponentProps(style, styles.Root)}
+      required={local.required}
+    >
       <PI.Label {...splitComponentProps(local.LabelProps, styles.Label)}>
         {local.Label}
         {local.required && <span class={styles.RequiredIndicator}>*</span>}
@@ -123,6 +138,18 @@ export function PasswordInput(props: PasswordInputProps) {
           </PI.Indicator>
         </PI.VisibilityTrigger>
       </PI.Control>
+      {local.HelperText && !local.invalid && (
+        <span
+          {...splitComponentProps(local.HelperTextProps, styles.HelperText)}
+        >
+          {local.HelperText}
+        </span>
+      )}
+      {local.ErrorText && local.invalid && (
+        <span {...splitComponentProps(local.ErrorTextProps, styles.ErrorText)}>
+          {local.ErrorText}
+        </span>
+      )}
     </PI.Root>
   );
 }
