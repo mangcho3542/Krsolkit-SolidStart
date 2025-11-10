@@ -1,8 +1,57 @@
 import { Title, Meta } from "@solidjs/meta";
 import styles from "./login.module.css";
 import Field from "@/components/Field";
+import PasswordInput from "@/components/PasswordInput";
+import Btn from "@/components/Btn";
+import A from "@/components/A";
+import { createStore } from "solid-js/store";
 
 export default function Login() {
+  const linkAry:{text: string, href: string}[] = [
+    {text: "비밀번호 찾기", href:"find_password"},
+    {text: "회원가입", href: "signup"}
+  ];
+
+  //invalid
+  const [invalid, setInvalid] = createStore<{email: boolean, password: boolean}>({
+    email: false,
+    password: false
+  });
+
+  //ref
+  type IORU = HTMLInputElement | undefined;
+  let emailRef: IORU = undefined, pwRef: IORU = undefined;
+
+  //regex
+  const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+  const pwRegex = /[^\w!@#$%^&*()_+{}|:"<>?=\[\];',\.\/]/;
+
+  //&function
+  //&email검증할 함수
+  function validateEmail(email: string) {
+    const flag = emailRegex.test(email);
+    if(!flag) setInvalid("email", true);
+
+    return flag;
+  }
+
+  //&비밀번호 검증할 함수
+  function validaetPw(pw: string) {
+    const flag = pwRegex.test(pw) && pw.length >= 12;
+    if(!flag) setInvalid("password", true);
+
+    return flag;
+  }
+
+  function handleLogin() {
+    if(!emailRef || !pwRef) return ;
+    const email = emailRef.value;
+    const pw = pwRef.value;
+    if(!validateEmail(email) || validaetPw(pw)) return;
+  
+    //이 부분 작성해야함.
+  }
+
   return (
     <>
       <Title>로그인</Title>
@@ -12,16 +61,12 @@ export default function Login() {
       <Meta property="og:url" content="https://classhelper.kr/login" />
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
       <main
-        class="Main"
-        style={{
-          "align-items": "center",
-          padding: "4% 2%",
-        }}
+        class={`Main ${styles.Main}`}
       >
         <div id={styles.Wrapper}>
           <h1
             style={{
-              display: "inline-block",
+              display: "block",
               width: "100%",
               "text-align": "center",
               "margin-bottom": "13%",
@@ -33,15 +78,46 @@ export default function Login() {
             로그인
           </h1>
 
-          <Field 
-          class={styles.Field}
-          Label="이메일"
-          LabelProps={{class: styles.FieldLabel}}
-          aria-placeholder="이메일"
-          required={true}
+          <Field
+            class={styles.Field}
+            Label="이메일"
+            LabelProps={{ class: styles.FieldLabel }}
+            aria-placeholder="이메일"
+            required={true}
+            invalid={invalid.email}
+            InputProps={{
+              ref: (el) => (emailRef=el),
+              type: "email"
+            }}
+            ErrorText="이메일 형식이 잘못되었습니다."
+            ErrorTextProps={{class: styles.ErrorText}}
           />
 
-          
+          <PasswordInput
+            class={styles.Field}
+            Label="비밀번호"
+            LabelProps={{ class: styles.FieldLabel }}
+            aria-placeholder="비밀번호"
+            required={true}
+            invalid={invalid.password}
+            InputProps={{
+              ref: (el) => (pwRef = el)
+            }}
+          />
+
+          <div id={styles.BtnWrapper}>
+            <Btn id={styles.Btn} onClick={() => handleLogin()}>로그인</Btn>
+          </div>
+
+          <div id={styles.LinkWrapper}>
+            {linkAry.map(({text, href}) => (
+              <A 
+              class={styles.Link}
+              href={href}>
+                {text}
+              </A>
+            ))}
+          </div>
         </div>
       </main>
     </>

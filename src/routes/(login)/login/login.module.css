@@ -1,23 +1,71 @@
+.Main {
+  padding: 1% 0;
+  align-items: center;
+}
+
 #Wrapper {
   width: 40%;
-  aspect-ratio: 1;
+  aspect-ratio: 1/1;
   border-radius: 10% 10% 10% 10% / 10% 10% 10% 10%;
   border-width: 2px;
   border-style: solid;
   border-color: var(--border-light-color);
-  display:  flex;
+  padding-top: 3%;
+  padding-bottom: 1%;
+  box-sizing: border-box;
+  display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 @media (prefers-color-scheme: dark) {
   #Wrapper {
-    border: var(--border-dark-color);
+    border-color: var(--border-dark-color);
   }
 }
 
 @media (max-width: 768px) {
   #Wrapper {
     width: 60%;
+    aspect-ratio: 1/1;
   }
 }
 
+.Field {
+  margin: 2% 0;
+  width: 86% !important;
+}
+
+.FieldLabel {
+  font-family: "SuitSemiBold", var(--default-font-family);
+  font-weight: 600;
+
+}
+
+#BtnWrapper {
+  width: 82%;
+  margin-top: 6%; 
+  display: flex;
+  justify-content: center;
+}
+
+#Btn {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+#LinkWrapper {
+  display: flex;
+  width: 82%;
+  justify-content: center;
+  margin-top: 3%;
+  column-gap: 2%;
+}
+
+.Link {
+  border-left: 2px solid #e3e1e5;
+  border-right: 2px solid #e3e1e5;
+  padding:0 1%;
+  font-family: "SuitSemiBold", var(--default-font-family);
+}
