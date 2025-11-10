@@ -1,9 +1,9 @@
-import { ComponentBaseStyleProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
 import { createMemo, splitProps } from "solid-js";
 import styles from "@styles/Mark.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-export interface MarkProps extends ComponentBaseStyleProps {
+export interface MarkProps extends ComponentProps {
   color?: string;
   bgColor?: string;
   useDefaultStyle?: boolean;

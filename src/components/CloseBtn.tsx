@@ -16,23 +16,12 @@ export interface CloseBtnProps extends BtnProps {
 
 export function CloseBtn(props: CloseBtnProps) {
   const [local, rest] = splitProps(props, [
-    "useDefaultStyle",
-    "ref",
     "SvgProps",
   ]);
 
   return (
     <button
-      ref={local.ref}
-      class={rest.class}
-      id={rest.id}
-      classList={{
-        [styles.CloseBtn]:
-          local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
-        ...rest.classList,
-      }}
-      style={convertCss(rest.css)}
-      {...rest}
+      {...splitComponentProps(rest, styles.CloseBtn)}
     >
       <Svg
         value={CloseIcon}

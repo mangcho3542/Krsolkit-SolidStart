@@ -11,9 +11,9 @@ import {
 import { JSXElement, splitProps, JSX } from "solid-js";
 import styles from "@styles/Slider.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
-import { ComponentBaseStyleProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
 
-interface SliderLabelWrapperProps extends ComponentBaseStyleProps {
+interface SliderLabelWrapperProps extends ComponentProps {
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 }

@@ -1,9 +1,9 @@
 import { A as Anchor } from "@solidjs/router";
-import { ComponentBaseStyleProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
 import styles from "@styles/A.module.css";
 import { splitProps } from "solid-js";
 
-export interface AProps extends ComponentBaseStyleProps {
+export interface AProps extends ComponentProps {
   href: string;
   target?: "_self" | "_blank" | "_parent" | "_top";
   useDefaultStyle?: boolean;

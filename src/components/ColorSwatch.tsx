@@ -4,10 +4,10 @@ import { Hex, RGB, RGBA, HSL, HSLA } from "@/types/ColorType";
 import { createMemo, JSX, mergeProps, ValidComponent } from "solid-js";
 import { splitProps } from "solid-js";
 import styles from "@styles/ColorSwatch.module.css";
-import { convertCss } from "@/utils/converCss";
+import { splitComponentProps } from "@/utils/splitComponentProps";
 
 export interface ColorSwatchProps
-  extends Pick<ComponentProps, "class" | "classList" | "id" | "css"> {
+  extends ComponentProps {
   color: Hex | RGB | RGBA | HSL | HSLA;
   as?: ValidComponent | keyof JSX.IntrinsicElements;
   useDefaultStyle?: boolean;
@@ -17,29 +17,19 @@ export function ColorSwatch(props: ColorSwatchProps) {
   const [local, rest] = splitProps(props, [
     "color",
     "as",
-    "class",
-    "classList",
-    "id",
-    "useDefaultStyle",
-    "css",
   ]);
 
-  const getStyle = createMemo(() => {
-    const style = mergeProps(convertCss(local.css), {"background-color": local.color});
-    return style;
-  })
+  const getRest = createMemo(() => {
+    let res = splitComponentProps(rest, styles.ColorSwatch);
+    if(res.style) res.style.color = local.color
+    else res = {...res, style: {color: local.color}};
+    return res;
+  });
 
   return (
     <Dynamic
       component={local.as ?? "span"}
-      class={local.class}
-      classList={{
-        [styles.ColorSwatch]:
-          local.useDefaultStyle === undefined ? true : local.useDefaultStyle,
-        ...local.classList,
-      }}
-      style={getStyle()}
-      {...rest}
+      {...getRest()}
     >
       &nbsp;
     </Dynamic>

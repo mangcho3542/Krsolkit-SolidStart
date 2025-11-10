@@ -9,6 +9,7 @@ import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
 import { ComponentProps } from "@/types/ComponentProps";
 import { convertCss } from "./../utils/converCss";
+import { splitComponentProps } from "@/utils/splitComponentProps";
 
 interface ComponentPropsWithChoice extends ComponentProps {
   useDefaultStyle?: boolean;
@@ -120,16 +121,7 @@ export function Dialog(props: DialogProps) {
       >
         {/**Root */}
         <div
-          class={rest.class + " " + styles.Root}
-          classList={{
-            [styles.RootDefaultStyle]:
-              local.useDefaultStyle === undefined
-                ? true
-                : local.useDefaultStyle,
-          }}
-          id={rest.id}
-          style={convertCss(rest.css)}
-          {...rest}
+          {...splitComponentProps(rest, styles.Root)}
         >
           {/**Wrapper */}
           <div

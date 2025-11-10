@@ -11,7 +11,7 @@ import {
 import { JSXElement } from "solid-js";
 import { splitProps } from "solid-js";
 import { splitComponentProps } from "@/utils/splitComponentProps";
-import type { ComponentBaseStyleProps, PUS } from "@/types/ComponentProps";
+import type { ComponentProps, PUS } from "@/types/ComponentProps";
 import { NoHydration } from "solid-js/web";
 
 type LabelProps = PUS<PiLabelProps>;
@@ -19,10 +19,10 @@ type ControlProps = PUS<PiControlProps>;
 type InputProps = PUS<PiInputProps>;
 type VisibleProps = PUS<PiVisibleProps>;
 type IndicatorProps = Omit<PUS<PiIndicatorProps>, "fallback">;
-type ErrorTextProps = PUS<ComponentBaseStyleProps>;
-type HelperTextProps = PUS<ComponentBaseStyleProps>;
+type ErrorTextProps = PUS<ComponentProps>;
+type HelperTextProps = PUS<ComponentProps>;
 
-interface SvgProps extends Omit<ComponentBaseStyleProps, "children"> {}
+interface SvgProps extends Omit<ComponentProps, "children"> {}
 
 type PasswordInputProps = PUS<RootProps> & {
   LabelProps?: LabelProps;

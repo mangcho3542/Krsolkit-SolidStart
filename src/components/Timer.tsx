@@ -1,7 +1,6 @@
 import { createSignal, createEffect, createMemo, onCleanup } from "solid-js";
 import { ComponentProps } from "@/types/ComponentProps";
 import { splitProps } from "solid-js";
-import Box from "./Box";
 import { ClientOnly } from "@ark-ui/solid";
 
 export interface TimerProps extends ComponentProps {
@@ -14,8 +13,7 @@ export function Timer(props: TimerProps) {
   const [local, rest] = splitProps(props, [
     "second",
     "isRunning",
-    "onEnd",
-    "css"
+    "onEnd"
   ]);
 
   // 총 남은 시간을 초 단위로 관리
@@ -77,9 +75,9 @@ export function Timer(props: TimerProps) {
 
   return (
     <ClientOnly>
-      <Box css={local.css} {...rest}>
+      <div {...rest}>
         {display()}
-      </Box>
+      </div>
     </ClientOnly>
   );
 }

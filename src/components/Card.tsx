@@ -1,9 +1,9 @@
-import { ComponentBaseStyleProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
 import { JSXElement, splitProps } from "solid-js";
 import styles from "@styles/Card.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-interface PUD extends ComponentBaseStyleProps {
+interface PUD extends ComponentProps {
   useDefaultStyle?: boolean;
 }
 
