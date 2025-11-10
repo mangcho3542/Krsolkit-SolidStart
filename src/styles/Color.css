@@ -3,6 +3,8 @@
     --svg-dark-color: #c4c8c6;
     --border-light-color: #d1d5db;
     --border-dark-color: #6b7280;
+    --error-light-color: #ef4444;
+    --error-dark-color: #f87171;
 }
 
 @media (prefers-color-scheme: light) {
