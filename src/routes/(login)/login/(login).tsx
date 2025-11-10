@@ -5,6 +5,7 @@ import PasswordInput from "@/components/PasswordInput";
 import Btn from "@/components/Btn";
 import A from "@/components/A";
 import { createStore } from "solid-js/store";
+import axios from "axios";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [
@@ -54,6 +55,9 @@ export default function Login() {
     if (!validateEmail(email) || validaetPw(pw)) return;
 
     //todo axios사용해서 서버에 요청 날리는 코드 작성해야함.
+    axios.post("/api/user/login", {email, password: pw}).then((res) => {
+      
+    }); 
   }
 
   return (
