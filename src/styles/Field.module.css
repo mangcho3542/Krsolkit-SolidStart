@@ -56,11 +56,14 @@
     }
 }
 
-.HelperText {
-    color: #52525b;
+.HelperText, .ErrorText {
+    display: inline-block;
     font-size: 0.75rem;
     line-height: 1rem;
-    display: inline-block;
+}
+
+.HelperText {
+    color: #52525b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -70,14 +73,11 @@
 }
 
 .ErrorText {
-    display: inline-block;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: #ef4444;
+    color: var(--error-light-color);
 }
 
 @media (prefers-color-scheme: dark) {
     .ErrorText {
-        color: #f87171;
+        color: var(--error-dark-color);
     }
 }
