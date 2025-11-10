@@ -91,14 +91,16 @@ export function PasswordInput(props: PasswordInputProps) {
       "IndicatorProps",
       "EyeProps",
       "EyeOffProps",
+      "required"
     ],
     ["class", "id", "classList", "style", "useDefaultStyle"]
   );
 
   return (
-    <PI.Root {...rest} {...splitComponentProps(style, styles.Root)}>
+    <PI.Root {...rest} {...splitComponentProps(style, styles.Root)} required={local.required}>
       <PI.Label {...splitComponentProps(local.LabelProps, styles.Label)}>
         {local.Label}
+        {local.required && <span class={styles.RequiredIndicator}>*</span>}
       </PI.Label>
 
       <PI.Control {...splitComponentProps(local.ControlProps, styles.Control)}>
