@@ -10,6 +10,7 @@
         "@solidjs/router": "^0.15.3",
         "@solidjs/start": "^1.2.0",
         "axios": "^1.13.2",
+        "cookie": "^1.0.2",
         "file-saver": "^2.0.5",
         "html-to-image": "^1.11.13",
         "solid-js": "^1.9.10",
@@ -18,6 +19,7 @@
       "devDependencies": {
         "@types/axios": "^0.14.4",
         "@types/bun": "^1.3.2",
+        "@types/cookie": "^1.0.0",
         "@types/file-saver": "^2.0.7",
         "vite-tsconfig-paths": "^5.1.4",
       },
@@ -323,6 +325,8 @@
     "@types/braces": ["@types/braces@3.0.5", "", {}, "sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w=="],
 
     "@types/bun": ["@types/bun@1.3.2", "", { "dependencies": { "bun-types": "1.3.2" } }, "sha512-t15P7k5UIgHKkxwnMNkJbWlh/617rkDGEdSsDbu+qNHTaz9SKf7aC8fiIlUdD5RPpH6GEkP0cK7WlvmrEBRtWg=="],
+
+    "@types/cookie": ["@types/cookie@1.0.0", "", { "dependencies": { "cookie": "*" } }, "sha512-mGFXbkDQJ6kAXByHS7QAggRXgols0mAdP4MuXgloGY1tXokvzaFFM4SMqWvf7AH0oafI7zlFJwoGWzmhDqTZ9w=="],
 
     "@types/estree": ["@types/estree@1.0.8", "", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 
