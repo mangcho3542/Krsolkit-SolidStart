@@ -1,0 +1,206 @@
+.Toaster {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+/* placement에 따른 Toaster 위치 */
+.Toaster[data-placement="top-start"] {
+  top: 0;
+  left: 0;
+}
+
+.Toaster[data-placement="top-end"] {
+  top: 0;
+  right: 0;
+}
+
+.Toaster[data-placement="bottom-start"] {
+  bottom: 0;
+  left: 0;
+}
+
+.Toaster[data-placement="bottom-end"] {
+  bottom: 0;
+  right: 0;
+}
+
+.Root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+  min-width: 200px;
+  max-width: 400px;
+  gap: 4px;
+  
+  /* 직접 구현한 애니메이션 */
+  transform: translateY(calc(var(--toast-offset, 0px)));
+  opacity: 1;
+  transition: all 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  animation: toastSlideIn 0.3s ease-out;
+}
+
+/* 토스트 상태에 따른 애니메이션 */
+.Root[data-state='closed'] {
+  animation: toastSlideOut 0.2s ease-in forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateY(-100%) translateY(var(--toast-offset, 0px));
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) translateY(var(--toast-offset, 0px));
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateY(0) translateY(var(--toast-offset, 0px));
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%) translateY(var(--toast-offset, 0px));
+    opacity: 0;
+  }
+}
+
+/* 타입별 스타일 - Chakra UI 스타일 참고 */
+.Root[data-type='error'] {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.Root[data-type='info'] {
+  background: #bee3f8;
+  color: #1a365d;
+}
+
+.Root[data-type='warning'] {
+  background: #feebc8;
+  color: #744210;
+}
+
+.Root[data-type='success'] {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.Title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  padding-right: 24px;
+  line-height: 1.4;
+}
+
+/* 타입별 제목 색상 */
+.Root[data-type='error'] .Title {
+  color: #742a2a;
+}
+
+.Root[data-type='info'] .Title {
+  color: #1a365d;
+}
+
+.Root[data-type='warning'] .Title {
+  color: #744210;
+}
+
+.Root[data-type='success'] .Title {
+  color: #22543d;
+}
+
+.Desc {
+  font-size: 14px;
+  margin: 0;
+  padding-right: 24px;
+  line-height: 1.4;
+}
+
+/* 타입별 설명 색상 */
+.Root[data-type='error'] .Desc {
+  color: #974b4b;
+}
+
+.Root[data-type='info'] .Desc {
+  color: #2c5282;
+}
+
+.Root[data-type='warning'] .Desc {
+  color: #975a16;
+}
+
+.Root[data-type='success'] .Desc {
+  color: #276749;
+}
+
+.CloseTrigger {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.CloseTrigger:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.CloseIcon {
+  width: 16px;
+  height: 16px;
+  transition: color 0.2s;
+}
+
+/* 타입별 닫기 아이콘 색상 */
+.Root[data-type='error'] .CloseIcon {
+  color: #e53e3e;
+}
+
+.Root[data-type='info'] .CloseIcon {
+  color: #3182ce;
+}
+
+.Root[data-type='warning'] .CloseIcon {
+  color: #dd6b20;
+}
+
+.Root[data-type='success'] .CloseIcon {
+  color: #38a169;
+}
+
+.CloseTrigger:hover .CloseIcon {
+  opacity: 0.8;
+}
+
+/* 모바일 대응 */
+@media (max-width: 640px) {
+  .Toaster {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .Root {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+}

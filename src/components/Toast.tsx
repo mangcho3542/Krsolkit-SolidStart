@@ -1,4 +1,4 @@
-import styles from "@styles/Toaster.module.css";
+import styles from "@styles/Toast.module.css";
 import {
   Toast as ArkToast,
   Toaster as ArkToaster,
@@ -36,13 +36,18 @@ export function Toast(props: ToasterProps) {
     "TitleProps",
     "DescProps",
     "CloseTrgProps",
-    "CloseIconProps",
+    "CloseIconProps"
   ]);
 
   return (
-    <ArkToaster toaster={local.toast}>
+    <ArkToaster 
+      toaster={local.toast} 
+      class={styles.Toaster}
+    >
       {(toast) => (
-        <ArkToast.Root {...splitComponentProps(rest, styles.Root)}>
+        <ArkToast.Root 
+        {...splitComponentProps(rest, styles.Root)}
+        >
           <ArkToast.Title {...splitComponentProps(local.TitleProps, styles.Title)}>
             {toast().title}
           </ArkToast.Title>
@@ -54,7 +59,7 @@ export function Toast(props: ToasterProps) {
           </ArkToast.Description>
 
           <ArkToast.CloseTrigger
-            {...splitComponentProps(local.CloseTrgProps, styles.Desc)}
+            {...splitComponentProps(local.CloseTrgProps, styles.CloseTrigger)}
           >
             <Svg
               value={CloseIcon}
