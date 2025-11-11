@@ -48,16 +48,28 @@ export default function Login() {
     return flag;
   }
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!emailRef || !pwRef) return;
     const email = emailRef.value;
     const pw = pwRef.value;
     if (!validateEmail(email) || validaetPw(pw)) return;
 
-    //todo axios사용해서 서버에 요청 날리는 코드 작성해야함.
-    axios.post("/api/user/login", {email, password: pw}).then((res) => {
-      
-    }); 
+    await axios
+      .post(
+        "/api/user/login",
+        { email, password: pw },
+        { validateStatus: (status) => status === 401 } //401일 때는 정상적으로 처리
+      )
+      .then((res) => {
+        if(res.status === 401) {
+          const { message } = res.data;
+          //todo Toaster이용해서 메시지 띄우는 코드 작성해야함.
+        }
+      })
+      .catch((err) => {
+        console.error("로그인 페이지에서 오류남.");
+        console.error(err);
+      })
   }
 
   return (
@@ -114,7 +126,7 @@ export default function Login() {
           />
 
           <div id={styles.BtnWrapper}>
-            <Btn id={styles.Btn} onClick={() => handleLogin()}>
+            <Btn id={styles.Btn} onClick={async () => {await handleLogin()}}>
               로그인
             </Btn>
           </div>
