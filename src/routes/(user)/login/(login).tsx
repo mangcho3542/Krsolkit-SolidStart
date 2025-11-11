@@ -56,6 +56,7 @@ export default function Login() {
     return flag;
   }
 
+  //로그인 하는 함수
   async function handleLogin() {
     if (!emailRef || !pwRef) return;
     const email = emailRef.value;
@@ -76,6 +77,8 @@ export default function Login() {
           description: res.data,
           type: "error",
         });
+
+        return;
       }
       //302일 때는 뒤로 가기
       else if (res.status === 302) {
@@ -143,6 +146,12 @@ export default function Login() {
             }}
             ErrorText="비밀번호는 12자리 이상의 영문, 숫자로 구성되어야 합니다."
             ErrorTextProps={{ class: styles.ErrorText }}
+            onKeyUp={async (e) => {   //Enter버튼 눌렀을 때 로그인 실행하기
+              if(e.key === "Enter") {
+                e.preventDefault();
+                await handleLogin();
+              }
+            }}
           />
 
           <div id={styles.BtnWrapper}>
