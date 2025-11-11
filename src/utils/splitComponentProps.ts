@@ -1,16 +1,16 @@
-import { ComponentBaseStyleProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@/types/ComponentProps";
 
-interface I extends Omit<ComponentBaseStyleProps, "children"> {
+type T = Omit<ComponentProps, "children"> & {
   useDefaultStyle?: boolean;
-  [k: string]: any;
+  [key: string]: any;
 }
 
-export function splitComponentProps<T extends I>(
+export function splitComponentProps(
   props: T | undefined,
   defaultClass?: string
-): Partial<T> {
+): T {
   if (!props) {
-    return (defaultClass ? { class: defaultClass } : {}) as Partial<T>;
+    return (defaultClass ? { class: defaultClass } : {});
   }
 
   const { id, class: cls, classList, style, useDefaultStyle, ...rest } = props;
