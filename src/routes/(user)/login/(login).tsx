@@ -6,6 +6,7 @@ import Btn from "@/components/Btn";
 import A from "@/components/A";
 import { createStore } from "solid-js/store";
 import axios from "axios";
+import { createToaster, Toast } from "@components/Toast";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [
@@ -31,6 +32,13 @@ export default function Login() {
   const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
   const pwRegex = /[^\w!@#$%^&*()_+{}|:"<>?=\[\];',\.\/]/;
 
+  //toaster
+  const toaster = createToaster({
+    placement: "bottom-end",
+    overlap: false,
+    gap: 12,
+  });
+
   //&function
   //&email검증할 함수
   function validateEmail(email: string) {
@@ -54,22 +62,32 @@ export default function Login() {
     const pw = pwRef.value;
     if (!validateEmail(email) || validaetPw(pw)) return;
 
-    await axios
-      .post(
+    try {
+      const res = await axios.post(
         "/api/user/login",
         { email, password: pw },
         { validateStatus: (status) => status === 401 } //401일 때는 정상적으로 처리
-      )
-      .then((res) => {
-        if(res.status === 401) {
-          const { message } = res.data;
-          //todo Toaster이용해서 메시지 띄우는 코드 작성해야함.
-        }
-      })
-      .catch((err) => {
-        console.error("로그인 페이지에서 오류남.");
-        console.error(err);
-      })
+      );
+
+      //로그인 오류 났을 때에는 toaster띄워주기
+      if (res.status === 401) {
+        toaster.create({
+          title: "오류",
+          description: res.data,
+          type: "error",
+        });
+      }
+      //302일 때는 뒤로 가기
+      else if (res.status === 302) {
+        window.history.back();
+      } else {
+        console.log("3번째 상황");
+        console.log("res : ", res);
+      }
+    } catch (err) {
+      console.error("로그인 api 호출할 때 오류남.");
+      console.error(err);
+    }
   }
 
   return (
@@ -81,6 +99,8 @@ export default function Login() {
       <Meta property="og:url" content="https://classhelper.kr/login" />
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
       <main class={`Main ${styles.Main}`}>
+        <Toast toast={toaster} />
+
         <div id={styles.Wrapper}>
           <h1
             style={{
@@ -126,7 +146,12 @@ export default function Login() {
           />
 
           <div id={styles.BtnWrapper}>
-            <Btn id={styles.Btn} onClick={async () => {await handleLogin()}}>
+            <Btn
+              id={styles.Btn}
+              onClick={async () => {
+                await handleLogin();
+              }}
+            >
               로그인
             </Btn>
           </div>
