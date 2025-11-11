@@ -1,5 +1,5 @@
 import Btn from "@/components/Btn";
-import { Toaster, createToaster } from "@/components/Toaster";
+import { Toast, createToaster } from "@/components/Toast";
 
 export default function test() {
   const toaster = createToaster({
@@ -11,7 +11,7 @@ export default function test() {
 
   return (
     <main class="Main" style={{"align-items": "center"}}>
-      <Toaster toast={toaster} />
+      <Toast toast={toaster} />
       <Btn onClick={() => {toaster.create({
         title: "Title",
         description: "Desc",
