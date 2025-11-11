@@ -1,8 +1,8 @@
-export const HTTP_STATUS = {
+export const HttpStatus = {
   // 1xx Informational
   100: "Continue",
   101: "Switching Protocols",
-  102: "Processing", 
+  102: "Processing",
   103: "Early Hints",
 
   // 2xx Success
@@ -13,10 +13,10 @@ export const HTTP_STATUS = {
   204: "No Content",
   205: "Reset Content",
   206: "Partial Content",
-  207: "Multi-Status", 
-  208: "Already Reported", 
+  207: "Multi-Status",
+  208: "Already Reported",
   218: "This is Fine",
-  226: "IM Used", 
+  226: "IM Used",
 
   // 3xx Redirection
   300: "Multiple Choices",
@@ -24,7 +24,7 @@ export const HTTP_STATUS = {
   302: "Found",
   303: "See Other",
   304: "Not Modified",
-  305: "Use Proxy", 
+  305: "Use Proxy",
   307: "Temporary Redirect",
   308: "Permanent Redirect",
 
@@ -47,11 +47,11 @@ export const HTTP_STATUS = {
   415: "Unsupported Media Type",
   416: "Range Not Satisfiable",
   417: "Expectation Failed",
-  418: "I'm a teapot", 
+  418: "I'm a teapot",
   421: "Misdirected Request",
-  422: "Unprocessable Entity", 
-  423: "Locked", 
-  424: "Failed Dependency", 
+  422: "Unprocessable Entity",
+  423: "Locked",
+  424: "Failed Dependency",
   425: "Too Early",
   426: "Upgrade Required",
   428: "Precondition Required",
@@ -67,9 +67,9 @@ export const HTTP_STATUS = {
   504: "Gateway Timeout",
   505: "HTTP Version Not Supported",
   506: "Variant Also Negotiates",
-  507: "Insufficient Storage", 
-  508: "Loop Detected", 
+  507: "Insufficient Storage",
+  508: "Loop Detected",
   510: "Not Extended",
   511: "Network Authentication Required",
-  599: "Network Connect Timeout Error"
+  599: "Network Connect Timeout Error",
 };
