@@ -1,6 +1,6 @@
 import styles from "@styles/Toaster.module.css";
 import {
-  Toast,
+  Toast as ArkToast,
   Toaster as ArkToaster,
   ToastRootProps,
   ToastTitleProps,
@@ -30,7 +30,7 @@ export interface ToasterProps extends PUS<ToastRootProps> {
   CloseIconProps?: Omit<SvgProps, "value">;
 }
 
-export function Toaster(props: ToasterProps) {
+export function Toast(props: ToasterProps) {
   const [local, rest] = splitProps(props, [
     "toast",
     "TitleProps",
@@ -42,26 +42,26 @@ export function Toaster(props: ToasterProps) {
   return (
     <ArkToaster toaster={local.toast}>
       {(toast) => (
-        <Toast.Root {...splitComponentProps(rest, styles.Root)}>
-          <Toast.Title {...splitComponentProps(local.TitleProps, styles.Title)}>
+        <ArkToast.Root {...splitComponentProps(rest, styles.Root)}>
+          <ArkToast.Title {...splitComponentProps(local.TitleProps, styles.Title)}>
             {toast().title}
-          </Toast.Title>
+          </ArkToast.Title>
 
-          <Toast.Description
+          <ArkToast.Description
             {...splitComponentProps(local.DescProps, styles.Desc)}
           >
             {toast().description}
-          </Toast.Description>
+          </ArkToast.Description>
 
-          <Toast.CloseTrigger
+          <ArkToast.CloseTrigger
             {...splitComponentProps(local.CloseTrgProps, styles.Desc)}
           >
             <Svg
               value={CloseIcon}
               {...splitComponentProps(local.CloseIconProps, styles.CloseIcon)}
             />
-          </Toast.CloseTrigger>
-        </Toast.Root>
+          </ArkToast.CloseTrigger>
+        </ArkToast.Root>
       )}
     </ArkToaster>
   );
