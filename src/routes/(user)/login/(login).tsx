@@ -7,6 +7,7 @@ import A from "@/components/A";
 import { createStore } from "solid-js/store";
 import axios from "axios";
 import { createToaster, Toast } from "@components/Toast";
+import { validateEmail, validaetPw } from "@utils/validate";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [
@@ -15,22 +16,15 @@ export default function Login() {
   ];
 
   //invalid
-  const [invalid, setInvalid] = createStore<{
-    email: boolean;
-    password: boolean;
-  }>({
+  const [invalid, setInvalid] = createStore({
     email: false,
-    password: false,
+    pw: false,
   });
 
   //ref
   type IORU = HTMLInputElement | undefined;
   let emailRef: IORU = undefined,
     pwRef: IORU = undefined;
-
-  //regex
-  const emailRegex = /^[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
-  const pwRegex = /[^\w!@#$%^&*()_+{}|:"<>?=\[\];',\.\/]/;
 
   //toaster
   const toaster = createToaster({
@@ -40,28 +34,24 @@ export default function Login() {
   });
 
   //&function
-  //&email검증할 함수
-  function validateEmail(email: string) {
-    const flag = emailRegex.test(email);
-    if (!flag) setInvalid("email", true);
-
-    return flag;
-  }
-
-  //&비밀번호 검증할 함수
-  function validaetPw(pw: string) {
-    const flag = !pwRegex.test(pw) && pw.length >= 12;
-    if (!flag) setInvalid("password", true);
-
-    return flag;
-  }
-
-  //로그인 하는 함수
+  //&로그인 하는 함수
   async function handleLogin() {
     if (!emailRef || !pwRef) return;
+
     const email = emailRef.value;
     const pw = pwRef.value;
-    if (!validateEmail(email) || validaetPw(pw)) return;
+
+    if(!validateEmail(email)) {
+      setInvalid({email: true});
+      return;
+    }
+    else setInvalid({email: false});
+
+    if(!validaetPw(pw)) {
+      setInvalid({pw: true});
+      return;
+    }
+    else setInvalid({pw: false});
 
     try {
       const res = await axios.post(
@@ -140,7 +130,7 @@ export default function Login() {
             LabelProps={{ class: styles.FieldLabel }}
             aria-placeholder="비밀번호"
             required={true}
-            invalid={invalid.password}
+            invalid={invalid.pw}
             InputProps={{
               ref: (el) => (pwRef = el),
             }}
