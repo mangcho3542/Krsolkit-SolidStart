@@ -1,12 +1,14 @@
 import { createSignal, createEffect, createMemo, onCleanup } from "solid-js";
 import { ComponentProps } from "@/types/ComponentProps";
 import { splitProps } from "solid-js";
-import { ClientOnly } from "@ark-ui/solid";
+import styles from "@styles/Timer.module.css";
+import { splitComponentProps } from "@/utils/splitComponentProps";
 
 export interface TimerProps extends ComponentProps {
   second: number;
   isRunning: boolean;
   onEnd?: () => void | Promise<void>;
+  useDefaultStyle?: boolean;
 }
 
 export function Timer(props: TimerProps) {
@@ -74,11 +76,9 @@ export function Timer(props: TimerProps) {
   });
 
   return (
-    <ClientOnly>
-      <div {...rest}>
-        {display()}
-      </div>
-    </ClientOnly>
+    <div {...splitComponentProps(props, styles.Timer)}>
+      {display()}
+    </div>
   );
 }
 
