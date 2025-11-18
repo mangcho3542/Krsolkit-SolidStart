@@ -10,22 +10,22 @@ import {
 } from "@ark-ui/solid/field";
 import { JSX, JSXElement, splitProps } from "solid-js";
 
-interface InputProps extends Omit<FieldInputProps, "style"> {
+export interface InputProps extends Omit<FieldInputProps, "style"> {
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 }
 
-interface LabelProps extends Omit<FieldLabelProps, "style"> {
+export interface LabelProps extends Omit<FieldLabelProps, "style"> {
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 }
 
-interface HelperTextProps extends Omit<FieldHelperTextProps, "style"> {
+export interface HelperTextProps extends Omit<FieldHelperTextProps, "style"> {
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 }
 
-interface ErrorTextProps extends Omit<FieldErrorTextProps, "style"> {
+export interface ErrorTextProps extends Omit<FieldErrorTextProps, "style"> {
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 }
