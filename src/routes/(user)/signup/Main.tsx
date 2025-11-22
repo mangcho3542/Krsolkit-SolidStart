@@ -1,5 +1,4 @@
 import styles from "./signup.module.css";
-import EmailInput from "./EmailInput";
 import { createSignal } from "solid-js";
 import Field from "@/components/Field";
 import PasswordInput from "@/components/PasswordInput";
@@ -10,12 +9,8 @@ import Btn from "@/components/Btn";
 import { validateEmail, validaetPw } from "@utils/validate";
 
 export default function Main() {
-  //timer제어하는 signal
-  const [isTimerRunning, setIsTimerRunning] = createSignal(false);
-
   //ref들
   let emailRef: HTMLInputElement,
-    otpRef: HTMLInputElement,
     pwRef: HTMLInputElement,
     pwCheckRef: HTMLInputElement,
     nicknameRef: HTMLInputElement;
@@ -23,16 +18,15 @@ export default function Main() {
   //invalid
   const [invalid, setInvalid] = createStore({
     email: false,
-    otp: false,
     pw: false,
     pwCheck: false,
     nickname: false,
   });
 
-  //disable
-  const [disable, setDisable] = createStore({
-    email: false,
-    signup: true
+  //ErrorText
+  const [ErrorText, setErrorText] = createStore({
+    email: "이메일 형식이 올바르지 않습니다.",
+    nickname: "이미 존재하는 닉네임입니다."
   });
 
   //toaster
@@ -40,126 +34,67 @@ export default function Main() {
     placement: "bottom-end",
   });
 
-  //이메일 전송하는 함수
-  async function sendEmail() {
-    if (!emailRef) return;
-    if (!validateEmail) { //이메일 형식이 잘못되었다면 return;
-      setInvalid({email: true});
-      return;
-    }
-
-    setDisable({email: true});
-    setIsTimerRunning(false);
-
-    await axios
-      .post(
-        `api/email`,
-        { email: emailRef.value },
-        {
-          validateStatus(status) {
-            return status === 400 || status === 401;
-          },
-        }
-      )
-      .then((res) => {
-        setDisable({email: false});
-        setIsTimerRunning(true);
-
-        if (res.status >= 400) {
-          //400 or 401에러라면 toaster로 메시지 띄우기
-          toaster.create({
-            type: "error",
-            title: "오류",
-            description: res.data.message,
-            duration: 5000,
-          });
-
-          return;
-        }
-
-        const { code } = res.data;
-        if (code !== otpRef.value) {
-          //otp가 틀리면 에러
-          setInvalid({ otp: true });
-          return;
-        }
-
-        //code인증되면 입력 방지 및 메시지 띄우기
-        setDisable({email: true, signup: false});
-        setIsTimerRunning(false);
-        toaster.create({
-          type: "success",
-          title: "완료",
-          description: "이메일이 인증되었습니다."
-        });
-      })
-      .catch((err) => {
-        setDisable({email: false});
-        console.error("sendEmail함수에서 에러남.\n", err);
-        toaster.create({
-          type: "error",
-          title: "오류",
-          description: (
-            <>
-              서버의 오류로 메시지를 전송하지 못하였습니다. 나중에 다시 시도하여
-              주십시오.
-            </>
-          ),
-        });
-      });
-  }
-
-  //비밀번호 확인하는 함수
-  function checkPw() {
-    const flag = validaetPw(pwRef.value);
-
-    if(!flag) setInvalid({pw: true});
-    else setInvalid({pw: false});
-
-    if(pwRef.value !== pwCheckRef.value) setInvalid({pwCheck: true});
-    else setInvalid({pwCheck: false});
-
+  //&이메일 확인하는 함수
+  function checkEmail(): boolean {
+    const flag = !validateEmail(emailRef.value);
+    setInvalid({email: flag});
     return flag;
   }
 
-  //nickname확인하는 함수
-  //todo checkNickname 함수 및 회원가입하는 함수 코드 짜야함.
-  function checkNickname() {
+  //&비밀번호 확인하는 함수
+  function checkPw(): boolean {
+    let flag = !validaetPw(pwRef.value);
 
-  }  
+    setInvalid({pw: flag});
+    const flag2 = pwRef.value !== pwCheckRef.value;
+    if(flag2) flag = false;
+
+    setInvalid({pwCheck: flag2})
+    return flag;
+  }
+
+  //&nickname확인하는 함수
+  async function checkNickname(): Promise<boolean> {
+    //todo checkNickname api만들어야함.
+    const res = await axios.post("/checkNickname", {
+      nickname: nicknameRef.value
+    });
+    const { isExist } = res.data as { isExist: boolean; }
+    setInvalid({nickname: isExist});
+    return isExist;
+  }
+
+  async function signup() {
+    let set = new Set<boolean>();
+    set.add(checkEmail());
+    set.add(checkPw());
+    set.add(await checkNickname());
+    if(set.has(false)) return;
+
+    //todo signup api 만들어야함.
+    axios.post("/signup", {
+      email: emailRef.value,
+      password: pwRef.value,
+      nickname: nicknameRef.value
+    });
+  }
 
   return (
     <main class="Main" id={styles.Main}>
       <Toast toast={toaster} />
 
       <div id={styles.Wrapper}>
-        <EmailInput
+        <Field
           class={styles.Field}
-          isRunning={isTimerRunning()}
           InputProps={{
             class: styles.Input,
             ref: (el) => (emailRef = el),
             autocomplete: "email",
+            type: "email"
           }}
           inputmode="email"
           inputMode="email"
           invalid={invalid.email}
-          BtnProps={{
-            onClick: async () => sendEmail(),
-          }}
-        />
-
-        <Field
-          class={styles.Field}
-          inputmode="text"
-          InputProps={{
-            class: styles.Input,
-            ref: (el) => (otpRef = el),
-            autocomplete: "off",
-          }}
-          invalid={invalid.otp}
-          ErrorText="이메일로 전송된 코드가 입력하신 인증코드와 다릅니다."
-          disabled={disable.email}
         />
 
         <PasswordInput
@@ -188,7 +123,7 @@ export default function Main() {
           InputProps={{
             class: styles.Input,
             ref: (el) => (nicknameRef = el),
-            autocomplete: "nickname",
+            autocomplete: "nickname"
           }}
           invalid={invalid.nickname}
         />
@@ -199,7 +134,9 @@ export default function Main() {
         <div id={styles.SignupBtnWrapper}>
           <Btn 
           id={styles.SignupBtn}
-          disabled={disable.signup}
+          onClick={async () => {
+            await signup();
+          }}
           >
             회원가입
           </Btn>
