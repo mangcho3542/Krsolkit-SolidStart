@@ -33,7 +33,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
           }}
         >
           <img id={styles.Logo} src={Logo} />
-          <p id={styles.LogoText}>ClassHelper</p>
+          <A href="/" id={styles.LogoText}>ClassHelper</A>
         </header>
 
         <div id={styles.SideMenuWrapper}>
