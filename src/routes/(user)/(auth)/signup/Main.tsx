@@ -1,8 +1,6 @@
 import styles from "./signup.module.css";
-import { createSignal } from "solid-js";
 import Field from "@/components/Field";
 import PasswordInput from "@/components/PasswordInput";
-import { Toast, createToaster } from "@/components/Toast";
 import axios from "axios";
 import { createStore } from "solid-js/store";
 import Btn from "@/components/Btn";
@@ -29,23 +27,19 @@ export default function Main() {
     nickname: "이미 존재하는 닉네임입니다."
   });
 
-  //toaster
-  const toaster = createToaster({
-    placement: "bottom-end",
-  });
-
   //&이메일 확인하는 함수
   function checkEmail(): boolean {
-    const flag = !validateEmail(emailRef.value);
-    setInvalid({email: flag});
+    const flag = validateEmail(emailRef.value);
+    setInvalid({email: !flag});
     return flag;
   }
 
   //&비밀번호 확인하는 함수
   function checkPw(): boolean {
-    let flag = !validaetPw(pwRef.value);
+    let flag = validaetPw(pwRef.value);
+    setInvalid({pw: !flag});
+    if(!flag) return false;
 
-    setInvalid({pw: flag});
     const flag2 = pwRef.value !== pwCheckRef.value;
     if(flag2) flag = false;
 
@@ -55,24 +49,38 @@ export default function Main() {
 
   //&nickname확인하는 함수
   async function checkNickname(): Promise<boolean> {
-    //todo checkNickname api만들어야함.
-    const res = await axios.post("/checkNickname", {
+    const nickname = nicknameRef.value;
+    if(nickname.length < 2 || nickname.length > 30) {
+      setErrorText({nickname: "닉네임은 한글, 영어, 숫자로만 이루어진 30글자의 문자여야합니다."});
+      setInvalid({nickname: true});
+      return false;
+    }
+
+    const res = await axios.post("/user/checkNickname", {
       nickname: nicknameRef.value
     });
     const { isExist } = res.data as { isExist: boolean; }
-    setInvalid({nickname: isExist});
-    return isExist;
+    
+    //닉네임 존재하면 오류
+    if(isExist) {
+      setErrorText({nickname: "이미 존재하는 닉네임입니다."});
+      setInvalid({nickname: true});
+      return false;
+    }
+
+    setInvalid({nickname: false});
+    return true;
   }
 
-  async function signup() {
+  //EmailVerification으로 넘어가는 함수
+  async function moveToNextPage() {
     let set = new Set<boolean>();
     set.add(checkEmail());
     set.add(checkPw());
     set.add(await checkNickname());
     if(set.has(false)) return;
 
-    //todo signup api 만들어야함.
-    axios.post("/signup", {
+    await axios.post("/auth/signup/continue", {
       email: emailRef.value,
       password: pwRef.value,
       nickname: nicknameRef.value
@@ -81,7 +89,6 @@ export default function Main() {
 
   return (
     <main class="Main" id={styles.Main}>
-      <Toast toast={toaster} />
 
       <div id={styles.Wrapper}>
         <Field
@@ -128,17 +135,19 @@ export default function Main() {
           invalid={invalid.nickname}
         />
 
-        <div id={styles.SocialAuthBtnWrapper}>
-        </div>
+          {/**todo 나중에 추가할 예정 
+           * <div id={styles.SocialAuthBtnWrapper}>
+           * </div>
+          */}
 
-        <div id={styles.SignupBtnWrapper}>
+        <div id={styles.NextBtnWrapper}>
           <Btn 
-          id={styles.SignupBtn}
+          id={styles.NextBtn}
           onClick={async () => {
-            await signup();
+            await moveToNextPage();
           }}
           >
-            회원가입
+            다음
           </Btn>
         </div>
       </div>
