@@ -11,8 +11,8 @@ import { validateEmail, validaetPw } from "@utils/validate";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [
-    { text: "비밀번호 찾기", href: "find_password" },
-    { text: "회원가입", href: "signup" },
+    { text: "비밀번호 찾기", href: "/find_password" },
+    { text: "회원가입", href: "/signup" },
   ];
 
   //invalid
