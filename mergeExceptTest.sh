@@ -38,3 +38,6 @@ git merge dev
 
 # 9. push
 git push
+
+# 10. sparse-checkout disable
+git sparse-checkout disable
