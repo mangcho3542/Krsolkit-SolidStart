@@ -5,13 +5,15 @@ import axios from "axios";
 import { createStore } from "solid-js/store";
 import Btn from "@/components/Btn";
 import { validateEmail, validaetPw } from "@utils/validate";
+import { createEffect, createSignal } from "solid-js";
 
 export default function Main() {
   //ref들
   let emailRef: HTMLInputElement,
     pwRef: HTMLInputElement,
     pwCheckRef: HTMLInputElement,
-    nicknameRef: HTMLInputElement;
+    nicknameRef: HTMLInputElement
+    otpRef: HTMLInputElement;
 
   //invalid
   const [invalid, setInvalid] = createStore({
@@ -26,6 +28,26 @@ export default function Main() {
     email: "이메일 형식이 올바르지 않습니다.",
     nickname: "이미 존재하는 닉네임입니다."
   });
+
+  //next
+  const [next, setNext] = createSignal(false);
+
+  //disable
+  const [disable, setDisable] = createStore({
+    otp: true,
+    btn: false
+  });
+
+  //btnText
+  const [btnText, setBtnText] = createSignal("다음");
+
+  //~ effect
+  createEffect(() => {
+    if(next()) {
+      setBtnText("회원가입");
+      setDisable({otp: false, btn: true});
+    }
+  })
 
   //&이메일 확인하는 함수
   function checkEmail(): boolean {
@@ -82,8 +104,6 @@ export default function Main() {
 
     await axios.post("/auth/signup/continue", {
       email: emailRef.value,
-      password: pwRef.value,
-      nickname: nicknameRef.value
     });
   }
 
@@ -102,6 +122,7 @@ export default function Main() {
           inputmode="email"
           inputMode="email"
           invalid={invalid.email}
+          ErrorText={ErrorText.email}
         />
 
         <PasswordInput
@@ -133,12 +154,10 @@ export default function Main() {
             autocomplete: "nickname"
           }}
           invalid={invalid.nickname}
+          ErrorText={ErrorText.nickname}
         />
 
-          {/**todo 나중에 추가할 예정 
-           * <div id={styles.SocialAuthBtnWrapper}>
-           * </div>
-          */}
+        {/**todo otp field생성해야함. */}
 
         <div id={styles.NextBtnWrapper}>
           <Btn 
@@ -147,7 +166,7 @@ export default function Main() {
             await moveToNextPage();
           }}
           >
-            다음
+            {btnText()}
           </Btn>
         </div>
       </div>
