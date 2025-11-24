@@ -13,7 +13,6 @@ export default function Main() {
     pwRef: HTMLInputElement,
     pwCheckRef: HTMLInputElement,
     nicknameRef: HTMLInputElement
-    otpRef: HTMLInputElement;
 
   //invalid
   const [invalid, setInvalid] = createStore({
@@ -24,32 +23,24 @@ export default function Main() {
   });
 
   //ErrorText
-  const [ErrorText, setErrorText] = createStore({
+  const [errorText, setErrorText] = createStore({
     email: "이메일 형식이 올바르지 않습니다.",
     nickname: "이미 존재하는 닉네임입니다."
   });
 
-  //next
-  const [next, setNext] = createSignal(false);
+  const [btnSignal, setBtnSignal] = createStore({
+    text: "인증하기",
+    disable: false
+  })
+  const [state, setState] = createSignal(0);               //state
 
-  //disable
-  const [disable, setDisable] = createStore({
-    otp: true,
-    btn: false
+  //~effect
+  createEffect(() => {
+    if(state() === 1) setBtnSignal({text: "회원가입", disable: true});
+    else if(state() === 2) setBtnSignal({disable: false});
   });
 
-  //btnText
-  const [btnText, setBtnText] = createSignal("다음");
-
-  //~ effect
-  createEffect(() => {
-    if(next()) {
-      setBtnText("회원가입");
-      setDisable({otp: false, btn: true});
-    }
-  })
-
-  //&이메일 확인하는 함수
+  //& 이메일 확인하는 함수
   function checkEmail(): boolean {
     const flag = validateEmail(emailRef.value);
     setInvalid({email: !flag});
@@ -102,9 +93,7 @@ export default function Main() {
     set.add(await checkNickname());
     if(set.has(false)) return;
 
-    await axios.post("/auth/signup/continue", {
-      email: emailRef.value,
-    });
+    setState(1);
   }
 
   return (
@@ -122,7 +111,7 @@ export default function Main() {
           inputmode="email"
           inputMode="email"
           invalid={invalid.email}
-          ErrorText={ErrorText.email}
+          ErrorText={errorText.email}
         />
 
         <PasswordInput
@@ -154,10 +143,12 @@ export default function Main() {
             autocomplete: "nickname"
           }}
           invalid={invalid.nickname}
-          ErrorText={ErrorText.nickname}
+          ErrorText={errorText.nickname}
         />
 
-        {/**todo otp field생성해야함. */}
+        {state() === 1 
+        ? <></> 
+        : <></>}
 
         <div id={styles.NextBtnWrapper}>
           <Btn 
@@ -166,7 +157,7 @@ export default function Main() {
             await moveToNextPage();
           }}
           >
-            {btnText()}
+            다음
           </Btn>
         </div>
       </div>
