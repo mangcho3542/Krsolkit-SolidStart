@@ -157,7 +157,7 @@ export default function Login() {
 
           <div id={styles.LinkWrapper}>
             {linkAry.map(({ text, href }) => (
-              <A class={styles.Link} href={href}>
+              <A class={styles.Link} href={href} replace={true}>
                 {text}
               </A>
             ))}
