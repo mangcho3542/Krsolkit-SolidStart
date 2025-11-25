@@ -1,3 +1,4 @@
+"use server";
 import { Meta, Title } from "@solidjs/meta";
 import Main from "./Main";
 
