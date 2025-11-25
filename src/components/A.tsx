@@ -1,14 +1,10 @@
-import { A as Anchor } from "@solidjs/router";
-import { ComponentProps } from "@/types/ComponentProps";
+import { A as Anchor, AnchorProps } from "@solidjs/router";
 import styles from "@styles/A.module.css";
 import { splitProps } from "solid-js";
 
-export interface AProps extends ComponentProps {
+export interface AProps extends AnchorProps {
   href: string;
-  target?: "_self" | "_blank" | "_parent" | "_top";
   useDefaultStyle?: boolean;
-  inactiveClass?: string;
-  activeClass?: string;
 }
 
 export default function A(props: AProps) {
