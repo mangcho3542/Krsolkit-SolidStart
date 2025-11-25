@@ -7,7 +7,7 @@ const BodyT = z.object({
 	email: z.email(),
 });
 
-async function emailVerify({ request: { headers, json, ...rest } }: APIEvent) {
+async function handler({ request: { headers, json, ...rest } }: APIEvent) {
 	try {
 		const body = await json();
 		if (!checkType(body, BodyT)) return status(400);
@@ -20,9 +20,9 @@ async function emailVerify({ request: { headers, json, ...rest } }: APIEvent) {
 			...rest,
 		});
 	} catch (err) {
-		console.error("emailVerify api에서 오류남.\n", err);
+		console.error("verifyEmail api에서 오류남.\n", err);
 		return status(500);
 	}
 }
 
-export const POST: APIHandler = emailVerify;
+export const POST: APIHandler = handler;
