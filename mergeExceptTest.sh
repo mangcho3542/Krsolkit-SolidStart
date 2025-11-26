@@ -26,9 +26,10 @@ git pull origin main
 # 5. sparse-checkout 활성화
 git sparse-checkout init --no-cone
 
-# 6. 전체 포함하고 src/test만 제외
+# 6. 전체 포함하고 src/test, test만 제외
 echo '/*' >> .git/info/sparse-checkout
 echo '!src/routes/test/' >> .git/info/sparse-checkout
+echo '!src/test/' >> .git/info/sparse-checkout
 
 # 7. reapply
 git sparse-checkout reapply
