@@ -1,20 +1,23 @@
 :root {
     --svg-light-color: #454746;
     --svg-dark-color: #c4c8c6;
+    --svg-color: var(--svg-light-color);
+
     --border-light-color: #d1d5db;
     --border-dark-color: #6b7280;
+    
     --error-light-color: #ef4444;
     --error-dark-color: #f87171;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --svg-color: var(--svg-light-color);
-    }
+    
+    --label-disabled-light-color: #848485;
+    --label-disabled-dark-color: #818182;
+    --label-disabled-color: var(--label-disabled-light-color);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --svg-color: var(--svg-dark-color);
+        --label-disabled-color: var(--label-disabled-dark-color);
+        --input-disabled-border-color: var(--input-disabled-dark-border-color);
     }
 }
