@@ -7,17 +7,17 @@ const BodyT = z.object({
 	email: z.email(),
 });
 
-async function handler({ request: { headers, json, ...rest } }: APIEvent) {
+async function handler({ request: req }: APIEvent) {
 	try {
-		const body = await json();
+		const body = await req.json();
 		if (!checkType(body, BodyT)) return status(400);
 
 		return await fetch(process.env.SERVER_URL!, {
 			headers: {
 				Authorization: `Bearer ${process.env.SERVER_AUTHORIZATION_KEY!}`,
-				...headers,
+				...req.headers,
 			},
-			...rest,
+			body: req.body
 		});
 	} catch (err) {
 		console.error("verifyEmail api에서 오류남.\n", err);

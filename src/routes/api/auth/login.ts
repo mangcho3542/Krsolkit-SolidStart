@@ -18,19 +18,20 @@ const ResponseT = z.object({
 });
 
 async function handler({
-	request: { headers, json, ...rest },
+	request: req,
 	nativeEvent,
 }: APIEvent): Promise<Response> {
 	try {
-		const body = await json();
+		const body = await req.json();
 		if (!checkType(body, BodyT)) return status(400);
 
 		const res = await fetch(`${process.env.SERVER_URL!}/auth/login`, {
+			method: "POST",
 			headers: {
 				Authorization: `Bearer ${process.env.SERVER_AUTHORIZATION_KEY!}`,
-				...headers,
+				...req.headers,
 			},
-			...rest,
+			body: req.body
 		});
 
 		const data = await res.json();

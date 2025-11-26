@@ -7,16 +7,17 @@ const BodyT = z.object({
 	nickname: z.string(),
 });
 
-async function handler({ request: { headers, json, ...rest } }: APIEvent) {
+async function handler({ request: req }: APIEvent) {
 	try {
-		if (!checkType(await json(), BodyT)) return status(400);
+		if (!checkType(await req.json(), BodyT)) return status(400);
 
 		return fetch(`${process.env.SERVER_URL!}/user/checkNickname`, {
+			method: "POST",
 			headers: {
 				Authorization: `Bearer ${process.env.SERVER_AUTHORIZATION_KEY!}`,
-				...headers,
+				...req.headers,
 			},
-			...rest,
+			body: req.body
 		});
 	} catch (err) {
 		console.error("checkNickname api에서 오류남.\n", err);
