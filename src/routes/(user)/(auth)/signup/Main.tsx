@@ -21,6 +21,11 @@ const ResponseT = ResponseBaseT.required({
   code: true,
 });
 
+//NicknameCheckResponseT
+const NicknameCheckResponseT = z.object({
+  isExist: z.boolean()
+});
+
 export default function Main() {
   //ref들
   let emailRef: HTMLInputElement,
@@ -109,26 +114,41 @@ export default function Main() {
     if (nickname.length < 2 || nickname.length > 30) {
       setErrorText({
         nickname:
-          "닉네임은 한글, 영어, 숫자로만 이루어진 30글자의 문자여야합니다.",
+          "닉네임은 한글, 영어, 숫자로만 이루어진 30글자 이하의 문자여야합니다.",
       });
       setInvalid({ nickname: true });
       return false;
     }
 
-    const res = await axios.post("/user/checkNickname", {
+    let flag = true;
+    await axios.post("/api/user/checkNickname", {
       nickname: nicknameRef.value,
-    });
-    const { isExist } = res.data as { isExist: boolean };
+    })
+    .then((res) => {
+      if (!checkType(res.data, NicknameCheckResponseT)) {
+        createErrToast();
+      }
 
-    //닉네임 존재하면 오류
-    if (isExist) {
-      setErrorText({ nickname: "이미 존재하는 닉네임입니다." });
-      setInvalid({ nickname: true });
-      return false;
-    }
+      const { isExist } = res.data;
 
-    setInvalid({ nickname: false });
-    return true;
+      //닉네임 존재하면 오류
+      if (isExist) {
+        setErrorText({ nickname: "이미 존재하는 닉네임입니다." });
+        setInvalid({ nickname: true });
+        flag = false;
+        return ;
+      }
+
+      setInvalid({ nickname: false });
+    })
+    .catch((err) => {
+      console.error("checkNickname함수에서 오류남.");
+      console.dir(err, {depth: null});
+      createErrToast();
+      flag = false;
+    })
+
+    return flag;
   }
 
   //& otp확인하는 함수
@@ -143,8 +163,8 @@ export default function Main() {
     set.add(checkEmail());
     set.add(checkPw());
     set.add(await checkNickname());
-    if (set.has(false)) return;
-
+    if (set.has(false)) return ;
+    
     //이메일, 비밀번호, 닉네임 체크 완료했을 때
     if (state() === 0) {
       //state가 0이면 verifyEmail
@@ -202,6 +222,11 @@ export default function Main() {
 
         setCode(data.code);
         setState(1);
+        toaster.create({
+          type: "success",
+          title: "이메일 전송 완료",
+          description: "이메일이 전송되었습니다."
+        })
       } else {
         toaster.create({
           type: "error",
@@ -228,14 +253,16 @@ export default function Main() {
             ref: (el) => (emailRef = el),
             autocomplete: "email",
             type: "email",
-            onKeyUp: (e) => {
-              if (e.key === "Enter" || e.key === "Tab") checkEmail();
-            },
+            onBlur: checkEmail
           }}
           inputmode="email"
           inputMode="email"
           invalid={invalid.email}
           ErrorText={errorText.email}
+          Label="이메일"
+          LabelProps={{
+            class: styles.Label,
+          }}
         />
 
         <PasswordInput
@@ -245,9 +272,14 @@ export default function Main() {
             class: styles.Input,
             ref: (el) => (pwRef = el),
             autocomplete: "new-password",
+            onBlur: checkPw
           }}
           invalid={invalid.pw}
           ErrorText="비밀번호는 영소문자로만 이루어져야하고 12~25글자여야 합니다."
+          Label="비밀번호"
+          LabelProps={{
+            class: styles.Label,
+          }}
         />
 
         <PasswordInput
@@ -257,12 +289,13 @@ export default function Main() {
             class: styles.Input,
             ref: (el) => (pwCheckRef = el),
             autocomplete: "new-password",
-            onKeyUp: (e) => {
-              if (e.key === "Enter" || e.key === "Tab") checkPw();
-            },
+            onBlur: checkPw
           }}
-          Label="비밀번호 확인"
           ErrorText="비밀번호가 서로 다릅니다."
+          Label="비밀번호 확인"
+          LabelProps={{
+            class: styles.Label,
+          }}
         />
 
         <Field
@@ -273,39 +306,41 @@ export default function Main() {
             ref: (el) => (nicknameRef = el),
             autocomplete: "nickname",
           }}
-          Label="닉네임"
           invalid={invalid.nickname}
           ErrorText={errorText.nickname}
+          Label="닉네임"
+          LabelProps={{
+            class: styles.Label,
+          }}
         />
 
-        {state() >= 1 ? (
-          <Field
-            class={styles.Field}
-            required={true}
-            InputProps={{
-              class: styles.Input,
-              ref: (el) => (otpRef = el),
-              autocomplete: "one-time-code",
-              inputMode: "text",
-              onKeyUp: (e) => {
-                if (e.key === "Enter" || e.key === "Tab") checkOtp();
-              },
-              onBlur: checkOtp,
-            }}
-            invalid={invalid.otp}
-            ErrorText="이메일로 전송된 코드와 일치하지 않습니다."
-          />
-        ) : (
-          <></>
-        )}
+        <Field
+          class={styles.Field}
+          required={true}
+          InputProps={{
+            class: styles.Input,
+            ref: (el) => (otpRef = el),
+            autocomplete: "one-time-code",
+            inputMode: "text",
+            onKeyUp: (e) => {
+              if (e.key === "Enter" || e.key === "Tab") checkOtp();
+            },
+            onBlur: checkOtp,
+          }}
+          invalid={invalid.otp}
+          disabled={!!!state()}
+          ErrorText="이메일로 전송된 코드와 일치하지 않습니다."
+          Label="인증코드"
+          LabelProps={{
+            class: styles.Label,
+            id: "TmpLabel"
+          }}
+        />
 
-        <div id={styles.NextBtnWrapper}>
-          <Btn
-            id={styles.NextBtn}
-            onClick={async () => {
-              await handleBtnClick();
-            }}
-          >
+        <div id={styles.BtnWrapper}>
+          <Btn id={styles.Btn} onClick={async () => {
+            await handleBtnClick();
+          }}>
             {btnSignal.text}
           </Btn>
         </div>

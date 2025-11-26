@@ -1,41 +1,20 @@
-#InputGroup {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  -webkit-box-align: center;
-  -webkit-box-pack: start;
-}
-
-.EmailInput {
-  flex-grow: 1;
-}
-
-#EmailBtnWrapper {
-  width: 21%;
-}
-
-#EmailBtn {
-  width: 100%;
-}
-
 #Main {
   padding: 1% 0;
   align-items: center;
 }
 
 #Wrapper {
-  width: 70%;
-  aspect-ratio: 1/1;
-  border-radius: 10% 10% 10% 10%/ 10% 10% 10% 10%;
+  width: 40%;
+  border-radius: 4%;
   border-width: 2px;
   border-style: solid;
   border-color: var(--border-light-color);
-  padding: 0 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,7 +25,26 @@
 
 @media (max-width: 768px) {
   #Wrapper {
-    width: 80%;
+    width: 60%;
     aspect-ratio: 1/1;
   }
+}
+
+.Field {
+  margin: 2% 0;
+  width: 86% !important;
+}
+
+.Label {
+  font-family: "SuitSemiBold", var(--default-font-family);
+  font-weight: 600;
+}
+
+#BtnWrapper {
+  width: 82%;
+  margin-top: 2%;
+}
+
+#Btn {
+  width: 100%;
 }
