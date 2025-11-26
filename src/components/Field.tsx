@@ -53,13 +53,24 @@ export function Field(props: FieldProps) {
       "ErrorText",
       "ErrorTextProps",
       "required",
+      "disabled",
     ],
     ["class", "id", "classList", "style"]
   );
 
   return (
-    <ArkField.Root {...rest} {...splitComponentProps(style, styles.Root)} required={local.required}>
-      <ArkField.Label {...splitComponentProps(local.LabelProps, styles.Label)}>
+    <ArkField.Root
+      {...rest}
+      {...splitComponentProps(style, styles.Root)}
+      required={local.required}
+      disabled={local.disabled}
+    >
+      <ArkField.Label
+        {...splitComponentProps(local.LabelProps, styles.Label)}
+        classList={{
+          [styles.DisabledLabel]: local.disabled
+        }}
+      >
         {local.Label}
         <ArkField.RequiredIndicator class={styles.RequiredIndicator} />
       </ArkField.Label>
