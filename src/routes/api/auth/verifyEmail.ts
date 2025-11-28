@@ -14,8 +14,9 @@ async function handler({ request: req }: APIEvent) {
 
 		return await fetch(process.env.SERVER_URL!, {
 			headers: {
-				Authorization: `Bearer ${process.env.SERVER_AUTHORIZATION_KEY!}`,
-				...req.headers,
+				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
+				"Content-Type": "application/json",
+				"Accept": "application/json"
 			},
 			body: req.body
 		});
