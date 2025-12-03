@@ -1,10 +1,10 @@
 import { createSignal, createEffect, createMemo, onCleanup } from "solid-js";
-import { ComponentProps } from "@/types/ComponentProps";
+import { DivProps } from "@/types/ComponentProps";
 import { splitProps } from "solid-js";
 import styles from "@styles/Timer.module.css";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-export interface TimerProps extends ComponentProps {
+export interface TimerProps extends DivProps {
   second: number;
   isRunning: boolean;
   onEnd?: () => void | Promise<void>;

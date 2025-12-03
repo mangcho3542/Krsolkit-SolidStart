@@ -3,7 +3,6 @@ import { splitProps } from "solid-js";
 import CloseIcon from "@images/CloseIcon.svg?raw";
 import styles from "@styles/CloseBtn.module.css";
 import { BtnProps } from "./Btn";
-import { convertCss } from "@/utils/converCss";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
 interface SvgPropsI extends Omit<SvgProps, "value"> {

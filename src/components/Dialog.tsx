@@ -7,27 +7,25 @@ import {
 } from "solid-js";
 import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
-import { ComponentProps } from "@/types/ComponentProps";
-import { convertCss } from "./../utils/converCss";
+import { DivProps } from "@/types/ComponentProps";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-interface ComponentPropsWithChoice extends ComponentProps {
+interface PUD extends DivProps {
   useDefaultStyle?: boolean;
 }
 
-export interface DialogProps extends ComponentPropsWithChoice {
-  useDefaultStyle?: boolean;
+export interface DialogProps extends PUD {
   open?: boolean;
   TrgRef?: HTMLElement;
-  CloseTriggerProps?: ComponentPropsWithChoice;
+  CloseTriggerProps?: PUD;
   onOpen?: () => void;
   onClose?: () => void;
-  WrapperProps?: ComponentPropsWithChoice;
-  TitleProps?: ComponentPropsWithChoice;
+  WrapperProps?: PUD;
+  TitleProps?: PUD;
   Title?: JSX.Element;
-  DescProps?: ComponentPropsWithChoice;
+  DescProps?: PUD;
   Desc?: JSX.Element;
-  ContentProps?: ComponentPropsWithChoice;
+  ContentProps?: PUD;
   Content?: JSX.Element;
 }
 

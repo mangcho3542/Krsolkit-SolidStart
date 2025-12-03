@@ -1,9 +1,9 @@
 import styles from "@styles/Stack.module.css";
-import { ComponentProps } from "@/types/ComponentProps";
+import { DivProps } from "@/types/ComponentProps";
 import { splitProps } from "solid-js";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
-export interface StackProps extends ComponentProps {
+export interface StackProps extends DivProps {
   useDefaultStyle?: boolean;
 }
 
