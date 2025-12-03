@@ -15,3 +15,16 @@ export type PUS<T extends Omit<ComponentProps, "style">> = Omit<
   useDefaultStyle?: boolean;
   style?: JSX.CSSProperties;
 };
+
+export type DivProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "style"> & {
+  style?: JSX.CSSProperties;
+};
+export type ParagraphProps = Omit<JSX.HTMLAttributes<HTMLParagraphElement>, "style"> & {
+  style?: JSX.CSSProperties;
+};
+export type SpanProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "style"> & {
+  style?: JSX.CSSProperties;
+};
+export type ButtonProps = Omit<JSX.HTMLAttributes<HTMLButtonElement>, "style"> & {
+  style?: JSX.CSSProperties;
+}
