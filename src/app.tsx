@@ -10,7 +10,7 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <Title>ClassHelper</Title>
+          <Title>Krsolkit</Title>
 
           <DefaultLayout>
             <Suspense>{props.children}</Suspense>

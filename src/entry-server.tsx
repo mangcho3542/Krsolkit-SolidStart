@@ -21,9 +21,9 @@ export default createHandler(() => (
             name="naver-site-verification"
             content="3cff97800409b4e18a8e88da2b6adf021e976123"
           />
-          <meta name="application-name" content="ClassHelper" />
+          <meta name="application-name" content="Krsolkit" />
           <meta name="referrer" content="origin-when-cross-origin" />
-          <link rel="canonical" href="https://yourdomain.com/" />
+          <link rel="canonical" href="https://krsolkit.com/" />
           <link rel="icon" href="/favicon.ico" />
           {assets}
         </head>

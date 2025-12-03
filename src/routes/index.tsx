@@ -36,22 +36,27 @@ export default function Home() {
 
   return (
     <>
-      <Title>ClassHelper</Title>
+      <Title>Krsolkit</Title>
       <Meta
         name="description"
-        content="교사와 학생을 위한 도구. 자리 바꾸는 것을 돕는 기능을 제공합니다."
+        content={`교사와 학생을 위한 도구. 자리 바꾸는 것을 돕는 기능을 제공합니다.
+          또한 아스키 아트, 비밀번호 생성기 등의 여러 도구 등을 제공합니다.
+          `}
+
       />
       <Meta
         name="keywords"
-        content="학급 관리, 자리 바꾸기, 교사용 도구, 학생 관리, 학교 앱, 수업 도우미"
+        content={`학급 관리, 자리 바꾸기, 교사용 도구, 학생 관리, 학교 앱, 수업 도우미, 
+          비밀번호 생성, 아스키 아트
+          `}
       />
       <Meta
         property="og:title"
-        content="클래스 헬퍼 - 교사와 학생을 위한 학급 도우미"
+        content="Krsolkit - 도구 모음 사이트"
       />
       <Meta
         property="og:description"
-        content="자리 바꾸기를 도와주는 학급 도우미 사이트"
+        content="자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구를 제공합니다."
       />
       <Meta property="og:url" content="https://classhelper.kr" />
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
@@ -61,7 +66,7 @@ export default function Home() {
         <section id={styles.Intro}>
           <h1 id={styles.H1}>ClassHelper</h1>
 
-          <Mark id={styles.Mark}>선생님들 및 학생을 돕는 사이트</Mark>
+          <Mark id={styles.Mark}>자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구를 제공하는 사이트</Mark>
         </section>
 
         <section id={styles.MainIntro}>
