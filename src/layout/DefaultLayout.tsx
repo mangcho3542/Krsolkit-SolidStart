@@ -33,7 +33,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
           }}
         >
           <img id={styles.Logo} src={Logo} />
-          <A href="/" id={styles.LogoText}>ClassHelper</A>
+          <A href="/" id={styles.LogoText}>Krsolkit</A>
         </header>
 
         <div id={styles.SideMenuWrapper}>
