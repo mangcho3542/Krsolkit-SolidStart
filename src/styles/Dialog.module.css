@@ -47,7 +47,6 @@
   margin: 0;
   width: 100vw;
   height: 100vh;
-  display: grid;
   /* top-center 배치 */
   align-items: start;
   justify-items: center;
