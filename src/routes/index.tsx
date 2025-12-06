@@ -58,15 +58,15 @@ export default function Home() {
         property="og:description"
         content="자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구를 제공합니다."
       />
-      <Meta property="og:url" content="https://classhelper.kr" />
-      <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
+      <Meta property="og:url" content="https://krsolkit.com" />
+      <Meta property="og:image" content="https://krsoltkit.com/favicon.png" />
       <Meta property="og:type" content="website" />
 
       <main class={`Main ${styles.Main}`}>
         <section id={styles.Intro}>
-          <h1 id={styles.H1}>ClassHelper</h1>
+          <h1 id={styles.H1}>Krsolkit</h1>
 
-          <Mark id={styles.Mark}>자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구를 제공하는 사이트</Mark>
+          <Mark id={styles.Mark}>자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구</Mark>
         </section>
 
         <section id={styles.MainIntro}>
