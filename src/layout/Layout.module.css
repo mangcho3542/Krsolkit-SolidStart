@@ -9,12 +9,14 @@
   -webkit-text-size-adjust: 100%;
 
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 0 0 2% 0;
-  padding: 0.5% 0.5% 0.5% 2%;
-  border-bottom-width: 1px;
+  padding: 1%;
+  border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: var(--border-light-color);
 }
@@ -31,15 +33,16 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+  padding-left: 1%;
 }
 
 #Logo {
-  height: 6vh;
+  height: 5vh;
   aspect-ratio: 1/1;
 }
 
 #LogoText {
-  margin-left: 1%;
+  margin-left: 2%;
   font-family: "SuitExtraBold", var(--default-font-family);
   font-size: 1.4rem;
 }

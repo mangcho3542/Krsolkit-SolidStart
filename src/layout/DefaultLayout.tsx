@@ -1,5 +1,6 @@
 import { JSX } from "solid-js";
 import styles from "./Layout.module.css";
+import MenuIcon from "@images/MenuIcon.svg";
 import Logo from "@images/Logo.svg";
 import A from "@components/A";
 import { Link } from "@solidjs/meta";
