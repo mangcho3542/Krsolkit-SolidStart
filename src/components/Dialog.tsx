@@ -7,16 +7,16 @@ import {
 } from "solid-js";
 import CloseBtn from "./CloseBtn";
 import styles from "@styles/Dialog.module.css";
-import { DivProps } from "@/types/ComponentProps";
+import { DivProps, DialogProps as DlgProps } from "@/types/ComponentProps";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 
 interface PUD extends DivProps {
   useDefaultStyle?: boolean;
 }
 
-export interface DialogProps extends PUD {
+export interface DialogProps extends DlgProps {
   open?: boolean;
-  TrgRef?: HTMLElement;
+  TrgRef?: HTMLButtonElement | HTMLElement;
   CloseTriggerProps?: PUD;
   onOpen?: () => void;
   onClose?: () => void;
@@ -27,6 +27,7 @@ export interface DialogProps extends PUD {
   Desc?: JSX.Element;
   ContentProps?: PUD;
   Content?: JSX.Element;
+  useDefaultStyle?: boolean;
 }
 
 //dialog닫힘 -> setOpen(false) -> local.onClose?.()(useEffect 때문에 open바뀌고 나서 실행)
