@@ -16,15 +16,12 @@ export type PUS<T extends Omit<ComponentProps, "style">> = Omit<
   style?: JSX.CSSProperties;
 };
 
-export type DivProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "style"> & {
-  style?: JSX.CSSProperties;
-};
-export type ParagraphProps = Omit<JSX.HTMLAttributes<HTMLParagraphElement>, "style"> & {
-  style?: JSX.CSSProperties;
-};
-export type SpanProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "style"> & {
-  style?: JSX.CSSProperties;
-};
-export type ButtonProps = Omit<JSX.HTMLAttributes<HTMLButtonElement>, "style"> & {
+export type StyleT<T> = T & {
   style?: JSX.CSSProperties;
 }
+
+export type DivProps = StyleT<Omit<JSX.HTMLAttributes<HTMLDivElement>, "style">>;
+export type ParagraphProps = StyleT<Omit<JSX.HTMLAttributes<HTMLParagraphElement>, "style">>;
+export type SpanProps = StyleT<Omit<JSX.HTMLAttributes<HTMLSpanElement>, "style">>;
+export type ButtonProps = StyleT<Omit<JSX.HTMLAttributes<HTMLButtonElement>, "style">>;
+export type DialogProps = StyleT<Omit<JSX.HTMLAttributes<HTMLDialogElement>, "style">>;
