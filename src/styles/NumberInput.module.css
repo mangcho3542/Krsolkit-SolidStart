@@ -1,0 +1,82 @@
+.Root {
+    display: flex;
+    flex-direction: column;
+}
+
+.Label {
+    font-size: var(--label-font-size);
+    font-family: "SuitMedium", var(--default-font-family);
+    font-weight: 500;
+    border: none;
+}
+
+.Group {
+    display: flex;
+    flex-direction: row;
+}
+
+.Input {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--border-color);
+
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    padding: 0 2%;
+    line-height: 1.5;
+}
+
+.Input:focus {
+    outline: none;
+    border-color: var(--input-focus-box-shadow-color);
+    box-shadow: 0 0 0 0.4px var(--input-focus-box-shadow-color) inset;
+}
+
+.Control {
+    display: flex;
+    flex-direction: column;
+    width: 1.5rem;
+    z-index: 1;
+    border-inline-start-width: 1px;
+}
+
+.IncTrg, .DecTrg {
+    display: flex;
+    height: 50%;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    user-select: none;
+    cursor: pointer;
+    line-height: 1;
+    color: #52525b;
+    border-style: solid;
+    border-color: var(--border-color);
+    background-color: #ffffff;
+}
+
+.IncTrg {
+    border-width: 1px 1px 1px 0;
+    border-start-end-radius: calc(0.125rem + 1px);
+}
+
+.DecTrg {
+    border-width: 0 1px 1px 0;
+    border-end-end-radius: calc(0.125rem + 1px);
+}
+
+@media (prefers-color-scheme: dark) {
+    .IncTrg, .DecTrg {
+        color: #a1a1aa;
+        background-color: #09090b;
+    }
+}
+
+.TrgIcon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
