@@ -3,8 +3,9 @@
     --svg-dark-color: #c4c8c6;
     --svg-color: var(--svg-light-color);
 
-    --border-light-color: #d1d5db;
-    --border-dark-color: #6b7280;
+    --border-light-color: #d4d4d8;
+    --border-dark-color: #3f3f46;
+    --border-color: var(--border-light-color);
     
     --error-light-color: #ef4444;
     --error-dark-color: #f87171;
@@ -12,6 +13,17 @@
     --label-disabled-light-color: #848485;
     --label-disabled-dark-color: #818182;
     --label-disabled-color: var(--label-disabled-light-color);
+
+    /*checkbox */
+    --checkbox-invalid-color: #dc2626;
+    
+    --checkbox-disabled-light-color: #8b8b8c;
+    --checkbox-disabled-dark-color: #838385;
+    --checkbox-disabled-color: #8b8b8c;
+
+    --checkbox-disabled-label-light-color: #e4e4e7;
+    --checkbox-disabled-label-dark-color: #838385;
+    --checkbox-disabled-label-color: var(--checkbox-disabled-light-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,5 +31,8 @@
         --svg-color: var(--svg-dark-color);
         --label-disabled-color: var(--label-disabled-dark-color);
         --input-disabled-border-color: var(--input-disabled-dark-border-color);
+        --border-color: var(--border-dark-color);
+        --checkbox-disabled-color: var(--checkbox-disabled-dark-color);
+        --checkbox-disabled-label-color: var(--checkbox-disabled-label-dark-color);
     }
 }
