@@ -10,6 +10,12 @@ body,
   line-height: 1;
   font-weight: 400;
   color-scheme: light dark;
+  font-feature-settings: "cv11";
+  font-kerning: auto;
+  font-language-override: normal;
+  font-optical-sizing: auto;
+
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,6 +34,7 @@ body,
   color: #09090b;
   background-color: #ffffff;
   text-decoration-color: #09090b;
+  border-radius: 0.125rem;
 }
 
 @media (prefers-color-schema: dark) {
