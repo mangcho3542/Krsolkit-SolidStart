@@ -1,42 +1,47 @@
-import { Dialog } from "@components/Dialog";
+import styles from "./test.module.css";
+import CheckboxGroup from "@/components/CheckboxGroup"
 
 export default function test() {
-	let btnRef: HTMLButtonElement | undefined = undefined;
-
 	return (
-		<main
-			class="Main"
-			style={{
-				"align-items": "center",
-			}}
-		>
-			<div
-				style={{
-					width: "100%",
-					height: "20%",
-                    display: "flex",
-                    "flex-direction": "column",
-                    "align-items": "center",
-                    "padding-top": "10%"
-				}}
-			>
-				<button
-					ref={(el: HTMLButtonElement) => (btnRef = el)}
-					style={{
-						width: "10%",
-						height: "100%",
-						"background-color": "black",
-						color: "white",
-					}}
-				>
-					버튼
-				</button>
-			</div>
-			<Dialog 
-            Title="타이틀" 
-            Desc="Desc" 
-            TrgRef={btnRef}
-            />
+		<main class="Main" style={{
+			"align-items": "center"
+		}}>
+			<CheckboxGroup
+			class={styles.CheckboxGroup}
+			CheckboxAry={[
+				{
+					value: "기본",
+					Label: "기본"
+				},
+				{
+					value: "기본 defaultChecked",
+					Label: "기본 defaultChecked",
+					defaultChecked: true
+				},
+				{
+					value: "invalid",
+					Label: "invalid",
+					invalid: true
+				},
+				{
+					value: "invalid defaultChecked",
+					Label: "invalid defaultChecked",
+					invalid: true,
+					defaultChecked: true
+				},
+				{
+					value: "disabled",
+					Label: "disabled",
+					disabled: true
+				},
+				{
+					value: "disabled defaultChecked",
+					Label: "disabled defaultChecked",
+					disabled: true,
+					defaultChecked: true
+				},
+			]}
+			/>
 		</main>
-	);
+	)
 }
