@@ -3,9 +3,13 @@
     --svg-dark-color: #c4c8c6;
     --svg-color: var(--svg-light-color);
 
-    --border-light-color: #d4d4d8;
-    --border-dark-color: #3f3f46;
+    --border-light-color: #e4e4e7;
+    --border-dark-color: #27272a;
     --border-color: var(--border-light-color);
+
+    --input-focus-box-shadow-color: #a1a1aa;
+
+    --border-radius: calc(0.125rem + 1px);
     
     --error-light-color: #ef4444;
     --error-dark-color: #f87171;

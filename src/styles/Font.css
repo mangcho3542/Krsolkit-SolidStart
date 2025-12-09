@@ -2,6 +2,7 @@
 :root {
   /*기본 font family*/
   --default-font-family: system-ui, -apple-system, "Malgun Gothic", 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --label-font-size: 0.875rem;
 }
 
 /*SuitThin 100*/
