@@ -25,3 +25,4 @@ export type ParagraphProps = StyleT<Omit<JSX.HTMLAttributes<HTMLParagraphElement
 export type SpanProps = StyleT<Omit<JSX.HTMLAttributes<HTMLSpanElement>, "style">>;
 export type ButtonProps = StyleT<Omit<JSX.HTMLAttributes<HTMLButtonElement>, "style">>;
 export type DialogProps = StyleT<Omit<JSX.HTMLAttributes<HTMLDialogElement>, "style">>;
+export type ImageProps= StyleT<Omit<JSX.HTMLAttributes<HTMLImageElement>, "style">>;
