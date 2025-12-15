@@ -126,7 +126,7 @@ export default function StudentTable(props: StudentTableProps) {
       <div id={styles.Wrapper} ref={(el) => (wrpRef = el)}>
         <div id={styles.WhiteBoard}>칠판</div>
 
-        <div {...rest} style={convertCss(rest.css)}>
+        <div {...rest}>
           {Array.from({ length: local.column }, (_1, i) => (
             <div
               class={styles.TableColumn}
