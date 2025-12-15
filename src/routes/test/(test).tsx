@@ -1,24 +1,35 @@
-import styles from "./test.module.css";
-import NumberInput from "@/components/NumberInput";
+import Btn from "@/components/Btn";
+import Drawer from "@/components/Drawer";
+import { createSignal } from "solid-js";
 
 export default function test() {
+	const [btnRef, setBtnRef] = createSignal<HTMLButtonElement | undefined>();
+
 	return (
-		<main class="Main" style={{
-			"align-items": "center"
-		}}>
-			<div
+		<main
+			class="Main"
 			style={{
-				display: "flex",
-				"flex-direction": "column",
 				"align-items": "center",
-				padding: "5%"
 			}}
+		>
+			<Btn
+				style={{
+					display: "inline-block",
+					width: "30%",
+				}}
+				ref={(el) => setBtnRef(el)}
+				onClick={() => {console.log("클릭됨.")}}
 			>
-				<NumberInput
-				Label="Label"
-				useTrg={true}
-				/>
-			</div>
+				버튼
+			</Btn>
+
+			<Drawer
+			Title="Title"
+			Body="Body"
+			Footer="Footer"
+			TrgRef={btnRef}
+			placement="bottom"
+			/>
 		</main>
-	)
+	);
 }
