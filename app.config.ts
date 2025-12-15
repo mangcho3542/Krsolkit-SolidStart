@@ -7,7 +7,6 @@ export default defineConfig({
   },
   server: {
     prerender: {
-      routes: ["/"],
       crawlLinks: true
     }
   }
