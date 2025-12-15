@@ -1,0 +1,191 @@
+.Backdrop,
+.Backdrop[data-open="false"] {
+    position: fixed;
+    inset-inline-start: 0;
+    top: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 1300;
+    pointer-events: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+
+    transition: background-color 0.5s cubic-bezier(.2, .8, .2, 1);
+}
+
+.Backdrop[data-open="true"] {
+    background-color: rgba(0, 0, 0, 0.36);
+}
+
+.Positioner {
+    width: 100vw;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    overscroll-behavior-y: none;
+    z-index: 1400;
+    pointer-events: none;
+    background-color: transparent;
+
+    padding: 0;
+    margin: 0;
+}
+
+.Dialog {
+    font-size: 0.875rem;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    position: fixed;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1%;
+}
+
+.Dialog[data-open="true"] {
+    overflow-y: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+    .Dialog {
+        background-color: #000000;
+    }
+}
+
+/*start, end */
+.Dialog[data-placement="start"],
+.Dialog[data-placement="end"] {
+    min-width: 18rem;
+    max-width: 25rem;
+    height: 100%;
+    max-height: 100%;
+}
+
+/*start */
+.Dialog[data-placement="start"] {
+    left: 0;
+}
+
+.Dialog[data-open="false"][data-placement="start"] {
+    transform: translateX(-100%);
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        /* 이동 애니메이션 */
+        visibility 0s linear 0.5s;
+    /* 닫힐 때 포인터 차단용 */
+    will-change: transform;
+}
+
+.Dialog[data-open="true"][data-placement="start"] {
+    transform: translateX(0);
+    visibility: visible;
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        visibility 0s linear 0s;
+}
+
+/*end */
+.Dialog[data-placement="end"] {
+    right: 0;
+}
+
+/*end 애니메이션*/
+.Dialog[data-open="false"][data-placement="end"] {
+    transform: translateX(100%);
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        /* 이동 애니메이션 */
+        visibility 0s linear 0.5s;
+    /* 닫힐 때 포인터 차단용 */
+    will-change: transform;
+}
+
+.Dialog[data-open="true"][data-placement="end"] {
+    transform: translateX(0);
+    visibility: visible;
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        visibility 0s linear 0s;
+    /* 열 때는 즉시 visible 처리 */
+}
+
+/*top, bottom */
+.Dialog[data-placement="top"], .Dialog[data-placement="bottom"] {
+    min-height: 11rem;
+    max-height: 20rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+/*top */
+.Dialog[data-placement="top"] {
+    top: 0;
+}
+
+.Dialog[data-placement="top"][data-open="false"] {
+    transform: translateY(-100%);
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        /* 이동 애니메이션 */
+        visibility 0s linear 0.5s;
+    /* 닫힐 때 포인터 차단용 */
+    will-change: transform;
+}
+
+.Dialog[data-placement="top"][data-open="true"] {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        visibility 0s linear 0s;
+}
+
+/*bottom */
+.Dialog[data-placement="bottom"] {
+    bottom: 0;
+}
+
+.Dialog[data-placement="bottom"][data-open="false"] {
+    transform: translateY(100%);
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        /* 이동 애니메이션 */
+        visibility 0s linear 0.5s;
+    /* 닫힐 때 포인터 차단용 */
+    will-change: transform;
+}
+
+.Dialog[data-placement="bottom"][data-open="true"] {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+        transform 0.5s cubic-bezier(.2, .8, .2, 1),
+        visibility 0s linear 0s;
+}
+
+.Dialog::backdrop {
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.Title {
+    display: inline-block;
+}
+
+.Body {
+    display: flex;
+    flex-direction: column;
+}
+
+.Footer {
+    display: inline-block;
+}
+
+/* dialog가 열린 상태일 때에만 포인터 이벤트 허용 */
+.Backdrop[data-open="true"],
+.Positioner[data-open="true"] {
+    pointer-events: auto;
+}
