@@ -1,4 +1,9 @@
 :root {
+    --bg-light-color: #ffffff;
+    --bg-dark-color: #09090b;
+    --bg-color: var(--bg-light-color);
+    --bg-reversed-color: var(--bg-dark-color);
+
     --svg-light-color: #454746;
     --svg-dark-color: #c4c8c6;
     --svg-color: var(--svg-light-color);
@@ -32,6 +37,8 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --bg-color: var(--bg-dark-color);
+        --bg-reversed-color: var(--bg-light-color);
         --svg-color: var(--svg-dark-color);
         --label-disabled-color: var(--label-disabled-dark-color);
         --input-disabled-border-color: var(--input-disabled-dark-border-color);
