@@ -6,10 +6,16 @@
 #Intro {
   padding: 0 2%;
   font-family: "SuitExtraBold", var(--default-font-family);
-  font-size: 3.5rem;
+  font-size: 3rem;
   display: flex;
   flex-direction: column;
   margin: 10% 0;
+}
+
+@media (max-width: 767px) {
+  #Intro {
+    font-size: 1.58rem;
+  }
 }
 
 #H1 {
@@ -44,7 +50,7 @@
 
 #MainIntro {
   padding: 0 2%;
-  display: inline-block;
+  display: inline-block;  
 }
 
 #H2 {
@@ -52,25 +58,26 @@
   font-size: 2rem;
 }
 
+@media (max-width :767px) {
+  #H2 {
+    font-size: 1.3rem;
+  }
+}
+
 .Card {
   padding: 0.5%;
-  width: 100%;
-  align-items: center;
   margin-bottom: 4%;
 }
 
 .CardIcon {
-  height: 100%;
   aspect-ratio: 1/1;
+  max-width: 20%;
 }
 
 .CardDesc {
   height: 100%;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  padding: 2% 2% 2% 3%;
+  padding: 1%;
+  width: fit-content;
 }
 
 .CardTtl {
@@ -83,14 +90,4 @@
   white-space: pre-wrap;
   margin-top: 5%;
   font-size: 1.3rem;
-}
-
-.BtnWrapper {
-  margin-top: 5%;
-  padding-left: 6%;
-}
-
-.Btn {
-  font-size: 1.5rem;
-  font-family: "SuitBold", var(--default-font-family);
 }
