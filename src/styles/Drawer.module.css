@@ -172,8 +172,20 @@
 }
 
 .Title {
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
+
+.CloseBtn {
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border-width: 0;
+}
+
+
 
 .Body {
     display: flex;

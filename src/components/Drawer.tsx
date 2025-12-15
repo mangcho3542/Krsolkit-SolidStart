@@ -1,21 +1,29 @@
 import styles from "@styles/Drawer.module.css";
-import { DivProps, PUS, ComponentProps } from "@/types/ComponentProps";
+import {
+	DivProps,
+	PUS,
+	ComponentProps,
+	ImageProps,
+} from "@/types/ComponentProps";
 import { splitComponentProps } from "@/utils/splitComponentProps";
 import {
 	createEffect,
 	createSignal,
 	JSXElement,
 	onCleanup,
-	onMount,
 	splitProps,
 } from "solid-js";
 import { Portal } from "solid-js/web";
+import { Btn, BtnProps } from "./Btn";
+import CloseIcon from "@images/CloseIcon.svg";
 
 export interface DrawerProps extends DivProps {
 	BackdropProps?: PUS<ComponentProps>;
 	PositionerProps?: PUS<DivProps>;
 	Title?: JSXElement;
 	TitleProps?: PUS<DivProps>;
+	CloseBtnProps?: BtnProps;
+	CloseIconProps?: ImageProps;
 	Body?: JSXElement;
 	BodyProps?: PUS<DivProps>;
 	Footer?: JSXElement;
@@ -34,6 +42,8 @@ export function Drawer(props: DrawerProps) {
 		"PositionerProps",
 		"Title",
 		"TitleProps",
+		"CloseBtnProps",
+		"CloseIconProps",
 		"Body",
 		"BodyProps",
 		"Footer",
@@ -86,7 +96,7 @@ export function Drawer(props: DrawerProps) {
 
 		portal.dataset.open = open().toString();
 		portal.dataset.scope = "dialog";
-		portal.dataset.part = "backdrop"
+		portal.dataset.part = "backdrop";
 
 		portal.onclick = (e) => {
 			// 실제 백드롭(빈 영역) 클릭인지 확인
@@ -97,20 +107,20 @@ export function Drawer(props: DrawerProps) {
 	});
 
 	createEffect(() => {
-		if(typeof(window) === "undefined") return;
+		if (typeof window === "undefined") return;
 
-		const preventScroll = (e: Event) => {if(open()) e.preventDefault()};
-		
-		document.addEventListener("wheel", preventScroll, {passive: false});
-		document.addEventListener("touchmove", preventScroll, {passive: false});
-		
+		const preventScroll = (e: Event) => {
+			if (open()) e.preventDefault();
+		};
+
+		document.addEventListener("wheel", preventScroll, { passive: false });
+		document.addEventListener("touchmove", preventScroll, { passive: false });
 
 		onCleanup(() => {
 			document.removeEventListener("wheel", preventScroll);
 			document.removeEventListener("touchmove", preventScroll);
-			
-		})
-	})
+		});
+	});
 
 	return (
 		<Portal ref={(el) => setPortalRef(el)}>
@@ -142,6 +152,13 @@ export function Drawer(props: DrawerProps) {
 				>
 					<div {...splitComponentProps(local.TitleProps, styles.Title)}>
 						{local.Title}
+						<Btn {...splitComponentProps(local.CloseBtnProps, styles.CloseBtn)}
+						onClick={() => {setOpen(false);}}>
+							<img
+								src={CloseIcon}
+								{...splitComponentProps(local.CloseIconProps, styles.CloseIcon)}
+							/>
+						</Btn>
 					</div>
 
 					<div {...splitComponentProps(local.BodyProps, styles.Body)}>
