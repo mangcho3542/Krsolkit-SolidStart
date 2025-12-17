@@ -1,4 +1,4 @@
-import { ComponentProps } from "@/types/ComponentProps";
+import { ComponentProps } from "@types";
 
 type T = Omit<ComponentProps, "children"> & {
   useDefaultStyle?: boolean;
