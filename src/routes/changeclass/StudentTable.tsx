@@ -1,11 +1,9 @@
-import { ComponentProps } from "@/types/ComponentProps";
-import { createEffect, createSignal, JSX, splitProps } from "solid-js";
+import { ComponentProps } from "@types";
+import { createEffect, createSignal, splitProps } from "solid-js";
 import { createStore } from "solid-js/store";
-import { shuffle } from "@/utils/shuffle";
+import { shuffle, capture } from "@utils";
 import styles from "./chageclass.module.css";
-import Btn from "@components/Btn";
-import { convertCss } from "@/utils/converCss";
-import { capture } from "@/utils/capture";
+import { Btn } from "@components";
 
 interface StudentTableProps extends Omit<ComponentProps, "children"> {
   row: number;

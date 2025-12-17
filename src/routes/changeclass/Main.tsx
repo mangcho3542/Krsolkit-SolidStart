@@ -1,12 +1,9 @@
 import styles from "./chageclass.module.css";
 import QuestionImg from "@images/QuestionCircleIcon.svg?raw";
-import Stack from "@components/Stack";
-import Slider from "@components/Slider";
+import { Slider, Dialog, Svg } from "@components";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
-import Dialog from "@/components/Dialog";
 import DlgContent from "./DlgContent";
-import Svg from "@/components/Svg";
 
 export default function Main() {
   const [col, setCol] = createSignal(5);
@@ -34,7 +31,7 @@ export default function Main() {
         id={styles.DlgRoot}
       />
 
-      <Stack id={styles.SliderWrapper}>
+      <div id={styles.SliderWrapper} style={{display: "flex", "flex-direction": "column"}}>
         <Slider
           step={1}
           defaultValue={[5]}
@@ -58,7 +55,7 @@ export default function Main() {
             setRow(e.value[0]);
           }}
         />
-      </Stack>
+      </div>
 
       <StudentTable class={styles.TableWrapper} column={col()} row={row()} />
     </>

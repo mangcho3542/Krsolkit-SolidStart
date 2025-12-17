@@ -2,7 +2,7 @@ import { Title } from "@solidjs/meta";
 import { HttpStatusCode } from "@solidjs/start";
 import { useLocation } from "@solidjs/router";
 import styles from "@styles/404.module.css";
-import A from "@components/A";
+import { A } from "@components";
 
 const DEV_PATHS = ["/about", "/eng_word"];
 

@@ -1,13 +1,9 @@
 import { Title, Meta } from "@solidjs/meta";
 import styles from "./login.module.css";
-import Field from "@/components/Field";
-import PasswordInput from "@/components/PasswordInput";
-import Btn from "@/components/Btn";
-import A from "@/components/A";
+import { Field, PasswordInput, Btn, A, createToaster, Toast } from "@components";
 import { createStore } from "solid-js/store";
 import axios from "axios";
-import { createToaster, Toast } from "@components/Toast";
-import { validateEmail, validaetPw } from "@utils/validate";
+import { validateEmail, validaetPw } from "@utils";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [

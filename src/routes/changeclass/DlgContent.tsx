@@ -1,7 +1,7 @@
 import { JSXElement } from "solid-js";
 import styles from "./chageclass.module.css";
-import ColorSwatch from "@/components/ColorSwatch";
-import { Hex } from "@/types/ColorType";
+import { ColorSwatch } from "@components";
+import { Hex } from "@types";
 
 export default function DlgContent() {
   const titleList: string[] = ["자리배치", "자리", "자리 바꾸기", "결과 저장"];

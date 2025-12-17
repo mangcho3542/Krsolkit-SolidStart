@@ -1,14 +1,10 @@
 import styles from "./signup.module.css";
-import Field from "@/components/Field";
-import PasswordInput from "@/components/PasswordInput";
+import { Field, Btn, PasswordInput, Toast, createToaster } from "@components";
 import axios from "axios";
 import { createStore } from "solid-js/store";
-import Btn from "@/components/Btn";
-import { validateEmail, validaetPw } from "@utils/validate";
+import { validateEmail, validaetPw, checkType } from "@utils";
 import { createEffect, createSignal } from "solid-js";
-import { Toast, createToaster } from "@/components/Toast";
 import { z } from "zod";
-import checkType from "@/utils/checkType";
 
 //ResponseT
 const ResponseBaseT = z.object({
