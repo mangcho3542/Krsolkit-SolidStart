@@ -1,6 +1,6 @@
-import status from "@/lib/status";
+import { status } from "@lib";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
-import checkType from "@/utils/checkType";
+import { checkType } from "@utils";
 import { z } from "zod";
 
 const BodyT = z.object({

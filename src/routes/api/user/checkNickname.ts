@@ -1,5 +1,5 @@
-import status from "@/lib/status";
-import checkType from "@/utils/checkType";
+import { status } from "@lib";
+import { checkType } from "@utils";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
 

@@ -1,9 +1,9 @@
-import status from "@/lib/status";
-import { HttpStatus } from "@/types/HttpStatus";
+import { status } from "@lib";
+import { HttpStatus } from "@types";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { setCookie } from "vinxi/http";
 import { z } from "zod";
-import checkType from "@/utils/checkType";
+import { checkType } from "@utils";
 
 const BodyT = z.object({
 	email: z.email(),
@@ -30,9 +30,9 @@ async function handler({
 			headers: {
 				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
 				"Content-Type": "application/json",
-				"Accept": "application/json"
+				Accept: "application/json",
 			},
-			body: req.body
+			body: req.body,
 		});
 
 		const data = await res.json();

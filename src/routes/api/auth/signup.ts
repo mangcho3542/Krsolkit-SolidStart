@@ -1,9 +1,9 @@
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
-import status from "@/lib/status";
-import checkType from "@/utils/checkType";
+import { status } from "@lib";
+import { checkType } from "@utils";
 import { setCookie } from "vinxi/http";
-import { HttpStatus } from "@/types/HttpStatus";
+import { HttpStatus } from "@types";
 
 export const SignupBodyT = z.object({
 	email: z.email(),
