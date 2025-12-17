@@ -10,8 +10,8 @@ import {
 } from "@ark-ui/solid/slider";
 import { JSXElement, splitProps, JSX } from "solid-js";
 import styles from "@styles/Slider.module.css";
-import { splitComponentProps } from "@/utils/splitComponentProps";
-import { ComponentProps } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils";
+import { ComponentProps } from "@types";
 
 interface SliderLabelWrapperProps extends ComponentProps {
   useDefaultStyle?: boolean;
@@ -56,7 +56,7 @@ export interface SliderProps extends Omit<SliderRootProps, "style"> {
 }
 
 export function Slider(props: SliderProps) {
-  const [other, style, rest] = splitProps(
+  const [local, rest] = splitProps(
     props,
     [
       "LabelWrapperProps",
@@ -67,39 +67,38 @@ export function Slider(props: SliderProps) {
       "TrackProps",
       "RangeProps",
       "ThumbProps",
-    ],
-    ["class", "id", "classList", "style", "useDefaultStyle"]
+    ]
   );
 
   return (
     <ArkSlider.Root {...splitComponentProps(style, styles.Root)} {...rest}>
       <div
-        {...splitComponentProps(other.LabelWrapperProps, styles.LabelWrapper)}
+        {...splitComponentProps(local.LabelWrapperProps, styles.LabelWrapper)}
       >
         <ArkSlider.Label
-          {...splitComponentProps(other.LabelProps, styles.Label)}
+          {...splitComponentProps(local.LabelProps, styles.Label)}
         >
-          {other.Label}
+          {local.Label}
         </ArkSlider.Label>
         <ArkSlider.ValueText
-          {...splitComponentProps(other.ValueTextProps, styles.ValueText)}
+          {...splitComponentProps(local.ValueTextProps, styles.ValueText)}
         />
       </div>
 
       <ArkSlider.Control
-        {...splitComponentProps(other.ControlProps, styles.Control)}
+        {...splitComponentProps(local.ControlProps, styles.Control)}
       >
         <ArkSlider.Track
-          {...splitComponentProps(other.TrackProps, styles.Track)}
+          {...splitComponentProps(local.TrackProps, styles.Track)}
         >
           <ArkSlider.Range
-            {...splitComponentProps(other.RangeProps, styles.Range)}
+            {...splitComponentProps(local.RangeProps, styles.Range)}
           />
         </ArkSlider.Track>
 
         <ArkSlider.Thumb
           index={0}
-          {...splitComponentProps(other.ThumbProps, styles.Thumb)}
+          {...splitComponentProps(local.ThumbProps, styles.Thumb)}
           draggable={true}
         >
           <ArkSlider.HiddenInput />

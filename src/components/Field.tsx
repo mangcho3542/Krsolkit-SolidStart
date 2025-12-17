@@ -1,5 +1,5 @@
 import styles from "@styles/Field.module.css";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { splitComponentProps } from "@utils";
 import {
   Field as ArkField,
   FieldRootProps,

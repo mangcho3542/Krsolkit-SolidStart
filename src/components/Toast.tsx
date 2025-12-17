@@ -10,9 +10,9 @@ import {
 	createToaster as ArkCreateToaster,
 } from "@ark-ui/solid";
 import type { CreateToasterReturn } from "@ark-ui/solid";
-import { PUS } from "@/types/ComponentProps";
+import { PUS } from "@types";
 import { splitProps } from "solid-js";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { splitComponentProps } from "@utils";
 import CloseIcon from "@images/CloseIcon.svg?raw";
 import { SvgProps, Svg } from "./Svg";
 

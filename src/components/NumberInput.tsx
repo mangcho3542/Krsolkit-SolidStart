@@ -8,9 +8,9 @@ import {
 	NumberInputIncrementTriggerProps,
 	NumberInputDecrementTriggerProps,
 } from "@ark-ui/solid/number-input";
-import { PUS } from "@/types/ComponentProps";
+import { PUS } from "@types";
 import { JSXElement, splitProps } from "solid-js";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { splitComponentProps } from "@utils";
 
 export type NumberInputLabelProps = PUS<LabelProps>;
 export type NumberInputInputProps = PUS<InputProps>;

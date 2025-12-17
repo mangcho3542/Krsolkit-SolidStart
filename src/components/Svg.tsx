@@ -1,5 +1,4 @@
-import { ComponentProps } from "@/types/ComponentProps";
-import { AllColorType } from "@/types/ColorType";
+import { ComponentProps, AllColorType } from "@types";
 import { JSX, splitProps } from "solid-js";
 
 export interface SvgProps

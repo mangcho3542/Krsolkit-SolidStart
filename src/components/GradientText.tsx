@@ -1,5 +1,5 @@
 import styles from "@styles/GradientText.module.css";
-import { TupleType } from "@/types/TupleType";
+import { TupleType } from "@types";
 import { JSX, splitProps } from "solid-js";
 
 export interface GradientTextProps extends JSX.HTMLAttributes<HTMLDivElement> {

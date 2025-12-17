@@ -5,8 +5,8 @@ import {
 } from "@ark-ui/solid";
 import { createMemo, For, splitProps } from "solid-js";
 import { CheckboxProps, Checkbox } from "./Checkbox";
-import { PUS } from "@/types/ComponentProps";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { PUS } from "@types";
+import { splitComponentProps } from "@utils";
 
 export interface CheckboxGroupProps extends PUS<ArkCheckboxGroupProps> {
 	CheckboxAry?: CheckboxProps[];
@@ -27,14 +27,14 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
 	);
 
 	const getDefaultValue = createMemo(() => {
-		if(local.defaultValue !== undefined) return local.defaultValue;
-		if(local.CheckboxAry == undefined) return undefined;
+		if (local.defaultValue !== undefined) return local.defaultValue;
+		if (local.CheckboxAry == undefined) return undefined;
 		let res: string[] = [];
-		local.CheckboxAry.forEach(({checked, defaultChecked, value}) => {
-			if((checked || defaultChecked) && value) res.push(value);
-		})
+		local.CheckboxAry.forEach(({ checked, defaultChecked, value }) => {
+			if ((checked || defaultChecked) && value) res.push(value);
+		});
 		return res;
-	})
+	});
 
 	return (
 		<ArkCheckbox.Group

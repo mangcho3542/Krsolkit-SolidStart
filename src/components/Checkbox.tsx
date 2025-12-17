@@ -6,9 +6,9 @@ import {
 	CheckboxControlProps as ArkCheckboxControlProps,
 	CheckboxIndicatorProps as ArkCheckboxIndicatorProps,
 } from "@ark-ui/solid";
-import { PUS } from "@/types/ComponentProps";
+import { PUS } from "@types";
 import { JSXElement, splitProps } from "solid-js";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { splitComponentProps } from "@utils";
 
 export type CheckboxLabelProps = PUS<ArkCheckboxLabelProps>;
 export type CheckboxControlProps = PUS<ArkCheckboxControlProps>;

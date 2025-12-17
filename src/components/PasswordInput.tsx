@@ -10,8 +10,8 @@ import {
 } from "@ark-ui/solid/password-input";
 import { JSXElement } from "solid-js";
 import { splitProps } from "solid-js";
-import { splitComponentProps } from "@/utils/splitComponentProps";
-import type { ComponentProps, PUS } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils";
+import type { ComponentProps, PUS } from "@types";
 import { NoHydration } from "solid-js/web";
 
 type LabelProps = PUS<PiLabelProps>;

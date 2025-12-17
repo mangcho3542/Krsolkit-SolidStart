@@ -1,6 +1,6 @@
 import { createMemo, JSX, splitProps } from "solid-js";
 import styles from "@styles/Mark.module.css";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+import { splitComponentProps } from "@utils";
 
 export interface MarkProps extends Omit<JSX.HTMLAttributes<HTMLElement>, "style"> {
   style?: JSX.CSSProperties;

@@ -4,8 +4,8 @@ import {
 	PUS,
 	ComponentProps,
 	ImageProps,
-} from "@/types/ComponentProps";
-import { splitComponentProps } from "@/utils/splitComponentProps";
+} from "@types";
+import { splitComponentProps } from "@utils";
 import {
 	createEffect,
 	createSignal,
@@ -13,7 +13,7 @@ import {
 	onCleanup,
 	splitProps,
 } from "solid-js";
-import { Portal } from "solid-js/web";
+import { Portal, spread } from "solid-js/web";
 import { Btn, BtnProps } from "./Btn";
 import CloseIcon from "@images/CloseIcon.svg";
 
@@ -35,7 +35,6 @@ export interface DrawerProps extends DivProps {
 	onClose?: () => void;
 }
 
-// 수정된 핵심 부분만 포함 (전체 파일에 덮어써도 됨)
 export function Drawer(props: DrawerProps) {
 	const [local, rest] = splitProps(props, [
 		"BackdropProps",
@@ -80,23 +79,16 @@ export function Drawer(props: DrawerProps) {
 		const portal = portalRef();
 		if (!portal) return;
 
-		const portalProps = splitComponentProps(
+		let portalProps = splitComponentProps(
 			local.BackdropProps,
 			styles.Backdrop
 		);
 
-		let className = portalProps.class ? portalProps.class + " " : "";
-		if (portalProps.id) portal.id = portalProps.id;
-		if (portalProps.classList) {
-			for (const [key, value] of Object.entries(portalProps.classList)) {
-				if (key) className += value;
-			}
-		}
-		portal.className = className;
+		portalProps["data-open"] = "false"
+		portalProps["data-scope"] = "dialog";
+		portalProps["data-part"] = "backdrop";
 
-		portal.dataset.open = open().toString();
-		portal.dataset.scope = "dialog";
-		portal.dataset.part = "backdrop";
+		spread(portal, portalProps);
 
 		portal.onclick = (e) => {
 			// 실제 백드롭(빈 영역) 클릭인지 확인
@@ -106,6 +98,7 @@ export function Drawer(props: DrawerProps) {
 		};
 	});
 
+	//dialog 열려있을 때는 스크롤 금지하는 effect
 	createEffect(() => {
 		if (typeof window === "undefined") return;
 
