@@ -13,18 +13,19 @@
     "types": ["vinxi/types/client"],
     "isolatedModules": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@types": ["./src/types/index.ts"],
       "@fonts/*": ["./src/assets/fonts/*"],
       "@images/*": ["./src/assets/images/*"],
-      "@components/*": ["./src/components/*"],
+      "@components": ["./src/components/index.ts"],
       "@hooks/*": ["./src/hooks/*"],
       "@layout/*": ["./src/layout/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@utils": ["./src/utils/index.ts"],
       "@lib/*": ["./src/lib/*"]
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/*.d.ts"
   ]
 }
