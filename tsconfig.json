@@ -21,7 +21,7 @@
       "@layout/*": ["./src/layout/*"],
       "@styles/*": ["./src/styles/*"],
       "@utils": ["./src/utils/index.ts"],
-      "@lib/*": ["./src/lib/*"]
+      "@lib": ["./src/lib/index.ts"]
     }
   },
   "include": [
