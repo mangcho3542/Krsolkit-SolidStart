@@ -1,7 +1,7 @@
-import { HttpStatus } from "@/types/HttpStatus";
+import { HttpStatus } from "@types";
 import { json } from "@solidjs/router";
 
-export default function status(status: keyof typeof HttpStatus, body?: object) {
+export function status(status: keyof typeof HttpStatus, body?: object) {
 	if (body === undefined) {
 		if (status === 500) {
 			return json(
