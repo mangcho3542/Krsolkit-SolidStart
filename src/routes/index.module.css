@@ -4,12 +4,10 @@
 }
 
 #Intro {
-  padding: 0 2%;
-  font-family: "SuitExtraBold", var(--default-font-family);
-  font-size: 3rem;
   display: flex;
   flex-direction: column;
-  margin: 10% 0;
+  margin: 8% 0;
+  padding: 0 2%;
 }
 
 @media (max-width: 767px) {
@@ -20,74 +18,101 @@
 
 #H1 {
   font-family: inherit;
-  font-size: inherit;
+  font-size: 3rem;
   display: inline-block;
-  margin: 1% 0;
+  margin: 0;
 }
 
-#Mark,
-#H2 {
+.H2 {
   max-width: fit-content;
-  border-radius: 6px;
-  padding: 1%;
-  color: #54abf3;
-  background-color: #cff9ff;
-}
-
-@media (prefers-color-scheme: dark) {
-  #Mark,
-  #H2 {
-    color: #8dd9ff;
-    background-color: #132b35;
-  }
-}
-
-#Mark {
-  font-family: inherit;
-  font-size: inherit;
-  flex: 0 0 auto;
-}
-
-#MainIntro {
-  padding: 0 2%;
-  display: inline-block;  
-}
-
-#H2 {
-  font-family: "SuitBold", var(--default-font-family);
+  margin: 0;
   font-size: 2rem;
+  font-family: "SuitSemiBold", var(--default-font-family);
+  font-weight: 600;
 }
 
 @media (max-width :767px) {
-  #H2 {
+  .H2 {
     font-size: 1.3rem;
   }
 }
 
+#MainIntro {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%; 
+}
+
+#SubIntro {
+  padding: 0 0 0 2.1%;
+}
+
+.CardContainer {
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 1fr);
+  grid-template-columns: repeat(3, minmax(20%, 30%));
+  gap: 1%;
+  justify-content: space-between;
+  align-content: space-evenly;
+  align-items: center;
+  justify-items: center;
+  padding: 2% 0 0 0;
+}
+
 .Card {
-  padding: 0.5%;
-  margin-bottom: 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.375rem;
+  transition-timing-function: cubic-bezier(0.2,0.0,0,1.0);
+  transition-property: border-color, box-shadow;
+  transition-duration: 200ms;
+  overflow: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e9e8e6;
+  box-sizing: border-box;
+  padding: 1%;
+}
+
+.Card:hover {
+  background-color: #f4f4f5;
+}
+
+.CardA {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  padding: 2%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.CardA:hover {
+  text-decoration: none;
+}
+
+.CardA:hover {
+  text-decoration: none !important;
 }
 
 .CardIcon {
   aspect-ratio: 1/1;
-  max-width: 20%;
+}
+
+.CardTitle, .CardDesc {
+  width: 98%;
+  padding: 0 1%;
+}
+
+.CardTitle {
+  margin-top: 5%;
+  align-items: start;
+  display: inline-block;
 }
 
 .CardDesc {
-  height: 100%;
-  padding: 1%;
-  width: fit-content;
-}
-
-.CardTtl {
-  font-family: "SuitBold", var(--default-font-family);
-  font-size: 1.5rem;
-}
-
-.CardDescTxt {
-  font-family: "SuitMedium", var(--default-font-family);
-  white-space: pre-wrap;
-  margin-top: 5%;
-  font-size: 1.3rem;
+  display: inline-block;
+  align-items: start;
 }

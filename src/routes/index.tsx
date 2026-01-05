@@ -1,35 +1,26 @@
 import { Meta, Title } from "@solidjs/meta";
 import styles from "./index.module.css";
-import Mark from "@components/Mark";
-import { JSXElement } from "solid-js";
-import { Card } from "@/components/Card";
+import { Mark, Map, A } from "@components";
 import ChangeClassIcon from "@images/ChangeClassIcon.svg";
-import EngWordIcon from "@images/EngWordsIcon.svg";
-import A from "@components/A";
-import Drawer from "@/components/Drawer";
 
 export const prerender = true;
 
+interface CardI {
+	icon: string;
+	title: string;
+	desc: string;
+	href: string;
+}
+
 export default function Home() {
-	const iconAry: string[] = [ChangeClassIcon, EngWordIcon];
-
-	const cardDescTitleAry: string[] = ["자리 바꾸기", "영단어 학습"];
-
-	const cardDescAry: JSXElement[] = [
-		<>
-			학생들의 자리 배치를 선택한 후, 자리 바꾸기 버튼을 누르면 학생들의 자리를
-			바꿀 수 있습니다. <br />
-			또한 캡쳐하기 버튼을 통해 자리 배치가 완료돤 사진을 저장할 수 있습니다.
-		</>,
-
-		<>
-			고등 교육과정에서 나오는 영단어 및 수능에 나왔던 영단어들을 학습할 수
-			있습니다. <br />
-			또한 정보등을 저장하여 오답노트 등도 학습할 수 있습니다.
-		</>,
+	const CardAry: CardI[] = [
+		{
+			icon: ChangeClassIcon,
+			title: "자리 바꾸기",
+			desc: "랜덤으로 학생들의 자리를 배치해주는 서비스",
+			href: "/changeclass",
+		}
 	];
-
-	const hrefAry: string[] = ["/changeclass", "/eng"];
 
 	return (
 		<>
@@ -58,26 +49,37 @@ export default function Home() {
 				<section id={styles.Intro}>
 					<h1 id={styles.H1}>Krsolkit</h1>
 
-					<Mark id={styles.Mark}>
+					<h2 class={styles.H2}>
 						자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구
-					</Mark>
+					</h2>
 				</section>
 
 				<section id={styles.MainIntro}>
-					<h2 id={styles.H2}>주요 기능</h2>
+					<h2 class={styles.H2} id={styles.SubIntro}>주요 기능</h2>
 
-					{iconAry.map((icon, index) => (
-						<Card
-							class={styles.Card}
-							Icon={<img class={styles.CardIcon} src={icon} />}
-							DescProps={{ class: styles.CardDesc, useDefaultStyle: false }}
-						>
-							<A class={styles.CardTtl} href={hrefAry[index]}>
-								{cardDescTitleAry[index]}
-							</A>
-							<p class={styles.CardDescTxt}>{cardDescAry[index]}</p>
-						</Card>
-					))}
+					<div class={styles.CardContainer}>
+						<Map each={CardAry}>
+							{({ icon, title, desc, href }, index) => (
+								<div
+									class={styles.Card}
+									style={{
+										"grid-row-start": Math.floor(index / 3) + 1,
+										"grid-row-end": Math.floor(index / 3) + 2,
+										"grid-column-start": (index + 1) % 4,
+										"grid-column-end": ((index + 1) % 4) + 1,
+									}}
+								>
+									<A href={href} class={styles.CardA} useDefaultStyle={false}>
+										<img src={icon} class={styles.CardIcon} />	
+
+										<div class={styles.CardTitle}>{title}</div>
+
+										<div class={styles.CardDesc}>{desc}</div>
+									</A>
+								</div>
+							)}
+						</Map>
+					</div>
 				</section>
 			</main>
 		</>
