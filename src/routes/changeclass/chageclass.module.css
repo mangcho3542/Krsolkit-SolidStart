@@ -156,17 +156,11 @@
   margin-top: 2%;
 }
 
-#DlgWrapper {
-  display: inline-block;
-  width: 100%;
-  padding: 0;
-}
-
 #DlgTitle {
   font-size: 1.6rem;
 }
 
-#DlgContent {
+#DlgBody {
   display: flex;
   flex-direction: column;
   align-items: center;

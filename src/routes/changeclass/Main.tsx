@@ -3,7 +3,7 @@ import QuestionImg from "@images/QuestionCircleIcon.svg?raw";
 import { Slider, Dialog, Svg } from "@components";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
-import DlgContent from "./DlgContent";
+import DlgBody from "./DlgContent";
 
 export default function Main() {
   const [col, setCol] = createSignal(5);
@@ -22,38 +22,39 @@ export default function Main() {
 
       {/**Dialog */}
       <Dialog
-        TrgRef={trgRef()}
-        WrapperProps={{ id: styles.DlgWrapper }}
+        TrgRef={trgRef}
         TitleProps={{ id: styles.DlgTitle }}
         Title="자리 바꾸기"
-        ContentProps={{ id: styles.DlgContent }}
-        Content={<DlgContent />}
+        BodyProps={{ id: styles.DlgBody }}
+        Body={<DlgBody />}
         id={styles.DlgRoot}
       />
 
       <div id={styles.SliderWrapper} style={{display: "flex", "flex-direction": "column"}}>
         <Slider
           step={1}
-          defaultValue={[5]}
+          defaultValue={5}
           min={1}
           max={10}
           class={styles.SliderRoot}
           Label="분단 수"
           onValueChange={(e) => {
-            setCol(e.value[0]);
+            setCol(e.valueAsNumber);
           }}
+          useValueText
         />
 
         <Slider
           step={1}
-          defaultValue={[6]}
+          defaultValue={6}
           min={1}
           max={10}
           class={styles.SliderRoot}
           Label="행의 수"
           onValueChange={(e) => {
-            setRow(e.value[0]);
+            setRow(e.valueAsNumber);
           }}
+          useValueText
         />
       </div>
 

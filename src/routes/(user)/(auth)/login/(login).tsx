@@ -24,9 +24,7 @@ export default function Login() {
 
   //toaster
   const toaster = createToaster({
-    placement: "bottom-end",
-    overlap: false,
-    gap: 12,
+    placement: "bottom-end"
   });
 
   //&function
@@ -59,8 +57,7 @@ export default function Login() {
       //로그인 오류 났을 때에는 toaster띄워주기
       if (res.status === 401) {
         toaster.create({
-          title: "오류",
-          description: res.data,
+          title: res.data,
           type: "error",
         });
 
@@ -88,7 +85,7 @@ export default function Login() {
       <Meta property="og:url" content="https://classhelper.kr/login" />
       <Meta property="og:image" content="https://classhelper.kr/favicon.png" />
       <main class={`Main ${styles.Main}`}>
-        <Toast toast={toaster} />
+        <Toast toaster={toaster} />
 
         <div id={styles.Wrapper}>
           <h1

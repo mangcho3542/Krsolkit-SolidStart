@@ -10,30 +10,42 @@
 
   width: 100%;
   max-width: 100%;
+  min-height: 6dvh;
+  max-height: 9dvh;
   overflow-x: hidden;
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin: 0 0 2% 0;
-  padding: 1%;
-  border-bottom-width: 2px;
+  padding: 1% 0% 1% 2%;
+  border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: var(--border-light-color);
 }
 
-@media (prefers-color-schema: dark) {
-  #Nav {
-    color: #ffffff;
-    background-color: #000000;
-    border-bottom-color: var(--border-dark-color);
+#MenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  padding: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #c8cccf;
+}
+
+@media (prefers-color-scheme: dark) {
+  #MenuBtn {
+    border-color: var(--border-dark-color);
   }
 }
 
+.MenuIcon {
+  aspect-ratio: 1/1;
+}
+
 #LogoWrapper {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 1%;
+  display: block;
+  margin: 0 1%;
 }
 
 #Logo {
@@ -42,9 +54,9 @@
 }
 
 #LogoText {
-  margin-left: 2%;
-  font-family: "SuitExtraBold", var(--default-font-family);
-  font-size: 1.4rem;
+  font-family: "SuitBold", var(--default-font-family);
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
 #SideMenuWrapper {
@@ -57,42 +69,101 @@
 }
 
 .SideMenu {
-  display: inline-block;
-  font-family: "SuitSemiBold", var(--default-font-family);
-  font-size: 1.2rem;
   white-space: nowrap;
+  font-size: 1.1rem;
 }
 
-#SideMenuWrapper2 {
+#Drawer {
+  padding: 1%;
+}
+
+.DrawerTitle {
+  margin-bottom: 5%;
+}
+
+.DrawerLogo {
+  height: 32px;
+  aspect-ratio: 1/1;
+}
+
+.DrawerBody {
   width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
-  font-family: "SuitSemiBold", var(--default-font-family);
-  margin-bottom: 4%;
-  padding-left: 2%;
+  padding: 1% 0;
+  flex-grow: 1;
 }
 
-.SideMenu2 {
+.DrawerMenuUl {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style: none;
+  padding: 0 2% 0 0;
+  gap: 3%;
+  flex-grow: 1;
+}
+
+.DrawerMenu {
+  width: 100%;
+  padding: 0 1% 0 2%;
+  margin: 0;
+  font-size: 0.875rem;
+  font-family: "SuitRegular", var(--default-font-family);
+  font-weight: 400;
+}
+
+#DrawerActiveMenu {
+  font-family: "SuitBold", var(--default-font-family);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  padding: 0 1% 0 0;
+}
+
+#DrawerActiveMenu > .DrawerMenuLinkWrapper {
+  background-color: rgba(129, 139, 152, 0.15);
+}
+
+.DrawerMenu > .DrawerMenuLinkWrapper {
+  width: 95%;
+}
+
+#DrawerActiveMenu::before {
+  background-color: #0969da;
+  border-radius: 0.375rem;
+  content: "";
+  height: 84%;
+  width: 0.25rem;
+  margin-right: 1%;
+  display: block;
+  flex: none;
+}
+
+.DrawerMenuLinkWrapper {
+  font-size: 1.1rem;
+  padding: 2% 2% 2% 1%;
+  width: 100%;
+  border-radius: 0.375rem;
+  vertical-align: middle;
+}
+
+.DrawerMenuLinkWrapper:hover {
+  text-decoration: none !important;
+  background-color: rgba(129, 139, 152, 0.15);
+}
+
+.DrawerMenuLink {
   display: inline-block;
-  margin-right: 2%;
-  font-size: 1.7rem;
-  text-decoration: none;
-  white-space: nowrap;
 }
 
-.SideMenu2:hover {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: inherit;
+.DrawerMenuLink:hover::after {
+  border-bottom-color: var(--text-color);
 }
 
-.SideMenu2.Inactive {
-  color: #BFBFBF;
-}
-
-.SideMenu2.Active {
-  color: inherit;
+.DrawerFooter {
+  width: 0;
+  height: 0;
 }
 
 @media (prefers-color-scheme: light) {

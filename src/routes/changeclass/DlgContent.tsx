@@ -3,7 +3,7 @@ import styles from "./chageclass.module.css";
 import { ColorSwatch } from "@components";
 import { Hex } from "@types";
 
-export default function DlgContent() {
+export default function DlgBody() {
   const titleList: string[] = ["자리배치", "자리", "자리 바꾸기", "결과 저장"];
   const contentList: JSXElement[] = [
     <>
