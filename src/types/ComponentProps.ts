@@ -1,30 +1,50 @@
 import { JSX, JSXElement } from "solid-js";
 
 export interface ComponentProps {
-  class?: string;
-  classList?: { [k: string]: boolean | undefined };
-  id?: string;
-  style?: JSX.CSSProperties;
-  children?: JSXElement;
+	class?: string;
+	classList?: { [k: string]: boolean | undefined };
+	id?: string;
+	style?: JSX.CSSProperties;
+	children?: JSXElement;
+	[key: `data-${string}`]: any;
 }
 
-export type PUS<T extends Omit<ComponentProps, "style">> = Omit<
-  T,
-  "style"
-> & {
-  useDefaultStyle?: boolean;
-  style?: JSX.CSSProperties;
+export type PUS<T extends object> = Omit<T, "style"> & {
+	useDefaultStyle?: boolean;
+	style?: JSX.CSSProperties;
+	[key: `data-${string}`]: any;
 };
 
-export type StyleT<T> = T & {
-  style?: JSX.CSSProperties;
-}
+export type StyleT<T> = Omit<T, "style"> & {
+	style?: JSX.CSSProperties;
+	[key: `data-${string}`]: any;
+};
 
-export type DivProps = StyleT<Omit<JSX.HTMLAttributes<HTMLDivElement>, "style">>;
-export type ParagraphProps = StyleT<Omit<JSX.HTMLAttributes<HTMLParagraphElement>, "style">>;
-export type SpanProps = StyleT<Omit<JSX.HTMLAttributes<HTMLSpanElement>, "style">>;
-export type ButtonProps = StyleT<Omit<JSX.HTMLAttributes<HTMLButtonElement>, "style">>;
-export type DialogProps = StyleT<Omit<JSX.DialogHtmlAttributes<HTMLDialogElement>, "style">>;
-export type ImageProps= StyleT<Omit<JSX.HTMLAttributes<HTMLImageElement>, "style">>;
-export type SvgProps = StyleT<Omit<JSX.SvgSVGAttributes<SVGSVGElement>, "style">>;
-export type InputProps = StyleT<Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "style">>;
+export type DivProps = StyleT<JSX.HTMLAttributes<HTMLDivElement>>;
+export type ParagraphProps = StyleT<JSX.HTMLAttributes<HTMLParagraphElement>>;
+export type SpanProps = StyleT<JSX.HTMLAttributes<HTMLSpanElement>>;
+export type ButtonProps = StyleT<Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onClick">> & {
+	onClick?: (
+		e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
+	) => any;
+};
+export type DialogProps = StyleT<JSX.HTMLAttributes<HTMLDialogElement>>;
+export type ImageProps = StyleT<JSX.HTMLAttributes<HTMLImageElement>>;
+export type SvgProps = StyleT<JSX.SvgSVGAttributes<SVGSVGElement>>;
+export type LabelProps = StyleT<JSX.HTMLAttributes<HTMLLabelElement>>;
+
+export type InputEventT = {
+	currentTarget: HTMLInputElement;
+	target: HTMLInputElement;
+};
+
+export type InputProps = StyleT<
+	Omit<
+		JSX.InputHTMLAttributes<HTMLInputElement>,
+		"onFocusIn" | "onFocusOut" | "onChange"
+	>
+> & {
+	onFocusIn?: (e: InputEventT) => any;
+	onFocusOut?: (e: InputEventT) => any;
+	onChange?: (e: InputEventT) => any;
+};
