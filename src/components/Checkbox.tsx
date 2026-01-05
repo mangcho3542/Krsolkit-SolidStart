@@ -1,74 +1,120 @@
 import styles from "@styles/Checkbox.module.css";
-import {
-	Checkbox as ArkCheckbox,
-	CheckboxRootProps as ArkCheckboxRootProps,
-	CheckboxLabelProps as ArkCheckboxLabelProps,
-	CheckboxControlProps as ArkCheckboxControlProps,
-	CheckboxIndicatorProps as ArkCheckboxIndicatorProps,
-} from "@ark-ui/solid";
-import { PUS } from "@types";
-import { JSXElement, splitProps } from "solid-js";
+import { DivProps, LabelProps, PUS, SvgProps } from "@types";
+import { createEffect, createMemo, createSignal, splitProps } from "solid-js";
 import { splitComponentProps } from "@utils";
+import HiddenInput from "./HiddenInput";
+import { nanoid } from "nanoid";
 
-export type CheckboxLabelProps = PUS<ArkCheckboxLabelProps>;
-export type CheckboxControlProps = PUS<ArkCheckboxControlProps>;
-export type CheckboxIndicatorProps = PUS<ArkCheckboxIndicatorProps>;
-
-export interface CheckboxProps extends PUS<ArkCheckboxRootProps> {
-	Label?: JSXElement;
-	LabelProps?: CheckboxLabelProps;
-	ControlProps?: CheckboxControlProps;
-	IndicatorProps?: CheckboxIndicatorProps;
+export interface CheckboxProps extends Omit<PUS<LabelProps>, "onChange"> {
+	ControlProps?: PUS<DivProps>;
+	IconProps?: SvgProps;
+	LabelProps?: PUS<DivProps>;
+	Label?: string;
+	defaultChecked?: boolean;
+	onChange?: (e: { value: boolean; name: string }) => any;
+	name?: string;
+	disabled?: boolean;
+	invalid?: boolean;
+	readonly?: boolean;
 }
 
 export function Checkbox(props: CheckboxProps) {
-	const [local, rest] = splitProps(props, [
-		"Label",
-		"LabelProps",
-		"ControlProps",
-		"IndicatorProps",
-		"defaultChecked",
-		"invalid",
-		"disabled",
-		"value",
-	]);
+	const [local, states, rest] = splitProps(
+		props,
+		[
+			"ControlProps",
+			"IconProps",
+			"LabelProps",
+			"Label",
+			"defaultChecked",
+			"onChange",
+			"name",
+		],
+		["disabled", "invalid", "readonly"]
+	);
+
+	const [checked, setChecked] = createSignal(
+		local.defaultChecked !== undefined ? !!local.defaultChecked : false
+	);
+
+	const [focused, setFocused] = createSignal(false);
+
+	const state = createMemo(() => {
+		if (states.disabled) return "disabled";
+		if (states.invalid) return "invalid";
+		if (states.readonly) return "readonly";
+		return "";
+	});
+
+	const inputId = `input-${nanoid(8)}`;
+
+	//checked 바뀔때마다 onChange 호출
+	createEffect(() => {
+		local.onChange?.({ value: checked(), name: local.name ?? "" });
+	});
+
+	function toggle() {
+		if (state() !== "") return;
+		setChecked((c) => !c);
+	}
+
+	function onKeyDown(e: KeyboardEvent) {
+		if (e.key === " " || e.key === "Spacebar" || e.key === "Enter") {
+			e.preventDefault();
+			toggle();
+		}
+	}
 
 	return (
-		<ArkCheckbox.Root
+		<label
 			{...splitComponentProps(rest, styles.Root)}
-			defaultChecked={
-				local.defaultChecked !== undefined ? local.defaultChecked : false
-			}
-			invalid={local.invalid}
-			disabled={local.disabled}
-			value={local.value}
+			for={inputId}
+			data-state={state()}
 		>
-			<ArkCheckbox.Control
-				{...splitComponentProps(local.ControlProps, styles.Control)}
-			>
-				<ArkCheckbox.Indicator
-					{...splitComponentProps(local.IndicatorProps, styles.Indicator)}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						height="24px"
-						viewBox="0 -960 960 960"
-						width="24px"
-						class={styles.Icon}
-					>
-						<path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-					</svg>
-				</ArkCheckbox.Indicator>
-			</ArkCheckbox.Control>
+			<HiddenInput
+				type="checkbox"
+				id={inputId}
+				name={local.name}
+				checked={checked()}
+				disabled={states.disabled}
+				readOnly={states.readonly}
+				{...(states.invalid && { "aria-invalid": true })}
+				{...(states.disabled && { "aria-disabled": true })}
+				{...(states.readonly && { "aria-readonly": true })}
+			/>
 
-			<ArkCheckbox.Label
-				{...splitComponentProps(local.LabelProps, styles.Label)}
+			<div
+				{...splitComponentProps(local.ControlProps, styles.Control)}
+				role="checkbox"
+				tabindex={state() === "" ? 0 : -1}
+				aria-checked={checked()}
+				aria-disabled={states.disabled || undefined}
+				onClick={(e) => {
+					if (state() === "") {
+						toggle();
+						e.currentTarget.focus();
+					}
+				}}
+				onKeyDown={onKeyDown}
+				onFocusIn={() => setFocused(true)}
+				onFocusOut={() => setFocused(false)}
+				data-state={state()}
+				{...(checked() && { "data-checked": "" })}
+				{...(focused() && { "data-focus": "" })}
 			>
-				{local.Label}
-			</ArkCheckbox.Label>
-			<ArkCheckbox.HiddenInput />
-		</ArkCheckbox.Root>
+				<svg
+					viewBox="0 0 24 24"
+					{...splitComponentProps(local.IconProps, styles.Icon)}
+				>
+					{checked() && <polyline points="20 6 9 17 4 12" />}
+				</svg>
+			</div>
+
+			{local.Label && (
+				<div {...splitComponentProps(local.LabelProps, styles.Label)}>
+					{local.Label}
+				</div>
+			)}
+		</label>
 	);
 }
-
-export default Checkbox;

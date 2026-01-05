@@ -1,94 +1,138 @@
 .Root {
   display: flex;
+  font-size: 0.875rem;
+  gap: 0.25rem;
+  line-height: 1.25rem;
+  position: relative;
+  isolation: isolate;
+  touch-action: none;
+}
+
+/* orientation: horizontal / vertical (typo 정정: vertial -> vertical) */
+.Root[data-orientation="horizontal"] {
   flex-direction: column;
   width: 100%;
 }
 
+.Root[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
 .LabelWrapper {
   display: flex;
-  width: 100%;
+  align-items: flex-start;
+  padding: 0 1%;
+}
+
+.Root[data-orientation="horizontal"] > .LabelWrapper {
+  flex-direction: row;
+}
+
+.Root[data-orientation="vertical"] > .LabelWrapper {
+  flex-direction: column;
 }
 
 .Label {
-  max-width: fit-content;
-  display: block;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .ValueText {
-  display: block;
-  max-width: fit-content;
+  display: inline-block;
   margin-left: auto;
 }
 
 .Control {
+  touch-action: none;
+  user-select: none;
   position: relative;
-  display: flex;
+  display: inline-flex;
+  -webkit-box-align: center;
   align-items: center;
-  width: 100%;
-  min-height: 20px;
 }
 
+/* Control layout */
+.Root[data-orientation="horizontal"] > .Control {
+  flex-direction: row;
+  width: 100%;
+  min-height: 1.25rem;
+}
+
+.Root[data-orientation="vertical"] > .Control {
+  flex-direction: column;
+  height: 100%;
+  min-width: 1.25rem;
+}
+
+/* Track */
 .Track {
-  position: relative;
-  width: 100%;
-  height: 8px;
-  border-radius: 99999px;
   overflow: hidden;
+  border-radius: 9999px;
+  flex: 1;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, black 5%, transparent);
+  background: #ebebed;
+  z-index: 0;
+  tab-size: 4;
+  box-sizing: border-box; /* border/box-shadow 포함하여 계산 */
 }
 
-@media (prefers-color-scheme: light) {
-  .Track {
-    background-color: color-mix(in srgb, #e4e4e7 72%, transparent);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, black 5%, transparent);
-  }
+.Root[data-orientation="horizontal"] .Track {
+  width: inherit;
+  height: 0.5rem;
+  position: relative;
+  z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .Track {
-    background-color: color-mix(in srgb, #3f3f46 72%, transparent);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, white 5%, transparent);
-  }
+.Root[data-orientation="vertical"]  .Track {
+  width: 0.5rem;
+  position: relative;
+  z-index: 0;
 }
 
+/* Range (filled part) - 절대 위치, 트랙 중앙 정렬 */
 .Range {
   position: absolute;
-  height: 8px;
-  border-radius: 0px;
-}
-
-@media (prefers-color-scheme: light) {
-  .Range {
-    background-color: #18181b;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .Range {
-    background-color: #fafafa;
-  }
-}
-
-.Thumb {
-  width: 18px;
-  height: 18px;
+  background-color: #18181b;
+  z-index: 1;
   border-radius: 9999px;
-  cursor: pointer;
+  height: 0.5rem;
+  box-sizing: border-box;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  .Thumb {
-    background-color: #ffffff;
-    border: 2px solid #18181b;
-    box-shadow: 0px 1px 2px color-mix(in srgb, #18181b 10%, transparent),
-      0px 0px 1px color-mix(in srgb, #18181b 20%, transparent);
-  }
+.Root[data-orientation="horizontal"] .Range {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-@media (prefers-color-scheme: dark) {
-  .Thumb {
-    background-color: #09090b;
-    border: 2px solid #fafafa; 
-    box-shadow: 0px 1px 2px color-mix(in srgb, #fafafa 10%, transparent),
-      0px 0px 1px color-mix(in srgb, #fafafa 20%, transparent);
-  }
+/* Thumb */
+.Thumb {
+  visibility: visible;
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 0;
+  z-index: 2;
+  border-radius: 9999px;
+  border: 2px solid #18181b;
+  background-color: var(--bg-color, white);
+  box-sizing: border-box;
+}
+
+/* horizontal에서 Thumb을 시각적으로 아래로 더 내림 (Y 좌표 증가 요청 반영) */
+.Root[data-orientation="horizontal"] .Thumb {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* vertical에서 Thumb 중앙 정렬 보정 (left 중앙) */
+.Root[data-orientation="vertical"] .Thumb {
+  left: 50%;
+  transform: translate(-50%, 50%);
 }

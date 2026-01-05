@@ -1,13 +1,21 @@
 :root {
+    /*bg color*/
     --bg-light-color: #ffffff;
     --bg-dark-color: #09090b;
     --bg-color: var(--bg-light-color);
     --bg-reversed-color: var(--bg-dark-color);
 
+    /*svg color*/
     --svg-light-color: #454746;
     --svg-dark-color: #c4c8c6;
     --svg-color: var(--svg-light-color);
 
+    /*text color*/
+    --text-light-color: #09090b;
+    --text-dark-color: #fafafa;
+    --text-color: var(--text-light-color);
+
+    /*border color*/
     --border-light-color: #e4e4e7;
     --border-dark-color: #27272a;
     --border-color: var(--border-light-color);
@@ -40,6 +48,7 @@
         --bg-color: var(--bg-dark-color);
         --bg-reversed-color: var(--bg-light-color);
         --svg-color: var(--svg-dark-color);
+        --text-color: var(--text-dark-color);
         --label-disabled-color: var(--label-disabled-dark-color);
         --input-disabled-border-color: var(--input-disabled-dark-border-color);
         --border-color: var(--border-dark-color);

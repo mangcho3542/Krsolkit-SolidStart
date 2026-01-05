@@ -7,6 +7,8 @@ import { splitComponentProps } from "@utils";
 
 interface SvgPropsI extends Omit<SvgProps, "value"> {
 	useDefaultStyle: boolean;
+	[key: `data-${string}`]: any;
+	[key: `aria-${string}`]: any;
 }
 
 export interface CloseBtnProps extends BtnProps {

@@ -1,68 +1,75 @@
-import styles from "@styles/Checkbox.module.css";
+import styles from "@styles/CheckboxGroup.module.css";
+import { Checkbox, CheckboxProps } from "./Checkbox";
+import { DivProps, PUS } from "@types";
 import {
-	CheckboxGroupProps as ArkCheckboxGroupProps,
-	Checkbox as ArkCheckbox,
-} from "@ark-ui/solid";
-import { createMemo, For, splitProps } from "solid-js";
-import { CheckboxProps, Checkbox } from "./Checkbox";
-import { PUS } from "@types";
+	createSignal,
+	For,
+	splitProps,
+	createEffect,
+	JSXElement,
+} from "solid-js";
 import { splitComponentProps } from "@utils";
 
-export interface CheckboxGroupProps extends PUS<ArkCheckboxGroupProps> {
-	CheckboxAry?: CheckboxProps[];
-	flexDir?: "row" | "column";
+type CheckboxBaseT = {
+	name: string;
+};
+type CheckboxT = Omit<CheckboxProps, "onChange" | "defaultChecked"> &
+	CheckboxBaseT;
+
+export interface CheckboxGroupProps extends Omit<PUS<DivProps>, "onChange"> {
+	CheckboxAry: CheckboxT[];
+	onChange?: (e: string[]) => any;
+	LabelProps?: PUS<DivProps>;
+	Label?: JSXElement;
+	ContentProps?: PUS<DivProps>;
+	defaultValue?: string[];
+	orientation?: "column" | "row";
 }
 
 export function CheckboxGroup(props: CheckboxGroupProps) {
 	const [local, rest] = splitProps(props, [
 		"CheckboxAry",
-		"name",
-		"value",
+		"LabelProps",
+		"Label",
+		"ContentProps",
+		"onChange",
 		"defaultValue",
-		"flexDir",
+		"orientation",
 	]);
 
-	const other = createMemo(() =>
-		splitComponentProps(rest, styles.CheckboxGroup)
-	);
+	const [value, setValue] = createSignal<string[]>(local.defaultValue ?? []);
 
-	const getDefaultValue = createMemo(() => {
-		if (local.defaultValue !== undefined) return local.defaultValue;
-		if (local.CheckboxAry == undefined) return undefined;
-		let res: string[] = [];
-		local.CheckboxAry.forEach(({ checked, defaultChecked, value }) => {
-			if ((checked || defaultChecked) && value) res.push(value);
+	function handleCheckboxChange(e: { value: boolean; name: string }) {
+		setValue((prev) => {
+			if(e.value) return prev.includes(e.name) ? prev : [...prev, e.name];
+			else return prev.filter(name => name !== e.name);
 		});
-		return res;
+	}
+
+	createEffect(() => {
+		local.onChange?.(value());
 	});
 
 	return (
-		<ArkCheckbox.Group
-			name={local.name}
-			value={local.value}
-			defaultValue={getDefaultValue()}
-			class={other().class}
-			id={other().id}
-			classList={other().classList}
-			style={{ ...other().style, "flex-direction": local.flexDir ?? "column" }}
-		>
-			<For each={local.CheckboxAry}>
-				{(props) => (
-					<Checkbox
-						value={props.value}
-						Label={props.Label}
-						invalid={props.invalid}
-						disabled={props.disabled}
-						defaultChecked={props.defaultChecked}
-						LabelProps={props.LabelProps}
-						ControlProps={props.ControlProps}
-						IndicatorProps={props.IndicatorProps}
-						{...props}
-					/>
-				)}
-			</For>
-		</ArkCheckbox.Group>
+		<div {...splitComponentProps(rest, styles.Root)}>
+			<div {...splitComponentProps(local.LabelProps, styles.Label)}>
+				{local.Label}
+			</div>
+
+			<div
+				{...splitComponentProps(local.ContentProps, styles.Content)}
+				data-orientation={local.orientation ?? "column"}
+			>
+				<For each={local.CheckboxAry}>
+					{(item) => (
+						<Checkbox
+							defaultChecked={value().includes(item.name)}
+							onChange={(e) => handleCheckboxChange(e)}
+							{...item}
+						/>
+					)}
+				</For>
+			</div>
+		</div>
 	);
 }
-
-export default CheckboxGroup;

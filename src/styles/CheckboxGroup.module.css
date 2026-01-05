@@ -1,0 +1,26 @@
+.Root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.375rem;
+}
+
+.Label {
+    font-size: var(--font-size-sm);
+    margin-bottom: 0.5rem;
+}
+
+.Content {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.Content[data-orientation="column"] {
+    flex-direction: column;
+}
+
+.Content[data-orientation="row"] {
+    flex-direction: row;
+}
+

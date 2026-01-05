@@ -1,23 +1,21 @@
 import styles from "@styles/Drawer.module.css";
-import {
-	DivProps,
-	PUS,
-	ComponentProps,
-	ImageProps,
-} from "@types";
+import { DivProps, PUS, ComponentProps, ImageProps } from "@types";
 import { splitComponentProps } from "@utils";
 import {
+	Accessor,
 	createEffect,
 	createSignal,
 	JSXElement,
 	onCleanup,
+	onMount,
+	Show,
 	splitProps,
 } from "solid-js";
 import { Portal, spread } from "solid-js/web";
 import { Btn, BtnProps } from "./Btn";
 import CloseIcon from "@images/CloseIcon.svg";
 
-export interface DrawerProps extends DivProps {
+export interface DrawerProps extends PUS<DivProps> {
 	BackdropProps?: PUS<ComponentProps>;
 	PositionerProps?: PUS<DivProps>;
 	Title?: JSXElement;
@@ -29,10 +27,10 @@ export interface DrawerProps extends DivProps {
 	Footer?: JSXElement;
 	FooterProps?: PUS<DivProps>;
 	placement?: "start" | "end" | "top" | "bottom";
-	useDefaultStyle?: boolean;
 	defaultOpen?: boolean;
-	TrgRef?: () => HTMLButtonElement | HTMLElement | undefined;
+	TrgRef?: Accessor<HTMLButtonElement | HTMLElement | undefined>;
 	onClose?: () => void;
+	CloseOnEscape?: boolean;
 }
 
 export function Drawer(props: DrawerProps) {
@@ -52,118 +50,155 @@ export function Drawer(props: DrawerProps) {
 		"ref",
 		"defaultOpen",
 		"TrgRef",
+		"CloseOnEscape",
 	]);
 
+	//show/hide 관리할 signal
 	const [open, setOpen] = createSignal(false);
-	const [dialogRef, setDialogRef] = createSignal<HTMLDivElement | undefined>();
-	const [portalRef, setPortalRef] = createSignal<HTMLDivElement | undefined>();
+
+	//mount 여부 결정할 signal
+	const [mounted, setMounted] = createSignal(false);
+
+	//portal에 적용할 ref
+	const [backdropRef, setBackdropRef] = createSignal<
+		HTMLDivElement | undefined
+	>();
+
+	//CloseOnEscape Flag
+	const CloseOnEscape =
+		local.CloseOnEscape === undefined || local.CloseOnEscape === true;
+
+	//Drawer 감추는 함수
+	function hide() {
+		setOpen(false);
+		setTimeout(() => {
+			setMounted(false);
+		}, 500);
+	}
+
+	//Drawer 보여주는 함수
+	function show() {
+		setMounted(true);
+		requestAnimationFrame(() => {
+			setOpen(true);
+		});
+	}
 
 	//trgRef에 eventListener 등록
 	createEffect(() => {
 		const trg = local.TrgRef?.();
-		if (!dialogRef || !trg) return;
+		if (!trg) return;
 
-		function handleTrgClick() {
-			setOpen(true);
-		}
+		trg.addEventListener("click", show);
+	});
 
-		trg.addEventListener("click", handleTrgClick);
-
-		onCleanup(() => {
-			trg.removeEventListener("click", handleTrgClick);
-		});
+	//unmount될때 eventListner 삭제
+	onCleanup(() => {
+		local.TrgRef?.()?.removeEventListener("click", show);
 	});
 
 	//portal에 Backdrop 적용
 	createEffect(() => {
-		const portal = portalRef();
+		const portal = backdropRef();
 		if (!portal) return;
 
-		let portalProps = splitComponentProps(
+		let portalProps = splitComponentProps<DivProps>(
 			local.BackdropProps,
 			styles.Backdrop
 		);
 
-		portalProps["data-open"] = "false"
-		portalProps["data-scope"] = "dialog";
+		portalProps["data-scope"] = "drawer";
 		portalProps["data-part"] = "backdrop";
+		portalProps.onClick = (e) => {
+			if (e.target === e.currentTarget) hide();
+		};
 
 		spread(portal, portalProps);
-
-		portal.onclick = (e) => {
-			// 실제 백드롭(빈 영역) 클릭인지 확인
-			if ((e.target as EventTarget) !== (e.currentTarget as EventTarget))
-				return;
-			setOpen(false);
-		};
 	});
 
-	//dialog 열려있을 때는 스크롤 금지하는 effect
+	//portal에 data-open적용
 	createEffect(() => {
-		if (typeof window === "undefined") return;
+		const portal = backdropRef();
+		if (!portal) return;
 
-		const preventScroll = (e: Event) => {
-			if (open()) e.preventDefault();
-		};
+		if (open()) portal.setAttribute("data-open", "");
+		else {
+			portal.removeAttribute("data-open");
+			local.onClose?.();
+		}
+	});
 
-		document.addEventListener("wheel", preventScroll, { passive: false });
-		document.addEventListener("touchmove", preventScroll, { passive: false });
+	//esc눌렀을 때 닫아줄 함수
+	function closeOnEscape(e: KeyboardEvent) {
+		if (e.key === "Escape" && open() && mounted()) hide();
+	}
 
-		onCleanup(() => {
-			document.removeEventListener("wheel", preventScroll);
-			document.removeEventListener("touchmove", preventScroll);
+	//esc로 닫음
+	if (CloseOnEscape) {
+		onMount(() => {
+			if (typeof document !== "undefined")
+				document.addEventListener("keydown", closeOnEscape);
 		});
+	}
+
+	//remove closeOnEscape
+	onCleanup(() => {
+		if (typeof document !== "undefined" && CloseOnEscape)
+			document.removeEventListener("keydown", closeOnEscape);
 	});
 
 	return (
-		<Portal ref={(el) => setPortalRef(el)}>
-			<div
-				{...splitComponentProps(local.PositionerProps, styles.Positioner)}
-				data-open={open()}
-				data-plecement={local.placement ?? "start"}
-				onClick={(e) => {
-					// positioner 자체의 빈 영역 클릭일때만 닫기
-					if ((e.target as EventTarget) !== (e.currentTarget as EventTarget))
-						return;
-					setOpen(false);
-				}}
-				dir="ltr"
-			>
+		<Show when={mounted()}>
+			<Portal ref={(el) => setBackdropRef(el)}>
 				<div
-					{...splitComponentProps(rest, styles.Dialog)}
-					ref={(el) => {
-						setDialogRef(el);
-						if (typeof local.ref !== "undefined") local.ref = el;
+					{...splitComponentProps(local.PositionerProps, styles.Positioner)}
+					{...(open() && { "data-open": "" })}
+					data-plecement={local.placement ?? "start"}
+					onClick={(e) => {
+						// positioner 자체의 빈 영역 클릭일때만 닫기
+						if (e.target === e.currentTarget) hide();
 					}}
-					onClose={() => {
-						setOpen(false);
-						local.onClose?.();
-					}}
-					data-placement={local.placement ?? "start"}
-					data-open={open()}
 					aria-hidden={!open()}
+					dir="ltr"
 				>
-					<div {...splitComponentProps(local.TitleProps, styles.Title)}>
-						{local.Title}
-						<Btn {...splitComponentProps(local.CloseBtnProps, styles.CloseBtn)}
-						onClick={() => {setOpen(false);}}>
-							<img
-								src={CloseIcon}
-								{...splitComponentProps(local.CloseIconProps, styles.CloseIcon)}
-							/>
-						</Btn>
-					</div>
+					<div
+						{...splitComponentProps(rest, styles.Dialog)}
+						ref={(el) => {
+							if (typeof local.ref !== "undefined") local.ref = el;
+						}}
+						data-placement={local.placement ?? "start"}
+						{...(open() && { "data-open": "" })}
+						aria-hidden={!open()}
+					>
+						<div {...splitComponentProps(local.TitleProps, styles.Title)}>
+							{local.Title}
+							<Btn
+								{...splitComponentProps(local.CloseBtnProps, styles.CloseBtn)}
+								onClick={() => {
+									setOpen(false);
+								}}
+							>
+								<img
+									src={CloseIcon}
+									{...splitComponentProps(
+										local.CloseIconProps,
+										styles.CloseIcon
+									)}
+								/>
+							</Btn>
+						</div>
 
-					<div {...splitComponentProps(local.BodyProps, styles.Body)}>
-						{local.Body}
-					</div>
+						<div {...splitComponentProps(local.BodyProps, styles.Body)}>
+							{local.Body}
+						</div>
 
-					<div {...splitComponentProps(local.FooterProps, styles.Footer)}>
-						{local.Footer}
+						<div {...splitComponentProps(local.FooterProps, styles.Footer)}>
+							{local.Footer}
+						</div>
 					</div>
 				</div>
-			</div>
-		</Portal>
+			</Portal>
+		</Show>
 	);
 }
 

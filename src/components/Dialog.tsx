@@ -1,202 +1,208 @@
+import styles from "@styles/Dialog.module.css";
+import { DivProps, ImageProps, PUS } from "@types";
 import {
-	splitProps,
-	JSX,
+	Accessor,
 	createEffect,
 	createSignal,
+	JSXElement,
 	onCleanup,
+	onMount,
+	Show,
+	splitProps,
 } from "solid-js";
-import CloseBtn from "./CloseBtn";
-import styles from "@styles/Dialog.module.css";
-import { DivProps, DialogProps as DlgProps } from "@types";
+import { Portal, spread } from "solid-js/web";
+import { Btn, BtnProps } from "./Btn";
 import { splitComponentProps } from "@utils";
+import CloseIcon from "@images/CloseIcon.svg";
 
-interface PUD extends DivProps {
-	useDefaultStyle?: boolean;
-}
-
-export interface DialogProps extends DlgProps {
-	open?: boolean;
-	TrgRef?: HTMLButtonElement | HTMLElement;
-	CloseTriggerProps?: PUD;
-	onOpen?: () => void;
+export interface DialogProps extends PUS<DivProps> {
+	BackdropProps?: PUS<DivProps>;
+	PositionerProps?: PUS<DivProps>;
+	TitleProps?: PUS<DivProps>;
+	Title?: JSXElement;
+	CloseBtnProps?: BtnProps;
+	CloseIconProps?: ImageProps;
+	BodyProps?: PUS<DivProps>;
+	Body?: JSXElement;
+	FooterProps?: PUS<DivProps>;
+	Footer?: JSXElement;
+	defaultOpen?: boolean;
+	TrgRef?: Accessor<HTMLButtonElement | HTMLElement | undefined>;
 	onClose?: () => void;
-	WrapperProps?: PUD;
-	TitleProps?: PUD;
-	Title?: JSX.Element;
-	DescProps?: PUD;
-	Desc?: JSX.Element;
-	ContentProps?: PUD;
-	Content?: JSX.Element;
-	useDefaultStyle?: boolean;
+	CloseOnEscape?: boolean;
 }
 
-//dialog닫힘 -> setOpen(false) -> local.onClose?.()(useEffect 때문에 open바뀌고 나서 실행)
 export function Dialog(props: DialogProps) {
 	const [local, rest] = splitProps(props, [
-		"open",
-		"useDefaultStyle",
-		"TrgRef",
-		"CloseTriggerProps",
-		"onOpen",
-		"onClose",
-		"WrapperProps",
+		"BackdropProps",
+		"PositionerProps",
 		"TitleProps",
 		"Title",
-		"DescProps",
-		"Desc",
-		"ContentProps",
-		"Content",
+		"CloseBtnProps",
+		"CloseIconProps",
+		"BodyProps",
+		"Body",
+		"FooterProps",
+		"Footer",
+		"defaultOpen",
+		"TrgRef",
+		"onClose",
+		"ref",
+		"CloseOnEscape",
 	]);
 
-	//^컴포넌트 내부에서 사용할 siganl
-	const [open, setOpen] = createSignal<bool>(local.open ?? false);
+	//열림/닫힘 관리할 signal
+	const [open, setOpen] = createSignal(
+		local.defaultOpen !== undefined ? true : false
+	);
 
-	//^ref
-	const [dlgRef, setDlgRef] = createSignal<HTMLDialogElement | undefined>();
+	//mount관리할 signal
+	const [mounted, setMounted] = createSignal(
+		local.defaultOpen !== undefined ? true : false
+	);
 
-	//~effect
-	//~TrgRef가 클릭되면 dialog열어주기
-	createEffect(() => {
-		const el = local.TrgRef;
-		//TrgRef가 undefined라면 아무것도 안함.
-		if (!el) return;
+	//portalRef
+	const [backdropRef, setBackdropRef] = createSignal<
+		HTMLDivElement | undefined
+	>();
 
-		if (!dlgRef()) return;
-		//TrgRef가 클릭될 때 실행될 함수
-		function trgClickHandler() {
-			dlgRef()!.showModal();
+	//CloseOnEscape flag
+	const CloseOnEscape =
+		local.CloseOnEscape === undefined || local.CloseOnEscape === true;
+
+	//Dialog 숨기는 함수
+	function hide() {
+		setOpen(false);
+		setTimeout(() => {
+			setMounted(false);
+		}, 100);
+	}
+
+	//Dialog 보여주는 함수
+	function show() {
+		setMounted(true);
+		requestAnimationFrame(() => {
 			setOpen(true);
-		}
-
-		el.addEventListener("click", trgClickHandler);
-
-		//unMount될 때는 trgClickHandler삭제
-		onCleanup(() => {
-			el.removeEventListener("click", trgClickHandler);
 		});
+	}
+
+	//TrgRef에 eventListner 등록
+	createEffect(() => {
+		const trg = local.TrgRef?.();
+		if (!trg) return;
+
+		trg.addEventListener("click", show);
 	});
 
-	//~dialog가 열리고 닫힐 때
+	//cleanup될때는 eventListner 삭제
+	onCleanup(() => {
+		local.TrgRef?.()?.removeEventListener("click", show);
+	});
+
+	//backdropProps를 portal에 적용
 	createEffect(() => {
-		if (open()) local.onOpen?.(); //~dialog열릴 때는 onOpen 실행
-		//~dialog닫힐 때는 onClose실행
+		const backdrop = backdropRef(); //portal
+		if (!backdrop) return;
+
+		const backdropProps = splitComponentProps(
+			local.BackdropProps,
+			styles.Backdrop
+		);
+		backdropProps["data-scope"] = "dialog";
+		backdropProps["data-part"] = "backdrop";
+		backdropProps.onClick = (e) => {
+			if (e.target === e.currentTarget) hide();
+		};
+
+		spread(backdrop, backdropProps);
+	});
+
+	//backdrop에 data-open 적용
+	createEffect(() => {
+		const backdrop = backdropRef();
+
+		if (!backdrop) return;
+
+		if (open()) backdrop.setAttribute("data-open", "");
 		else {
+			backdrop.removeAttribute("data-open");
 			local.onClose?.();
 		}
 	});
 
-	//&function
-	//&dialog(Root가 아닌 부분)이 클릭되면 dialog close
-	function handleDlgClick(e: MouseEvent) {
-		if (e.target === dlgRef() && dlgRef()) {
-			dlgRef()!.close();
-			setOpen(false);
-		}
+	//esc눌렀을 때 닫아줄 함수
+	function closeOnEscape(e: KeyboardEvent) {
+		if (e.key === "Escape" && open() && mounted()) hide();
 	}
 
-	//&closseBtn 클릭되면 dialog close
-	function handleClsBtnClick(_: MouseEvent) {
-		dlgRef()!.close();
-		setOpen(false);
+	//esc눌렀을 때 닫기
+	if (CloseOnEscape) {
+		onMount(() => {
+			if (typeof document !== "undefined")
+				document.addEventListener("keydown", closeOnEscape);
+		});
 	}
 
-	// 실제 렌더
-	function display() {
-		return (
-			<dialog
-				ref={setDlgRef}
-				class={styles.Dialog}
-				role="dialog"
-				aria-modal="true"
-				aria-labelledby={local.TitleProps?.id}
-				aria-describedby={local.DescProps?.id}
-				onClick={handleDlgClick}
-				onClose={() => {
-					setOpen(false); //open을 false로 설정
-				}}
-				onCancel={() => {
-					setOpen(false);
+	//esc eventListener 삭제
+	onCleanup(() => {
+		if (typeof document !== "undefined" && CloseOnEscape)
+			document.removeEventListener("keydown", closeOnEscape);
+	});
+
+	return (
+		<Show when={mounted()}>
+			<Portal
+				ref={(el) => {
+					setBackdropRef(el);
 				}}
 			>
-				{/**Root */}
-				<div {...splitComponentProps(rest, styles.Root)}>
-					{/**Wrapper */}
+				<div
+					{...splitComponentProps(local.PositionerProps, styles.Positioner)}
+					onClick={(e) => {
+						if (e.target === e.currentTarget) hide();
+					}}
+					{...(open() && { "data-open": "" })}
+					dir="ltr"
+				>
 					<div
-						class={local.WrapperProps?.class}
-						id={local.WrapperProps?.id}
-						classList={{
-							[styles.DialogWrapper]:
-								local.WrapperProps?.useDefaultStyle === undefined
-									? true
-									: local.WrapperProps?.useDefaultStyle,
-							...local.WrapperProps?.classList,
+						{...splitComponentProps(rest, styles.Dialog)}
+						ref={(el) => {
+							if (typeof local.ref !== "undefined") local.ref = el;
 						}}
+						aria-hidden={!open()}
+						{...(open() && { "data-open": "" })}
 					>
-						{/* Title */}
-						<div
-							class={local.TitleProps?.class}
-							id={local.TitleProps?.id}
-							classList={{
-								[styles.DialogTitle]:
-									local.TitleProps?.useDefaultStyle === undefined
-										? true
-										: local.TitleProps?.useDefaultStyle,
-								...local.TitleProps?.classList,
-							}}
-						>
+						<div {...splitComponentProps(local.TitleProps, styles.Title)}>
 							{local.Title}
+
+							<Btn
+								{...splitComponentProps(local.CloseBtnProps, styles.CloseBtn)}
+								onClick={() => {
+									setOpen(false);
+								}}
+							>
+								<img
+									src={CloseIcon}
+									{...splitComponentProps(
+										local.CloseIconProps,
+										styles.CloseIcon
+									)}
+								/>
+							</Btn>
 						</div>
 
-						{/* CloseTrigger */}
-						<CloseBtn
-							class={local.CloseTriggerProps?.class}
-							id={local.CloseTriggerProps?.id}
-							classList={{
-								[styles.CloseBtn]:
-									local.CloseTriggerProps?.useDefaultStyle === undefined
-										? true
-										: local.CloseTriggerProps?.useDefaultStyle,
-								...local.CloseTriggerProps?.classList,
-							}}
-							onClick={handleClsBtnClick}
-						/>
-					</div>
+						<div {...splitComponentProps(local.BodyProps, styles.Body)}>
+							{local.Body}
+						</div>
 
-					{/* Desc */}
-					<div
-						class={local.DescProps?.class}
-						id={local.DescProps?.id}
-						classList={{
-							[styles.DialogDesc]:
-								local.DescProps?.useDefaultStyle === undefined
-									? true
-									: local.DescProps?.useDefaultStyle,
-							...local.DescProps?.classList,
-						}}
-					>
-						{local.Desc}
-					</div>
-
-					{/* Content */}
-					<div
-						class={local.ContentProps?.class}
-						id={local.ContentProps?.id}
-						classList={{
-							[styles.DialogContent]:
-								local.ContentProps?.useDefaultStyle === undefined
-									? true
-									: local.ContentProps?.useDefaultStyle, // 오타 수정됨
-							...local.ContentProps?.classList,
-						}}
-					>
-						{local.Content}
+						<div {...splitComponentProps(local.FooterProps, styles.Footer)}>
+							{local.Footer}
+						</div>
 					</div>
 				</div>
-			</dialog>
-		);
-	}
-
-	return <>{display()}</>;
+			</Portal>
+		</Show>
+	);
 }
 
 export default Dialog;
