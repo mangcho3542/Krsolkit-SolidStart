@@ -6,9 +6,9 @@
 html,
 body,
 #app {
-  font-family: "SuitRegular", var(--default-font-family);
+  font-family: "SuitMedium", var(--default-font-family);
   line-height: 1;
-  font-weight: 400;
+  font-weight: 500;
   color-scheme: light dark;
   font-feature-settings: "cv11";
   font-kerning: auto;
@@ -24,7 +24,7 @@ body,
   width: 100%;
   max-width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  overflow-x: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,12 +59,15 @@ body,
   font-weight: inherit;
 }
 
-.Main:has(dialog[open]) {
-  overflow: hidden;
-  position: fixed;
+body:has(div[data-scope="drawer"][data-part="backdrop"][data-open]),
+body:has(div[data-scope="dialog"][data-part="backdrop"][data-open]) {
+  overflow-y: hidden;
+  padding-right: var(--scrollbar-width);
+  pointer-events: none;
 }
 
-body:has(dialog[open]) {
-  overflow: hidden;
-  position: fixed;
+html:has(div[data-scope="drawer"][data-part="backdrop"][data-open]),
+html:has(div[data-scope="dialog"][data-part="backdrop"][data-open]) {
+  overflow-y: hidden;
 }
+
