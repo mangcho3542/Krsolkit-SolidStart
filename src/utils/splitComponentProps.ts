@@ -1,29 +1,28 @@
-import { ComponentProps } from "@types";
+import { ComponentProps, PUS } from "@types";
 
-type T = Omit<ComponentProps, "children"> & {
-  useDefaultStyle?: boolean;
-  [key: string]: any;
-}
+export function splitComponentProps<
+	T extends PUS<ComponentProps> & {
+		[key: `data-${string}`]: any;
+	}
+>(
+	props: T | undefined,
+	defaultClass?: string
+): T & { [key: `data-${string}`]: any; [key: `aria-${string}`]: any } {
+	if (!props) {
+		return defaultClass ? ({ class: defaultClass } as T) : ({} as T);
+	}
 
-export function splitComponentProps(
-  props: T | undefined,
-  defaultClass?: string
-): T {
-  if (!props) {
-    return (defaultClass ? { class: defaultClass } : {});
-  }
+	const { id, class: cls, classList, style, useDefaultStyle, ...rest } = props;
+	const mergedClass = [cls, useDefaultStyle ?? true ? defaultClass : undefined]
+		.filter(Boolean)
+		.join(" ")
+		.trim();
 
-  const { id, class: cls, classList, style, useDefaultStyle, ...rest } = props;
-  const mergedClass = [cls, useDefaultStyle ?? true ? defaultClass : undefined]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
-
-  return {
-    ...rest,
-    ...(id !== undefined ? { id } : {}),
-    ...(classList !== undefined ? { classList } : {}),
-    ...(style !== undefined ? { style } : {}),
-    ...(mergedClass ? { class: mergedClass } : {}),
-  }
+	return {
+		...rest,
+		...(id !== undefined ? { id } : {}),
+		...(classList !== undefined ? { classList } : {}),
+		...(style !== undefined ? { style } : {}),
+		...(mergedClass ? { class: mergedClass } : {}),
+	} as T;
 }
