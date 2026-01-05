@@ -1,35 +1,25 @@
-import Btn from "@/components/Btn";
-import Drawer from "@/components/Drawer";
-import { createSignal } from "solid-js";
+import { PasswordInput, Field } from "@components";
 
 export default function test() {
-	const [btnRef, setBtnRef] = createSignal<HTMLButtonElement | undefined>();
-
 	return (
-		<main
-			class="Main"
-			style={{
-				"align-items": "center",
+		<main class="Main" style={{
+			"align-items": "center"
+		}}>
+			<PasswordInput style={{
+				width: "30%"
 			}}
-		>
-			<Btn
-				style={{
-					display: "inline-block",
-					width: "30%",
-				}}
-				ref={(el) => setBtnRef(el)}
-				onClick={() => {console.log("클릭됨.")}}
-			>
-				버튼
-			</Btn>
+			Label="라벨"
+			HelperText="HelperText"
+			
+			/>
 
-			<Drawer
-			Title="Title"
-			Body="Body"
-			Footer="Footer"
-			TrgRef={btnRef}
-			placement="bottom"
+			<Field style={{
+				width: "30%"
+			}}
+			Label="라벨"
+			HelperText="HelperText"
+			
 			/>
 		</main>
-	);
+	)
 }
