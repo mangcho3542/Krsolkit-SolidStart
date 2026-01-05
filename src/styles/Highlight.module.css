@@ -1,0 +1,9 @@
+.Root {
+    display: inline-block;
+}
+
+.Query {
+    color: var(--color);
+    background-color: var(--bg-color);
+    display: inline-block;
+}
