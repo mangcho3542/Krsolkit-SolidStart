@@ -25,11 +25,7 @@ export function PasswordInput(props: PasswordInputProps) {
 		props,
 		[
 			"name",
-			"orientation",
-			"disabled",
 			"invalid",
-			"readonly",
-			"required",
 			"defaultVisible",
 			"visible",
 		],
@@ -72,32 +68,28 @@ export function PasswordInput(props: PasswordInputProps) {
 	return (
 		<FieldRoot
 			{...rest}
-			orientation={local.orientation}
-			disabled={local.disabled}
 			invalid={local.invalid}
-			readonly={local.readonly}
-			required={local.required}
-			data-scope="password-input"
-			data-part="root"
+			data-scope={rest["data-scope"] ?? "password-input"}
+			data-part={rest["data-part"] ?? "root"}
 		>
 			<FieldLabel
 				{...others.LabelProps}
-				data-scope="password-input"
-				data-part="label"
+				data-scope={others.LabelProps?.["data-scope"] ?? "password-input"}
+				data-part={others.LabelProps?.["data-part"] ?? "label"}
 			>
 				{others.Label}
 			</FieldLabel>
 			<div
 				{...splitComponentProps(others.ControlProps, styles.Control)}
-				data-scope="password-input"
-				data-part="control"
+				data-scope={others.ControlProps?.["data-scope"] ?? "password-input"}
+				data-part={others.ControlProps?.["data-part"] ?? "control"}
 			>
 				<FieldInput
 					{...InputProps()}
 					type={type()}
 					name={local.name}
-					data-scope="password-input"
-					data-part="input"
+					data-scope={others.InputProps?.["data-scope"] ?? "password-input"}
+					data-part={others.InputProps?.["data-part"] ?? "input"}
 					autocomplete={others?.InputProps?.autocomplete ?? "new-password"}
 				/>
 
@@ -121,16 +113,16 @@ export function PasswordInput(props: PasswordInputProps) {
 			{local.invalid ? (
 				<FieldErrorText
 					{...others.ErrorTextProps}
-					data-scope="password-input"
-					data-part="error-text"
+					data-scope={others.ErrorTextProps?.["data-scope"] ?? "password-input"}
+					data-part={others.ErrorTextProps?.["data-part"] ?? "error-text"}
 				>
 					{others.ErrorText}
 				</FieldErrorText>
 			) : (
 				<FieldHelperText
 					{...others.HelperTextProps}
-					data-scope="password-input"
-					data-part="helper-text"
+					data-scope={others.HelperTextProps?.["data-scope"] ?? "password-input"}
+					data-part={others.HelperTextProps?.["data-part"] ?? "helper-text"}
 				>
 					{others.HelperText}
 				</FieldHelperText>
