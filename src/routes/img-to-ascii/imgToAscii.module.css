@@ -23,9 +23,30 @@
     width: 100%;
 }
 
+.BtnWrapper {
+    display: flex;
+    gap: 2rem;
+}
+
 .ResultContainer {
-    white-space: pre-wrap;
-    font-size: 6px;
+    white-space: pre;
     margin-top: 5%;
+    font-family: monospace;
+    font-size: 6px;
+    line-height: 1;
+    overflow: auto;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .ResultContainer {
+        font-size: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ResultContainer {
+        font-size: 3px;
+    }
 }
 
