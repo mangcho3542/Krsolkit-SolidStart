@@ -13,7 +13,7 @@ export function HiddenInput(props: HiddenInputProps) {
 				visibility: "hidden",
 				display: "none"
 			}}
-			type={local.type ?? "text"}
+			type={local.type ?? "hidden"}
 			aria-hidden
 			hidden
 			{...rest}
