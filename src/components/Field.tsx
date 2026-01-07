@@ -144,13 +144,13 @@ export function FieldInput(props: FieldInputProps) {
 			disabled={context.disabled()}
 			readonly={context.readonly()}
 			id={context.inputId()}
-			onFocusIn={(e) => {
+			onfocusin={(e) => {
 				e.currentTarget.setAttribute("data-focus", "");
-				rest.onFocusIn?.(e);
+				rest.onfocusin?.(e);
 			}}
-			onFocusOut={(e) => {
+			onfocusout={(e) => {
 				e.currentTarget.removeAttribute("data-focus");
-				rest.onFocusOut?.(e);
+				rest.onfocusout?.(e);
 			}}
 			aria-describedby={
 				context.invalid() ? context.errorTextId() : context.helperTextId()
