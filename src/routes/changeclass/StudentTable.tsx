@@ -101,7 +101,7 @@ export default function StudentTable(props: StudentTableProps) {
   //캡쳐하는 함수
   async function captureWrp() {
     setTimeout(() => {}, 300);
-    await capture(wrpRef, "자리배치_결과.png");
+    await capture({ref: wrpRef, fileName: "자리배치_결과.png"});
   }
 
   return (
