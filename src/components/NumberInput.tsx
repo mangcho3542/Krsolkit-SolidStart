@@ -1,15 +1,8 @@
 import styles from "@styles/NumberInput.module.css";
 import { PUS, ButtonProps, DivProps, InputProps } from "@types";
 import { splitComponentProps } from "@utils";
-import { nanoid } from "nanoid";
-import {
-	Accessor,
-	createEffect,
-	createMemo,
-	createSignal,
-	splitProps,
-} from "solid-js";
-import { FieldProps } from "./Field";
+import { createEffect, createMemo, createSignal, splitProps } from "solid-js";
+import { Field, FieldProps } from "./Field";
 
 type TrgProps = PUS<ButtonProps> & {
 	onClick?: (
@@ -18,46 +11,44 @@ type TrgProps = PUS<ButtonProps> & {
 };
 
 export interface NumberInputProps extends FieldProps {
+	InputProps?: Omit<PUS<InputProps>, "inputMode" | "pattern"> & {
+		type?: "number";
+	};
 	ContainerProps?: PUS<DivProps>;
-	InputProps?: PUS<InputProps>;
 	ControlProps?: PUS<DivProps>;
 	IncTrgProps?: TrgProps;
 	DecTrgProps?: TrgProps;
+	useTrg?: boolean;
 	inputMode?: InputProps["inputMode"];
 	defaultValue?: number;
 	max?: number;
 	min?: number;
 	step?: number;
-	pattern?: RegExp;
-	useBtn?: boolean;
+	pattern?: string;
 	allowMouseWheel?: boolean;
-	name?: string;
-	disabled?: boolean;
-	invalid?: boolean;
-	readonly?: boolean;
+	clampValueOnBlur?: boolean;
 }
 
 export function NumberInput(props: NumberInputProps) {
-	const [local, states, others, rest] = splitProps(
+	const [local, others, rest] = splitProps(
 		props,
 		[
-			"orientation",
 			"inputMode",
 			"defaultValue",
 			"min",
 			"max",
 			"step",
 			"pattern",
-			"useBtn",
 			"allowMouseWheel",
-			"name",
-			"required"
+			"disabled",
+			"readonly",
+			"invalid",
+			"clampValueOnBlur",
 		],
-		["disabled", "invalid", "readonly"],
 		[
 			"LabelProps",
 			"Label",
-			"RequiredIndicatorProps",
+			"useTrg",
 			"ContainerProps",
 			"ControlProps",
 			"IncTrgProps",
@@ -70,37 +61,50 @@ export function NumberInput(props: NumberInputProps) {
 		]
 	);
 
-	const InputId = createMemo(
-		() => others.InputProps?.id ?? `input:${nanoid(8)}`
-	);
+	let btnRef: HTMLButtonElement | undefined;
 
-	const HelperTextId = createMemo(
-		() => others.HelperTextProps?.id ?? `HelperText-${nanoid(8)}`
-	);
-	const ErrorTextId = createMemo(
-		() => others.ErrorTextProps?.id ?? `ErrorText-${nanoid(8)}`
-	);
+	const max = createMemo(() => {
+		if (local.max && local.max <= Number.MAX_SAFE_INTEGER)
+			return Math.abs(local.max);
 
-	const max = createMemo(() => local.max ?? Number.MAX_SAFE_INTEGER);
-	const min = createMemo(() => local.min ?? 0);
+		return Number.MAX_SAFE_INTEGER;
+	});
+	const min = createMemo(() => {
+		if (local.min && local.min >= Number.MIN_SAFE_INTEGER)
+			return -1 * Math.abs(local.min);
+		return Number.MIN_SAFE_INTEGER;
+	});
+
 	const step = createMemo(() =>
 		local.step &&
 		local.step >= Number.MIN_SAFE_INTEGER &&
 		local.step <= Number.MAX_SAFE_INTEGER
-			? local.step
+			? Math.abs(local.step)
 			: 1
 	);
 
-	const [value, setValue] = createSignal(local.defaultValue ?? local.min ?? 0);
-	const [inputFocus, setInputFocus] = createSignal(false);
+	const [value, setValue] = createSignal(
+		local.defaultValue ?? local.min ?? (min() + max()) / 2
+	);
+	const [focused, setFocused] = createSignal(false); //input focus 나타내는 signal
 
-	const dataStates: Accessor<
-		{ "data-state": "disabled" | "invalid" | "readonly" } | {}
-	> = createMemo(() => {
-		if (states.disabled) return { "data-state": "disabled" };
-		else if (states.invalid) return { "data-state": "invalid" };
-		else if (states.readonly) return { "data-state": "readonly" };
-		else return {};
+	//InputProps
+	const InputProps = createMemo(() => {
+		if (others.InputProps) {
+			if (
+				others.InputProps.useDefaultStyle === undefined ||
+				others.InputProps.useDefaultStyle
+			) {
+				others.InputProps.class =
+					(others.InputProps.class ?? "") + styles.Input;
+			}
+
+			return others.InputProps;
+		} else {
+			return {
+				class: styles.Input,
+			};
+		}
 	});
 
 	//onWheel
@@ -109,141 +113,147 @@ export function NumberInput(props: NumberInputProps) {
 		console.log(e.deltaY);
 		const cnt = Math.trunc(e.deltaY / 120);
 		if (cnt === 0) return;
+
 		setValue((v) => v - cnt * step());
 	}
 
 	//allowMouseWheel
-	if (local.allowMouseWheel === undefined || local.allowMouseWheel === true) {
+	if (local.allowMouseWheel === undefined || local.allowMouseWheel) {
 		createEffect(() => {
-			if (inputFocus()) {
+			if (focused()) {
 				if (typeof window === "undefined") return;
-				window.addEventListener("wheel", onWheel, {passive: false});
-			}
-			else {
+				window.addEventListener("wheel", onWheel, { passive: false });
+			} else {
 				window.removeEventListener("wheel", onWheel);
 			}
 		});
 	}
 
+	//value 바뀔 때마다 clamp하는 함수
+	function clamp(v: number) {
+		const steppedValue = Math.round(v / step()) * step();
+		return Math.max(min(), Math.min(max(), steppedValue));
+	}
+
 	return (
-		<div
-			{...splitComponentProps(rest, styles.Root)}
-			{...dataStates()}
-			data-scope="filed"
-			data-part="root"
-			data-orientation={local.orientation || "vertical"}
+		<Field.Root
+			{...rest}
+			disabled={local.disabled}
+			readonly={local.readonly}
+			invalid={local.invalid}
+			data-scope={rest["data-scope"] ?? "number-input"}
+			data-part={rest["data-part"] ?? "root"}
 		>
-			<label
-				{...splitComponentProps(others.LabelProps, styles.Label)}
-				for={InputId()}
-			>
-				{others.Label}
-				{local.required && (
-					<span
-						{...splitComponentProps(
-							others.RequiredIndicatorProps,
-							styles.RequiredIndicator
-						)}
-						aria-hidden
-						data-scope="field"
-						data-part="required-indicator"
-					>
-						*
-					</span>
-				)}
-			</label>
+			<Field.Label {...others.LabelProps}>{others.Label}</Field.Label>
 
 			<div
-				{...splitComponentProps(others.ContainerProps, styles.Container)}
-				data-scope="number-input"
-				data-part="container"
+				{...splitComponentProps(others.ControlProps, styles.Control)}
+				data-scope={others.ControlProps?.["data-scope"] ?? "number-input"}
+				data-part={others.ControlProps?.["data-part"] ?? "control"}
+				dir="ltr"
+				role="group"
+				aria-disabled={local.disabled ?? "false"}
 			>
+				<Field.Input
+					{...InputProps()}
+					onInput={(e) => {
+						setValue(e.currentTarget.valueAsNumber);
+						others.InputProps?.onInput?.(e);
+					}}
+					onfocusin={(e) => {
+						setFocused(true);
+						others.InputProps?.onfocusin?.(e);
+					}}
+					onfocusout={(e) => {
+						setFocused(false);
+						if (local.clampValueOnBlur === undefined || local.clampValueOnBlur)
+							setValue(clamp(e.currentTarget.valueAsNumber));
+						others.InputProps?.onfocusout?.(e);
+					}}
+					type={others.InputProps?.type ?? "number"}
+					min={min()}
+					max={max()}
+					inputMode={local.inputMode ?? "decimal"}
+					pattern={local.pattern}
+					value={value()}
+					aria-valuemax={max()}
+					aria-valuemin={min()}
+					aria-valuenow={value()}
+				/>
+
 				<div
-					{...splitComponentProps(others.ControlProps, styles.Control)}
-					data-scope="number-input"
-					data-part="control"
+					{...splitComponentProps(others.ContainerProps, styles.Container)}
+					data-scope={others.ContainerProps?.["data-scope"] ?? "number-input"}
+					data-part={others.ContainerProps?.["data-part"] ?? "Container"}
+					aria-disabled={local.disabled}
+					aria-readonly={local.readonly}
+					{...(local.disabled && { "data-disabled": "" })}
 				>
 					<button
 						{...splitComponentProps(others.IncTrgProps, styles.IncTrg)}
+						data-scope={others.IncTrgProps?.["data-scope"] ?? "number-input"}
+						data-part={others.IncTrgProps?.["data-part"] ?? "increment-trg"}
 						onClick={(e) => {
-							setValue((v) => v + step());
+							if (!local.disabled && !local.readonly)
+								setValue((v) => v + step());
 							others.IncTrgProps?.onClick?.(e);
 						}}
-						data-scope="number-input"
-						data-park="inc-trg"
+						onpointerdown={(e) => {
+							if (btnRef) btnRef.setAttribute("data-pointer", "");
+							others.IncTrgProps?.onpointerdown?.(e);
+						}}
+						onpointerup={(e) => {
+							if (btnRef) btnRef.removeAttribute("data-pointer");
+							others.IncTrgProps?.onpointerup?.(e);
+						}}
 					>
 						<svg viewBox="0 0 24 24" class={styles.Icon}>
-							<path d="m18 15-6-6-6 6"></path>
+							<path d="m18 15-6-6-6 6" />
 						</svg>
 					</button>
 
 					<button
 						{...splitComponentProps(others.DecTrgProps, styles.DecTrg)}
+						ref={(el) => {
+							btnRef = el;
+							if (others.DecTrgProps?.ref) {
+								if (typeof others.DecTrgProps.ref === "function")
+									others.DecTrgProps.ref(el);
+								else others.DecTrgProps.ref = el;
+							}
+						}}
+						data-scope={others.DecTrgProps?.["data-scope"] ?? "number-input"}
+						data-part={others.DecTrgProps?.["data-part"] ?? "decrement-trigger"}
 						onClick={(e) => {
-							setValue((v) => v - step());
+							if (!local.disabled && !local.readonly)
+								setValue((v) => v - step());
 							others.DecTrgProps?.onClick?.(e);
 						}}
-						data-scope="number-input"
-						data-part="dec-trg"
+						onpointerdown={(e) => {
+							e.currentTarget.setAttribute("data-pointer", "");
+							others.DecTrgProps?.onpointerdown?.(e);
+						}}
+						onpointerup={(e) => {
+							e.currentTarget.removeAttribute("data-pointer");
+							others.DecTrgProps?.onpointerdown?.(e);
+						}}
 					>
 						<svg viewBox="0 0 24 24" class={styles.Icon}>
-							<path d="m6 9 6 6 6-6"></path>
+							<path d="m6 9 6 6 6-6" />
 						</svg>
 					</button>
 				</div>
-
-				<input
-					{...splitComponentProps(others.InputProps, styles.Input)}
-					id={InputId()}
-					type="number"
-					inputMode={local.inputMode ?? "decimal"}
-					value={value()}
-					min={min()}
-					max={max()}
-					aria-valuemin={local.min ?? 0}
-					aria-valuemax={local.max ?? Number.MAX_SAFE_INTEGER}
-					aria-valuenow={value()}
-					aria-valuetext={value().toString()}
-					aria-describedby={states.invalid ? ErrorTextId() : HelperTextId()}
-					onFocusIn={(e) => {
-						e.currentTarget.setAttribute("data-focus", "");
-						setInputFocus(true);
-						others.InputProps?.onFocusIn?.(e);
-					}}
-					onFocusOut={(e) => {
-						e.currentTarget.removeAttribute("data-focus");
-						setInputFocus(false);
-						others.InputProps?.onFocusOut?.(e);
-					}}
-					onChange={(e) => {
-						const v = Number.parseFloat(e.currentTarget.value);
-						if (v > max()) setValue(max());
-						else if (v < min()) setValue(min());
-						else setValue(v);
-						others.InputProps?.onChange?.(e);
-					}}
-				/>
 			</div>
 
-			{states.invalid ? (
-				<span
-					{...splitComponentProps(others.ErrorTextProps, styles.ErrorText)}
-					id={ErrorTextId()}
-					data-scope="field"
-					data-part="error-text"
-				>
+			{local.invalid ? (
+				<Field.ErrorText {...others.ErrorTextProps}>
 					{others.ErrorText}
-				</span>
+				</Field.ErrorText>
 			) : (
-				<span
-					{...splitComponentProps(others.HelperTextProps, styles.HelperText)}
-					id={HelperTextId()}
-					data-scope="field"
-					data-part="helper-text"
-				>
+				<Field.HelperText {...others.HelperTextProps}>
 					{others.HelperText}
-				</span>
+				</Field.HelperText>
 			)}
-		</div>
+		</Field.Root>
 	);
 }
