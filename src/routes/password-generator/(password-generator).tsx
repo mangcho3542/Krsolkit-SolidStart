@@ -53,15 +53,13 @@ export default function passwordGenerator() {
 			.then(() => {
 				toaster.create({
 					title: "복사 완료!",
-					description: "비밀번호가 클립보드에 복사되었습니다.",
 					type: "success",
 				});
 			})
 			.catch((err) => {
 				console.error(err);
 				toaster.create({
-					title: "오류",
-					description: "오류로 인해 복사가 실패하였습니다.",
+					title: "오류로 인해 복사가 실패하였습니다.",
 					type: "error",
 				});
 			});
@@ -75,7 +73,7 @@ export default function passwordGenerator() {
 
 	return (
 		<>
-			<Toast toast={toaster} />
+			<Toast toaster={toaster} />
 			<Title>무작위 비밀번호 생성기</Title>
 			<Meta
 				name="description"
@@ -125,7 +123,7 @@ export default function passwordGenerator() {
 					class={styles.InputRoot}
 					Label="암호 길이"
 					InputProps={{
-						onChange: (e) => {
+						onchange: (e) => {
 							setLength(e.target.valueAsNumber);
 						},
 					}}
