@@ -1,4 +1,5 @@
 import { JSX, JSXElement } from "solid-js";
+import { DOMElement } from "solid-js/jsx-runtime";
 
 export interface ComponentProps {
 	class?: string;
@@ -23,9 +24,23 @@ export type StyleT<T> = Omit<T, "style"> & {
 export type DivProps = StyleT<JSX.HTMLAttributes<HTMLDivElement>>;
 export type ParagraphProps = StyleT<JSX.HTMLAttributes<HTMLParagraphElement>>;
 export type SpanProps = StyleT<JSX.HTMLAttributes<HTMLSpanElement>>;
-export type ButtonProps = StyleT<Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onClick">> & {
+export type ButtonProps = StyleT<
+	Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onClick">
+> & {
 	onClick?: (
 		e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
+	) => any;
+	onpointerdown?: (
+		e: PointerEvent & {
+			currentTarget: HTMLButtonElement;
+			target: DOMElement;
+		}
+	) => any;
+	onpointerup?: (
+		e: PointerEvent & {
+			currentTarget: HTMLButtonElement;
+			target: DOMElement;
+		}
 	) => any;
 };
 export type DialogProps = StyleT<JSX.HTMLAttributes<HTMLDialogElement>>;
@@ -33,7 +48,7 @@ export type ImageProps = StyleT<JSX.HTMLAttributes<HTMLImageElement>>;
 export type SvgProps = StyleT<JSX.SvgSVGAttributes<SVGSVGElement>>;
 export type LabelProps = StyleT<JSX.HTMLAttributes<HTMLLabelElement>>;
 
-export type InputEventT = {
+export type InputEventT = Event & {
 	currentTarget: HTMLInputElement;
 	target: HTMLInputElement;
 };
@@ -44,7 +59,28 @@ export type InputProps = StyleT<
 		"onFocusIn" | "onFocusOut" | "onChange"
 	>
 > & {
-	onFocusIn?: (e: InputEventT) => any;
-	onFocusOut?: (e: InputEventT) => any;
-	onChange?: (e: InputEventT) => any;
+	onfocusin?: (
+		e: FocusEvent & {
+			currentTarget: HTMLInputElement;
+			target: HTMLInputElement;
+		}
+	) => void;
+	onfocusout?: (
+		e: FocusEvent & {
+			currentTarget: HTMLInputElement;
+			target: HTMLInputElement;
+		}
+	) => void;
+	onChange?: (
+		e: Event & {
+			currentTarget: HTMLInputElement;
+			target: HTMLInputElement;
+		}
+	) => void;
+	onInput?: (
+		e: InputEvent & {
+			currentTarget: HTMLInputElement;
+			target: HTMLInputElement;
+		}
+	) => void;
 };
