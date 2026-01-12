@@ -6,24 +6,15 @@
   min-width: 40px;
   min-height: 40px;
   border-radius: 4px;
-  background-color: #f4f4f5;
-  color: #27272a;
+  background-color: #18181b;
+  color: #ffffff;
   font-size: 1rem;
   cursor: pointer;
 }
 
-.Btn:hover {
-  background-color: #e4e4e7;
-}
-
 @media (prefers-color-scheme: dark) {
   .Btn {
-    background-color: #18181b;
-    color: #e4e4e7;
-  }
-
-  .Btn:hover {
-    background-color: #27272a;
+    background-color: #ffffff;
+    color: #09090b;
   }
 }
-
