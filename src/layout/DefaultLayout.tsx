@@ -1,4 +1,4 @@
-import { createSignal, For, JSXElement, onCleanup, onMount } from "solid-js";
+import { createSignal, For, JSXElement } from "solid-js";
 import styles from "./Layout.module.css";
 import MenuIcon from "@images/MenuIcon.svg";
 import Logo from "@images/Logo.svg";
@@ -15,25 +15,6 @@ interface Menu {
 }
 
 export default function DefaultLayout({ children }: LayoutProps) {
-	//클라이언트에서 scrollbar-width라는 css 변수 저장
-	onMount(() => {
-		function setScrollbarWidth() {
-			const w =
-				typeof window !== "undefined"
-					? window.innerWidth - document.documentElement.clientWidth
-					: 0;
-
-			document.documentElement.style.setProperty("--scrollbar-width", `${w}px`);
-		}
-
-		setScrollbarWidth();
-		window.addEventListener("resize", setScrollbarWidth);
-
-		onCleanup(() => {
-			window.removeEventListener("resize", setScrollbarWidth);
-		});
-	});
-
 	const MenuAry: Menu[] = [
 		{
 			content: "가이드",
