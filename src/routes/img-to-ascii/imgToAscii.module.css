@@ -1,52 +1,62 @@
 .Main {
     overflow-x: auto;
-    max-width: 100%;
-}
-
-.Wrapper {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 0.25rem;
-    padding: 2%;
+}
 
+.TmpDiv {
+    font-family: monospace;
+    font-size: xx-small;
+    white-space: pre;
+    line-height: 1;
+    visibility: hidden;
+    position: absolute;
 }
 
 .Container {
-    display: inline-block;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .Img {
-    width: 100%;
+    width: 75%;
+    max-width: 75%;
+}
+
+.Span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    height: 100%;
 }
 
 .BtnWrapper {
+    width: 50%;
     display: flex;
+    justify-content: center;
     gap: 2rem;
+}
+
+.Btn {
+    width: fit-content;
+    font-size: 1.5rem;
+}
+
+.ResultWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
 }
 
 .ResultContainer {
     white-space: pre;
-    margin-top: 5%;
     font-family: monospace;
-    font-size: 6px;
+    font-size: xx-small;
     line-height: 1;
-    overflow: auto;
-    max-width: 100%;
+    --scale-value: 1;
+    transform: scale(var(--scale-value));
+    transform-origin: top center;
 }
-
-@media (max-width: 768px) {
-    .ResultContainer {
-        font-size: 4px;
-    }
-}
-
-@media (max-width: 480px) {
-    .ResultContainer {
-        font-size: 3px;
-    }
-}
-

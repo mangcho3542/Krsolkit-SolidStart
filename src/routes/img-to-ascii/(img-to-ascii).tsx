@@ -5,7 +5,7 @@ export default function imgToAscii() {
 
 	return (
 		<>
-			<Title>아스키 변환</Title>
+			<Title>이미지 아스키 변환</Title>
 			<Meta
 				name="description"
 				content="이미지를 업로드하면 아스키로 변환하는 기능을 제공합니다."
