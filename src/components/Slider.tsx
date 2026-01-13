@@ -248,7 +248,7 @@ export function Slider(props: SliderProps) {
 					{...splitComponentProps(local.TrackProps, styles.Track)}
 					ref={(el) => (trackRef = el)}
 					onPointerDown={(e) =>
-						onTrackPointerDown(e as unknown as PointerEvent)
+						onTrackPointerDown(e)
 					}
 				>
 					<div
@@ -280,9 +280,9 @@ export function Slider(props: SliderProps) {
 					aria-valuemax={max()}
 					aria-valuenow={value()}
 					onPointerDown={(e) =>
-						startPointerDragFromThumb(e as unknown as PointerEvent)
+						startPointerDragFromThumb(e)
 					}
-					onKeyDown={(e) => onThumbKeyDown(e as unknown as KeyboardEvent)}
+					onKeyDown={(e) => onThumbKeyDown(e)}
 					style={
 						isVertical
 							? {
