@@ -1,11 +1,10 @@
-import styles from "./chageclass.module.css";
 import Main from "./Main";
 import { Meta, Title } from "@solidjs/meta";
 
 export default function ChangeClass() {
   return (
-    <main class="Main" id={styles.Main}>
-      <Title>자리 바꾸기</Title>
+    <>
+    <Title>자리 바꾸기</Title>
       <Meta
         name="description"
         content="랜덤 자리 배치로 공정하고 재미있게! 교실 자리 바꾸기 도구를 무료로 이용하세요."
@@ -30,8 +29,7 @@ export default function ChangeClass() {
         content="https://classhelper.kr/ChangeClassIcon.png"
       />
       <Meta name="twitter:card" content="summary_large_image" />
-
       <Main />
-    </main>
+    </>
   );
 }
