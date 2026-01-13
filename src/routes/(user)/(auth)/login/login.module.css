@@ -10,8 +10,7 @@
   border-width: 2px;
   border-style: solid;
   border-color: var(--border-light-color);
-  padding-top: 3%;
-  padding-bottom: 1%;
+  padding: 3% 2% 1% 2%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -42,7 +41,7 @@
 }
 
 #BtnWrapper {
-  width: 82%;
+  width: 100%;
   margin-top: 6%; 
   display: flex;
   justify-content: center;
@@ -58,7 +57,7 @@
   display: flex;
   width: 82%;
   justify-content: center;
-  margin-top: 3%;
+  margin-top: 6%;
   column-gap: 2%;
 }
 
