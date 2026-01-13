@@ -24,7 +24,10 @@ body,
   width: 100%;
   max-width: 100%;
   min-height: 100%;
-  overflow-x: auto;
+
+  overflow-x: hidden;
+  scrollbar-width: none;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,26 +51,22 @@ body,
   }
 }
 
+/*Scrollbar */
+:is(:root,
+  html,
+  body,
+  #app,
+  .Main):-webkit-scrollbar {
+    display: none;
+  }
+
 .Main {
   display: flex;
   flex-direction: column;
   min-width: 100%;
   min-height: 80vh;
-  color: inherit;
-  background-color: inherit;
-  font-family: inherit;
-  font-weight: inherit;
 }
 
-body:has(div[data-scope="drawer"][data-part="backdrop"][data-open]),
-body:has(div[data-scope="dialog"][data-part="backdrop"][data-open]) {
-  overflow-y: hidden;
-  padding-right: var(--scrollbar-width);
-  pointer-events: none;
+::-webkit-scrollbar {
+  display: none;
 }
-
-html:has(div[data-scope="drawer"][data-part="backdrop"][data-open]),
-html:has(div[data-scope="dialog"][data-part="backdrop"][data-open]) {
-  overflow-y: hidden;
-}
-
