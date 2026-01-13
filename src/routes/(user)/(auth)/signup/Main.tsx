@@ -117,7 +117,7 @@ export default function Main() {
 
 		let flag = true;
 		await axios
-			.post("/api/user/checkNickname", {
+			.post("/api/user/check-nickname", {
 				nickname: nicknameRef.value,
 			})
 			.then((res) => {
@@ -138,7 +138,7 @@ export default function Main() {
 				setInvalid({ nickname: false });
 			})
 			.catch((err) => {
-				console.error("checkNickname함수에서 오류남.");
+				console.error("check-nickname함수에서 오류남.");
 				console.dir(err, { depth: null });
 				createErrToast();
 				flag = false;
@@ -186,7 +186,7 @@ export default function Main() {
 		//state가 0이면 verifyEmail api 호출
 		try {
 			const res = await axios.post(
-				"/api/auth/verifyEmail",
+				"/api/auth/verify-email",
 				{
 					email: emailRef.value,
 				},
@@ -229,7 +229,7 @@ export default function Main() {
 				});
 			}
 		} catch (err) {
-			console.error("verifyEmail api 호출할 때 오류남.\n", err);
+			console.error("verify-email api 호출할 때 오류남.\n", err);
 			createErrToast();
 		}
 	}
@@ -239,6 +239,20 @@ export default function Main() {
 			<Toast toaster={toaster} />
 
 			<div id={styles.Wrapper}>
+				<h1
+					style={{
+						display: "block",
+						width: "100%",
+						"text-align": "center",
+						"margin-bottom": "13%",
+						"font-family": "SuitBold, var(--default-font-family)",
+						"font-weight": "700",
+						"font-size": "1.3rem",
+					}}
+				>
+					회원가입
+				</h1>
+
 				<Field
 					class={styles.Field}
 					required={true}
