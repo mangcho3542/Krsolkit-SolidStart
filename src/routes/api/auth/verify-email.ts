@@ -1,6 +1,5 @@
 import { status } from "@lib";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
-import { checkType } from "@utils";
 import { z } from "zod";
 
 const BodyT = z.object({
@@ -10,15 +9,22 @@ const BodyT = z.object({
 async function handler({ request: req }: APIEvent) {
 	try {
 		const body = await req.json();
-		if (!checkType(body, BodyT)) return status(400);
+		const typeFlag = await BodyT.safeDecodeAsync(body);
+		if (!typeFlag.success) return status(400);
 
-		return await fetch(process.env.SERVER_URL!, {
+		const res = await fetch(`${process.env.SERVER_URL!}/auth/email`, {
+			method: "POST",
 			headers: {
-				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
+				Authorization: `Bearer ${process.env.AUTHORIZATION_KEY!}`,
 				"Content-Type": "application/json",
 				"Accept": "application/json"
 			},
-			body: req.body
+			body: JSON.stringify(body)
+		});
+
+		return status(res.status, {
+			code: await res.text(),
+			success: true
 		});
 	} catch (err) {
 		console.error("verifyEmail api에서 오류남.\n", err);

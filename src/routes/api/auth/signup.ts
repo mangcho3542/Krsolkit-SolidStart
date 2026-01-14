@@ -1,11 +1,10 @@
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
 import { status } from "@lib";
-import { checkType } from "@utils";
 import { setCookie } from "vinxi/http";
 import { HttpStatus } from "@types";
 
-export const SignupBodyT = z.object({
+export const SignupBody = z.object({
 	email: z.email(),
 	password: z.string(),
 	nickname: z.string(),
@@ -24,21 +23,22 @@ async function handler({
 }: APIEvent) {
 	try {
 		const body = await req.json();
-		if (!checkType(body, SignupBodyT)) return status(400);
+		const typeFlag = await SignupBody.safeDecodeAsync(body);
+		if(!typeFlag.success) return status(400);
 
 		const res = await fetch(process.env.SERVER_URL!, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
+				Authorization: `Bearer ${process.env.AUTHORIZATION_KEY!}`,
 				"Content-Type": "application/json",
 				"Accept": "application/json"
 			},
-			body: req.body
+			body: JSON.stringify(body)
 		});
 
 		const data = await res.json();
 
-		if (!checkType(data, ResponseT)) return status(500);
+		if (!await ResponseT.safeDecodeAsync(data)) return status(500);
 
 		const { success, message, accessToken, refreshToken } = data;
 		if (!success || res.status < 200 || res.status > 226)

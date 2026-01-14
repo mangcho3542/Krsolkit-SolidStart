@@ -1,5 +1,4 @@
 import { status } from "@lib";
-import { checkType } from "@utils";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
 
@@ -9,17 +8,23 @@ const BodyT = z.object({
 
 async function handler({ request: req }: APIEvent) {
 	try {
-		if (!checkType(await req.json(), BodyT)) return status(400);
+		const body = await req.json();
+		const typeFlag = await BodyT.safeDecodeAsync(body);
+		if (!typeFlag.success) {
+			console.error("body : ", body);
+			return status(400);
+		}
 
-		return fetch(`${process.env.SERVER_URL!}/user/checkNickname`, {
+		const res = await fetch(`${process.env.SERVER_URL}/user/check-nickname`, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
+				Authorization: `Bearer ${process.env.AUTHORIZATION_KEY!}`,
 				"Content-Type": "application/json",
-				"Accept": "application/json"
 			},
-			body: req.body
+			body: JSON.stringify(body)
 		});
+
+		return status(res.status, await res.json());
 	} catch (err) {
 		console.error("checkNickname api에서 오류남.\n", err);
 		return status(500);

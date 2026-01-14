@@ -5,7 +5,7 @@ import { setCookie } from "vinxi/http";
 import { z } from "zod";
 import { checkType } from "@utils";
 
-const BodyT = z.object({
+const Body = z.object({
 	email: z.email(),
 	password: z.string(),
 });
@@ -23,16 +23,17 @@ async function handler({
 }: APIEvent): Promise<Response> {
 	try {
 		const body = await req.json();
-		if (!checkType(body, BodyT)) return status(400);
+		const typeFlag = await Body.safeEncodeAsync(body);
+		if(!typeFlag.success) return status(400);
 
 		const res = await fetch(`${process.env.SERVER_URL!}/auth/login`, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${process.env.SERVER_AUTH_KEY!}`,
+				Authorization: `Bearer ${process.env.AUTHORIZATION_KEY!}`,
 				"Content-Type": "application/json",
 				Accept: "application/json",
 			},
-			body: req.body,
+			body: JSON.stringify(body)
 		});
 
 		const data = await res.json();
