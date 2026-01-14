@@ -104,7 +104,7 @@ export default function Main() {
 	}
 
 	//&nickname확인하는 함수
-	async function checkNickname(): Promise<boolean> {
+	async function checkNickname() {
 		const nickname = nicknameRef.value;
 		if (nickname.length < 2 || nickname.length > 30) {
 			setErrorText({
