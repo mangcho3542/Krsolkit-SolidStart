@@ -1,7 +1,7 @@
 import { HttpStatus } from "@types";
 import { json } from "@solidjs/router";
 
-export function status(status: keyof typeof HttpStatus, body?: object) {
+export function status(status: number, body?: object) {
 	if (body === undefined) {
 		if (status === 500) {
 			return json(
@@ -26,5 +26,5 @@ export function status(status: keyof typeof HttpStatus, body?: object) {
 		}
 	}
 
-	return json(body, { status, statusText: HttpStatus[status] });
+	return json(body, { status, statusText: HttpStatus[status as keyof typeof HttpStatus] });
 }
