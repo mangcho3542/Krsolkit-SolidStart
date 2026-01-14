@@ -13,7 +13,6 @@ import {
 	createSignal,
 	For,
 	Match,
-	Show,
 	splitProps,
 	Switch,
 } from "solid-js";
