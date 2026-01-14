@@ -75,7 +75,6 @@ class Toaster {
 	 */
 	create(props: ToasterBaseType): string {
 		const id = `toast:${++this.cnt}:${now()}`;
-		console.log("Toast Id : ", id);
 		const duration = props.duration ? Math.abs(props.duration) : 5000;
 
 		const toast: ToastType = {
