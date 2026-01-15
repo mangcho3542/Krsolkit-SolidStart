@@ -168,3 +168,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 src/test/main.ts
+src/routes/test/
+src/test
