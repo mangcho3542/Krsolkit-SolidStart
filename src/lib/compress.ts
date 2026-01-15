@@ -1,4 +1,4 @@
-import { deflateSync, inflateSync } from "bun";
+import { deflateSync, inflateSync } from "node:zlib";
 
 const Regex = /[0-9]/;
 
