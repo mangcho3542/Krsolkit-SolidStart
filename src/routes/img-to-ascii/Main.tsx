@@ -8,7 +8,6 @@ import axios from "axios";
 export default function Main() {
     let input: HTMLInputElement | undefined;
     let canvas: HTMLCanvasElement | undefined;
-    let resDivRef: HTMLDivElement | undefined;
     let tmpDivRef: HTMLDivElement | undefined;
     let msrDivRef: HTMLDivElement | undefined;
     const ascii = '@&2(^"_';
@@ -245,9 +244,6 @@ export default function Main() {
             >
                 <div
                     class={styles.ResultContainer}
-                    ref={(el) => {
-                        resDivRef = el;
-                    }}
                     style={{
                         "--scale-value": scaleValue(),
                     }}
