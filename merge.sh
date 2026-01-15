@@ -11,8 +11,6 @@ if [ "$CURRENT_BRANCH" != "main" ]; then
   exit 1
 fi
 
-echo "🔀 dev → main merge (test 폴더 제외)"
-
 # merge 시작 (커밋은 아직 안 함)
 git merge "$MERGE_BRANCH" --no-commit --no-ff
 
@@ -33,4 +31,4 @@ done
 # 커밋
 git commit -m "dev브랜치 merge함."
 
-echo "✅ merge 완료 (test 폴더는 main에 반영 안 됨)"
+echo "✅ merge 완료"
