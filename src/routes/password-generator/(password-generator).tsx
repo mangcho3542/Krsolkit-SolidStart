@@ -4,7 +4,7 @@ import { createEffect, createSignal } from "solid-js";
 import { customAlphabet } from "nanoid";
 import { Btn, NumberInput, Toast, createToaster } from "@components";
 import { createStore } from "solid-js/store";
-import { randomInt } from "crypto";
+import { randomInt } from "@utils";
 import RefreshIcon from "@images/RefreshIcon.svg?raw";
 
 const casesAry = [
