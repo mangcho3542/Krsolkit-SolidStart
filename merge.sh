@@ -1,44 +1,36 @@
+#!/usr/bin/env bash
+
 set -e
 
-# -------------------------------------------------------
-# main 브랜치에서 dev의 변경을 merge하되
-# test/ 디렉토리 전체와 mergeExceptTest.sh 파일은 제외하고 merge한다.
-# -------------------------------------------------------
+MERGE_BRANCH="dev"
 
-# 1. main인지 확인
-current_branch=$(git rev-parse --abbrev-ref HEAD)
-if [ "$current_branch" != "main" ]; then
-  echo "main 브랜치에서만 실행 가능함 (현재: $current_branch)"
+# main 브랜치인지 확인
+CURRENT_BRANCH=$(git branch --show-current)
+if [ "$CURRENT_BRANCH" != "main" ]; then
+  echo "❌ main 브랜치에서만 실행하세요. 지금은: $CURRENT_BRANCH"
   exit 1
 fi
 
-# 2. 최신 상태 업데이트
-git fetch origin
+echo "🔀 dev → main merge (test 폴더 제외)"
 
-# 3. dev 브랜치 최신으로 가져오기
-git checkout dev
-git pull origin dev
+# merge 시작 (커밋은 아직 안 함)
+git merge "$MERGE_BRANCH" --no-commit --no-ff
 
-# 4. 다시 main으로 돌아오기
-git checkout main
-git pull origin main
+# main에서 제외하고 싶은 경로들
+EXCLUDE_PATHS=(
+  "src/test"
+  "src/routes/test"
+)
 
-# 5. sparse-checkout 활성화
-git sparse-checkout init --no-cone
+for path in "${EXCLUDE_PATHS[@]}"; do
+  if git ls-files --error-unmatch "$path" >/dev/null 2>&1; then
+    echo "🚫 제외 처리: $path"
+    git restore --staged "$path"
+    git restore "$path"
+  fi
+done
 
-# 6. 전체 포함하고 src/test, test만 제외
-echo '/*' >> .git/info/sparse-checkout
-echo '!src/routes/test/' >> .git/info/sparse-checkout
-echo '!src/test/' >> .git/info/sparse-checkout
+# 커밋
+git commit -m "dev브랜치 merge함."
 
-# 7. reapply
-git sparse-checkout reapply
-
-# 8. merge
-git merge dev
-
-# 9. push
-git push
-
-# 10. sparse-checkout disable
-git sparse-checkout disable
+echo "✅ merge 완료 (test 폴더는 main에 반영 안 됨)"
