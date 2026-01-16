@@ -1,81 +1,81 @@
 import { toJpeg, toPng, toSvg } from "html-to-image";
+import { Options } from "html-to-image/lib/types";
+import { JSX } from "solid-js";
 
 export interface CapturePayload {
-  ref: HTMLElement | null | undefined;
-  fileName?: string;
-  type?: "png" | "svg" | "jpeg";
-  captureFullContent?: boolean; // 새 옵션 추가
+	ref: HTMLElement | undefined;
+	fileName?: string;
+	type?: "png" | "svg" | "jpeg";
+	style?: JSX.CSSProperties;
+	options?: Options;
 }
 
 export async function capture({
-  ref,
-  fileName,
-  type,
-  captureFullContent = false,
+	ref,
+	fileName,
+	type,
+	style,
+	options,
 }: CapturePayload): Promise<boolean> {
-  if (!ref) return false;
+	if (!ref) return false;
 
-  // 원본 스타일 저장 (복원용)
-  const originalStyles: Partial<CSSStyleDeclaration> = {};
+	const originalStyle: Partial<CSSStyleDeclaration> = {
+		transform: ref.style.transform,
+		transformOrigin: ref.style.transformOrigin,
+	};
 
-  try {
-    // 전체 콘텐츠 캡처 모드일 때 스타일 임시 변경
-    if (captureFullContent) {
-      const stylesToOverride = [
-        'width', 'height', 'maxWidth', 'maxHeight', 
-        'overflow', 'overflowX', 'overflowY'
-      ] as const;
+	// 스타일 적용
+	for (const [key, value] of Object.entries(style ?? {})) {
+		ref.style.setProperty(key, value as string);
+	}
 
-      stylesToOverride.forEach((prop) => {
-        originalStyles[prop] = ref.style[prop];
-      });
+	try {
+		let link: string = "";
+		
+		const rect: DOMRect = ref.getBoundingClientRect();
+		const actualWidth: number = rect.width;
+		const actualHeight: number = rect.height;
 
-      // 전체 콘텐츠가 보이도록 스타일 변경
-      ref.style.width = 'auto';
-      ref.style.height = 'auto';
-      ref.style.maxWidth = 'none';
-      ref.style.maxHeight = 'none';
-      ref.style.overflow = 'visible';
-      ref.style.overflowX = 'visible';
-      ref.style.overflowY = 'visible';
-    }
+		if (type === "png" || typeof type === "undefined") {
+			link = await toPng(ref, {
+				...options,
+				width: options?.width ?? actualWidth,
+				height: options?.height ?? actualHeight,
+				skipFonts: options?.skipFonts ?? false,
+			});
+		} else if (type === "jpeg") {
+			link = await toJpeg(ref, {
+				...options,
+				width: options?.width ?? actualWidth,
+				height: options?.height ?? actualHeight,
+				skipFonts: options?.skipFonts ?? false,
+			});
+		} else if (type === "svg") {
+			link = await toSvg(ref, {
+				...options,
+				width: options?.width ?? actualWidth,
+				height: options?.height ?? actualHeight,
+				skipFonts: options?.skipFonts ?? false,
+			});
+		}
 
-    // 캡처 옵션 설정
-    const options = {
-      cacheBust: true,
-      pixelRatio: window.devicePixelRatio,
-      // 전체 콘텐츠 캡처 시 scrollWidth/scrollHeight 사용
-      ...(captureFullContent && {
-        width: ref.scrollWidth,
-        height: ref.scrollHeight,
-      }),
-    };
+		const a: HTMLAnchorElement = document.createElement("a");
+		a.href = link;
+		a.download = fileName ?? "이미지";
+		a.click();
 
-    let link: string = "";
-
-    if (type === "png" || typeof type === "undefined") {
-      link = await toPng(ref, options);
-    } else if (type === "jpeg") {
-      link = await toJpeg(ref, options);
-    } else if (type === "svg") {
-      link = await toSvg(ref, options);
-    }
-
-    const a = document.createElement("a");
-    a.href = link;
-    a.download = fileName ?? "이미지";
-    a.click();
-
-    return true;
-  } catch (err) {
-    console.error("capture utils 함수에서 오류남.\n", err);
-    return false;
-  } finally {
-    // 원본 스타일 복원 (항상 실행)
-    if (captureFullContent) {
-      Object.entries(originalStyles).forEach(([key, value]) => {
-        (ref.style as any)[key] = value ?? '';
-      });
-    }
-  }
+		return true;
+	} catch (err) {
+		console.error("capture utils 함수에서 오류남.\n", err);
+		return false;
+	} finally {
+		// 원래 스타일 복원
+		ref.style.transform = originalStyle.transform ?? "";
+		ref.style.transformOrigin = originalStyle.transformOrigin ?? "";
+		
+		// 추가된 스타일 제거
+		for (const key of Object.keys(style ?? {})) {
+			ref.style.removeProperty(key);
+		}
+	}
 }
