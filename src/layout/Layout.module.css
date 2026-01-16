@@ -35,12 +35,8 @@
 
 @media (prefers-color-scheme: dark) {
   #MenuBtn {
-    border-color: var(--border-dark-color);
+    border-width: 2px;
   }
-}
-
-.MenuIcon {
-  aspect-ratio: 1/1;
 }
 
 #LogoWrapper {
@@ -166,20 +162,6 @@
   height: 0;
 }
 
-@media (prefers-color-scheme: light) {
-  #Footer {
-    background-color: #000000;
-    color: #ffffff;
-  }
-}
-
-@media (prefers-color-schema: dark) {
-  #Footer {
-    background-color: #ffffff;
-    color: #000000;
-  }
-}
-
 #Footer {
   width: 100%;
   display: flex;
@@ -190,12 +172,8 @@
   border-top-width: 2px;
   border-top-style: solid;
   border-bottom-color: var(--border-light-color);
-}
-
-@media (prefers-color-scheme: dark) {
-  #Footer {
-    border-bottom-color: var(--border-dark-color);
-  }
+  background-color: var(--bg-reversed-color);
+  color: var(--text-reversed-color);
 }
 
 .FooterUl {

@@ -1,6 +1,5 @@
 import { createSignal, For, JSXElement } from "solid-js";
 import styles from "./Layout.module.css";
-import MenuIcon from "@images/MenuIcon.svg";
 import Logo from "@images/Logo.svg";
 import { A, Btn, Drawer } from "@components";
 import { Link } from "@solidjs/meta";
@@ -82,7 +81,15 @@ export default function DefaultLayout({ children }: LayoutProps) {
 
 			<header id={styles.Nav}>
 				<Btn id={styles.MenuBtn} ref={setBtnRef}>
-					<img src={MenuIcon} alt="메뉴 아이콘" class={styles.MenuIcon} />
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24px"
+						height="24px"
+						viewBox="0 -960 960 960"
+						fill="var(--bg-reversed-color)"
+					>
+						<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+					</svg>
 				</Btn>
 				<A href="/" rel="home" id={styles.LogoWrapper} useDefaultStyle={false}>
 					<img id={styles.Logo} src={Logo} />
