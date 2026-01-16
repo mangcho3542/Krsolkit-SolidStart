@@ -1,5 +1,5 @@
 import styles from "@styles/Dialog.module.css";
-import { DivProps, ImageProps, PUS } from "@types";
+import { ComponentProps, DivProps, ImageProps, PUS } from "@types";
 import {
 	Accessor,
 	createEffect,
@@ -13,7 +13,6 @@ import {
 import { Portal, spread } from "solid-js/web";
 import { Btn, BtnProps } from "./Btn";
 import { splitComponentProps } from "@utils";
-import CloseIcon from "@images/CloseIcon.svg";
 
 export interface DialogProps extends PUS<DivProps> {
 	BackdropProps?: PUS<DivProps>;
@@ -21,7 +20,7 @@ export interface DialogProps extends PUS<DivProps> {
 	TitleProps?: PUS<DivProps>;
 	Title?: JSXElement;
 	CloseBtnProps?: BtnProps;
-	CloseIconProps?: ImageProps;
+	CloseIconProps?: ComponentProps;
 	BodyProps?: PUS<DivProps>;
 	Body?: JSXElement;
 	FooterProps?: PUS<DivProps>;
@@ -149,6 +148,24 @@ export function Dialog(props: DialogProps) {
 			document.removeEventListener("keydown", closeOnEscape);
 	});
 
+	//모바일 터치 막는 함수
+	const preventScroll = (e: TouchEvent) => {
+		if(mounted() && open()) e.preventDefault();
+	}
+
+	//열려있을 때는 스크롤 금지
+	onMount(() => {
+		if(typeof window === "undefined") return;
+
+		window.addEventListener("touchmove", preventScroll, {passive: false});
+	});
+
+	onCleanup(() => {
+		if(typeof window === "undefined") return;
+
+		window.removeEventListener("touchmove", preventScroll);
+	})
+
 	return (
 		<Show when={mounted()}>
 			<Portal
@@ -178,16 +195,18 @@ export function Dialog(props: DialogProps) {
 							<Btn
 								{...splitComponentProps(local.CloseBtnProps, styles.CloseBtn)}
 								onClick={() => {
-									setOpen(false);
+									hide();
 								}}
 							>
-								<img
-									src={CloseIcon}
-									{...splitComponentProps(
-										local.CloseIconProps,
-										styles.CloseIcon
-									)}
-								/>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24px"
+									height="24px"
+									viewBox="0 -960 960 960"
+									{...splitComponentProps(local.CloseIconProps, styles.CloseIcon)}
+								>
+									<path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+								</svg>
 							</Btn>
 						</div>
 
