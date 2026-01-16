@@ -3,14 +3,17 @@
     inset-inline-start: 0;
     top: 0;
     width: 100vw;
-    height: 100dvh;
+    height: 100%;
+    max-height: 100%;
     z-index: 1300;
     pointer-events: none;
     background-color: transparent;
-    padding: 0;
+    padding: 0 0 1% 0;
     margin: 0;
 
     transition: background-color 0.5s cubic-bezier(.2, .8, .2, 1);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .Backdrop[data-open] {
@@ -18,8 +21,10 @@
 }
 
 .Positioner {
-    width: 100vw;
-    height: 100dvh;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
     position: fixed;
     top: 0;
     overscroll-behavior-y: none;
@@ -30,8 +35,11 @@
     margin: 0;
 
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding-top: 9%;
+
+    padding: 2% 0 2% 0; 
+    box-sizing: border-box;
 }
 
 .Dialog {
@@ -39,18 +47,18 @@
     opacity: 1;
     display: flex;
     flex-direction: column;
-    position: fixed;
     background-color: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: 1%;
     max-width: 60%;
     min-width: 40%;
-    max-height: 60%;
     min-height: 40%;
+    max-height: 100%;
 
+    padding: 0.5% 0.5% 0.5% 1%;
     margin: 0;
-    padding: 2%;
+    overflow: auto;
+    box-sizing: border-box;
 }
 
 .Dialog::-webkit-scrollbar {
@@ -80,7 +88,7 @@
     transform: translateY(0);
     transition: 
         transform 0.5s cubic-bezier(.2, .8, .2, 1) 
-        visibility 0s linear 0.1s;
+        visibility 0s linear 0.5s;
     will-change: transform;
 }
 
@@ -102,6 +110,7 @@
 .Title {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .CloseBtn {
@@ -110,6 +119,10 @@
     align-items: center;
     margin-left: auto;
     border-width: 0;
+}
+
+.CloseIcon {
+    fill: var(--bg-reversed-color);
 }
 
 .Body {

@@ -8,7 +8,7 @@
   touch-action: none;
 }
 
-/* orientation: horizontal / vertical (typo 정정: vertial -> vertical) */
+/* orientation: horizontal / vertical */
 .Root[data-orientation="horizontal"] {
   flex-direction: column;
   width: 100%;
@@ -92,7 +92,7 @@
 /* Range (filled part) - 절대 위치, 트랙 중앙 정렬 */
 .Range {
   position: absolute;
-  background-color: #18181b;
+  background-color: #09090b;
   z-index: 1;
   border-radius: 9999px;
   height: 0.5rem;
@@ -100,6 +100,12 @@
   top: 50%;
   transform: translateY(-50%);
   left: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .Range {
+    background-color: color-mix(in srgb, #27272a 72%, transparent);
+  }
 }
 
 .Root[data-orientation="horizontal"] .Range {
@@ -120,7 +126,7 @@
   outline: 0;
   z-index: 2;
   border-radius: 9999px;
-  border: 2px solid #18181b;
+  border: 2px solid var(--bg-reversed-color);
   background-color: var(--bg-color, white);
   box-sizing: border-box;
 }

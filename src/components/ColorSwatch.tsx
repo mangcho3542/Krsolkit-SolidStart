@@ -1,6 +1,6 @@
 import { ComponentProps, Hex, RGB, RGBA, HSL, HSLA } from "@types";
 import { Dynamic } from "solid-js/web";
-import { createMemo, JSX, ValidComponent } from "solid-js";
+import { JSX, ValidComponent } from "solid-js";
 import { splitProps } from "solid-js";
 import styles from "@styles/ColorSwatch.module.css";
 import { splitComponentProps } from "@utils";
@@ -14,16 +14,16 @@ export interface ColorSwatchProps extends ComponentProps {
 export function ColorSwatch(props: ColorSwatchProps) {
 	const [local, rest] = splitProps(props, ["color", "as"]);
 
-	const getRest = createMemo(() => {
-		let res = splitComponentProps(rest, styles.ColorSwatch);
-		if (res.style) res.style.color = local.color;
-		else res = { ...res, style: { color: local.color } };
-		return res;
-	});
-
 	return (
-		<Dynamic component={local.as ?? "span"} {...getRest()}>
-			&nbsp;
+		<Dynamic component={local.as ?? "span"}
+		{...splitComponentProps(rest, styles.ColorSwatch)}
+		data-scope={rest["data-scope"] ?? "ColorSwatch"}
+		style={{
+			...rest.style ?? {},
+			"background-color": local.color
+		}}
+		>
+
 		</Dynamic>
 	);
 }

@@ -14,9 +14,10 @@
     --text-light-color: #09090b;
     --text-dark-color: #fafafa;
     --text-color: var(--text-light-color);
+    --text-reversed-color: var(--text-dark-color);
 
     /*border color*/
-    --border-light-color: #e4e4e7;
+    --border-light-color: #c8cccf;
     --border-dark-color: #27272a;
     --border-color: var(--border-light-color);
 
@@ -49,6 +50,7 @@
         --bg-reversed-color: var(--bg-light-color);
         --svg-color: var(--svg-dark-color);
         --text-color: var(--text-dark-color);
+        --text-reversed-color: var(--text-light-color);
         --label-disabled-color: var(--label-disabled-dark-color);
         --input-disabled-border-color: var(--input-disabled-dark-border-color);
         --border-color: var(--border-dark-color);

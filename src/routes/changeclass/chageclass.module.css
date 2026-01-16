@@ -28,16 +28,8 @@
   width: 8vh;
 }
 
-@media (prefers-color-scheme: dark) {
-  #QImg {
-    color: white;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  #QImg {
-    color: black;
-  }
+#QImg {
+  fill: var(--bg-reversed-color);
 }
 
 #SliderWrapper {
@@ -87,6 +79,7 @@
   border-radius: 6px;
   padding: 2% 6%;
   background-color: #D2B48C;
+  border-width: 0px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -142,15 +135,10 @@
 
 /**Dialog */
 #DlgRoot {
-  width: 70vw;
-  max-height: 80vh;
-  padding: 2%;
-  white-space: pre-wrap;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2%;
+  min-height: 80vh;
+  padding: 1%;
 }
+
 
 #DlgTitle {
   font-size: 1.6rem;
@@ -175,8 +163,9 @@
   width: 100%;
   list-style: none;
   font-size: 1.2rem;
-  line-height: 100%;
+  line-height: 2;
   margin: 2% 0;
+  vertical-align: middle;
 }
 
 .DlgLiTtl {

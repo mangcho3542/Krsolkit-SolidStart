@@ -13,7 +13,6 @@ import {
 } from "solid-js";
 import { Portal, spread } from "solid-js/web";
 import { Btn, BtnProps } from "./Btn";
-import CloseIcon from "@images/CloseIcon.svg";
 
 export interface DrawerProps extends PUS<DivProps> {
 	BackdropProps?: PUS<ComponentProps>;
@@ -21,7 +20,7 @@ export interface DrawerProps extends PUS<DivProps> {
 	Title?: JSXElement;
 	TitleProps?: PUS<DivProps>;
 	CloseBtnProps?: BtnProps;
-	CloseIconProps?: ImageProps;
+	CloseIconProps?: Omit<ComponentProps, "children">;
 	Body?: JSXElement;
 	BodyProps?: PUS<DivProps>;
 	Footer?: JSXElement;
@@ -178,13 +177,15 @@ export function Drawer(props: DrawerProps) {
 									setOpen(false);
 								}}
 							>
-								<img
-									src={CloseIcon}
-									{...splitComponentProps(
-										local.CloseIconProps,
-										styles.CloseIcon
-									)}
-								/>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24px"
+									height="24px"
+									viewBox="0 -960 960 960"
+									{...splitComponentProps(local.CloseIconProps, styles.CloseIcon)}
+								>
+									<path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+								</svg>
 							</Btn>
 						</div>
 

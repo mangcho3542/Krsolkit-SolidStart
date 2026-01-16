@@ -34,21 +34,10 @@ body,
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #09090b;
-  background-color: #ffffff;
-  text-decoration-color: #09090b;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  text-decoration-color: var(--text-color);
   border-radius: 0.125rem;
-}
-
-@media (prefers-color-schema: dark) {
-  :root,
-  html,
-  body,
-  #app {
-    color: #fafafa;
-    background-color: #09090b;
-    text-decoration-color: #fafafa;
-  }
 }
 
 /*Scrollbar */
@@ -69,4 +58,13 @@ body,
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+:is(html, body, :root, #app, .Main):has(div:is(
+  [data-scope="dialog"][data-open],
+  [data-scope="drawer"][data-open]
+)) {
+  overflow-y: hidden !important;
+  position: fixed !important;
+  height: 100% !important;
 }
