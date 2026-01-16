@@ -230,9 +230,6 @@ export default function Main() {
 
 			<div
 				class={styles.Container}
-				style={{
-					"padding-bottom": "2%",
-				}}
 			>
 				{uploaded() ? (
 					<img
