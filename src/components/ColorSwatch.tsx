@@ -1,9 +1,10 @@
-import { ComponentProps, Hex, RGB, RGBA, HSL, HSLA } from "@types";
+import { ComponentProps } from "@/types/ComponentProps";
+import { Hex, RGB, RGBA, HSL, HSLA } from "@/types/ColorType";
 import { Dynamic } from "solid-js/web";
 import { JSX, ValidComponent } from "solid-js";
 import { splitProps } from "solid-js";
 import styles from "@styles/ColorSwatch.module.css";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 
 export interface ColorSwatchProps extends ComponentProps {
 	color: Hex | RGB | RGBA | HSL | HSLA;

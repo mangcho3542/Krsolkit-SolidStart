@@ -1,7 +1,7 @@
 import { JSXElement, splitProps } from "solid-js";
 import styles from "@styles/Card.module.css";
-import { splitComponentProps } from "@utils";
-import { DivProps } from "@types";
+import { splitComponentProps } from "@utils/splitComponentProps";
+import { DivProps } from "@/types/ComponentProps";
 
 interface PUD extends DivProps {
 	useDefaultStyle?: boolean;

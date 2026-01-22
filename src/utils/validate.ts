@@ -1,18 +1,19 @@
-import { z } from "zod";
+const emailChecker = /^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$/i;
 
-const emailChecker = z.email().max(30)
-
-//regex
-const pwRegex = /[^\w!@#$%^&*()_+{}|:"<>?=\[\];',\.\/]/;
-
-//&email검증할 함수
 export function validateEmail(email: string): boolean {
-  return emailChecker.safeParse(email).success;
+  return emailChecker.test(email) && email.length <= 30;
 }
 
-//&비밀번호 검증할 함수
-export function validaetPw(pw: string): boolean {
-  const flag = !pwRegex.test(pw) && pw.length >= 12 && pw.length <= 25;
+const nicknameChecker = /[^ㄱ-ㅎㅏ-ㅣ가-힣\w-]/g;
 
-  return flag;
+export function validateNickname(nickname: string): boolean {
+  return !nicknameChecker.test(nickname) && nickname.length >= 5 && nickname.length <= 15;
+}
+
+
+const pwRegex = /[^\w\-]/g;
+
+//비밀번호 검증할 함수
+export function validaetPw(pw: string): boolean {
+  return !pwRegex.test(pw) && pw.length >= 8 && pw.length <= 25;
 }

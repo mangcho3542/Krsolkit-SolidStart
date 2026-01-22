@@ -1,6 +1,6 @@
 import styles from "@styles/NumberInput.module.css";
-import { PUS, ButtonProps, DivProps, InputProps } from "@types";
-import { splitComponentProps } from "@utils";
+import { PUS, ButtonProps, DivProps, InputProps } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import { createEffect, createMemo, createSignal, splitProps } from "solid-js";
 import { Field, FieldProps } from "./Field";
 

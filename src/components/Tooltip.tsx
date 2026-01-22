@@ -1,6 +1,6 @@
 import styles from "@styles/Tooltip.module.css";
-import { splitComponentProps } from "@utils";
-import { DivProps, PUS } from "@types";
+import { splitComponentProps } from "@utils/splitComponentProps";
+import { DivProps, PUS } from "@/types/ComponentProps";
 import { createEffect, createSignal, JSXElement, splitProps } from "solid-js";
 import { spread, Portal } from "solid-js/web";
 

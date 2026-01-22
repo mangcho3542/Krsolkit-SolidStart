@@ -1,30 +1,21 @@
-import { HttpStatus } from "@types";
+import { HttpStatus } from "@/types/HttpStatus";
 import { json } from "@solidjs/router";
 
-export function status(status: number, body?: object) {
-	if (body === undefined) {
-		if (status === 500) {
-			return json(
-				{
-					success: false,
-					message:
-						"서버에서 오류가 발생하였습니다.\n나중에 다시 시도하여 주십시오.",
-				},
-				{
-					status,
-					statusText: HttpStatus[status],
-				}
-			);
-		} else if (status === 400) {
-			return json(
-				{ success: false, message: "TypeError" },
-				{
-					status,
-					statusText: HttpStatus[status],
-				}
-			);
-		}
-	}
+interface BodyI {
+	ok: boolean;
+	message?: string;
+}
 
-	return json(body, { status, statusText: HttpStatus[status as keyof typeof HttpStatus] });
+export function status(status: number, body?: BodyI) {
+	let obj = body
+		? { ok: body.ok, message: body.message ?? "" }
+		: {
+			ok: status === 200,
+			message: HttpStatus[status as keyof typeof HttpStatus],
+		};
+
+	return json(obj, {
+		status,
+		statusText: HttpStatus[status as keyof typeof HttpStatus],
+	});
 }

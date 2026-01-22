@@ -8,8 +8,8 @@ import {
 	createMemo,
 	createEffect,
 } from "solid-js";
-import { splitComponentProps } from "@utils";
-import { DivProps, PUS } from "@types";
+import { splitComponentProps } from "@utils/splitComponentProps";
+import { DivProps, PUS } from "@/types/ComponentProps";
 import HiddenInput from "./HiddenInput";
 
 interface ValueChangeI {

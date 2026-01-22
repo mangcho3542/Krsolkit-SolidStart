@@ -1,6 +1,6 @@
-import { PUS, ButtonProps } from "@types";
+import { PUS, ButtonProps } from "@/types/ComponentProps";
 import { splitProps, JSX } from "solid-js";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import styles from "@styles/Btn.module.css";
 
 export type BtnProps = PUS<ButtonProps>;

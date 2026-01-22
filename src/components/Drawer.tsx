@@ -1,6 +1,6 @@
 import styles from "@styles/Drawer.module.css";
-import { DivProps, PUS, ComponentProps, ImageProps } from "@types";
-import { splitComponentProps } from "@utils";
+import { DivProps, PUS, ComponentProps } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import {
 	Accessor,
 	createEffect,

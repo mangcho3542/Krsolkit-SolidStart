@@ -1,5 +1,5 @@
 import styles from "@styles/Dialog.module.css";
-import { ComponentProps, DivProps, ImageProps, PUS } from "@types";
+import { ComponentProps, DivProps, PUS } from "@/types/ComponentProps";
 import {
 	Accessor,
 	createEffect,
@@ -12,7 +12,7 @@ import {
 } from "solid-js";
 import { Portal, spread } from "solid-js/web";
 import { Btn, BtnProps } from "./Btn";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 
 export interface DialogProps extends PUS<DivProps> {
 	BackdropProps?: PUS<DivProps>;

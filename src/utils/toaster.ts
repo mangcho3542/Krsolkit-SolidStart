@@ -1,6 +1,6 @@
 import { JSXElement } from "solid-js";
 import { createStore, Store, SetStoreFunction } from "solid-js/store";
-import { CreateToasterProps } from "@components";
+import { CreateToasterProps } from "@components/Toast";
 
 // 애니메이션 시간 (ms)
 const ANIMATION_DURATION = 200;

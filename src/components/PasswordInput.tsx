@@ -1,5 +1,5 @@
 import styles from "@styles/PasswordInput.module.css";
-import { PUS, ComponentProps, DivProps, ButtonProps, InputProps } from "@types";
+import { PUS, ComponentProps, DivProps, ButtonProps } from "@/types/ComponentProps";
 import {
 	FieldProps,
 	FieldRoot,
@@ -9,7 +9,7 @@ import {
 	FieldHelperText,
 } from "./Field";
 import { createMemo, createSignal, splitProps } from "solid-js";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 
 export interface PasswordInputProps extends Omit<FieldProps, "type"> {
 	ControlProps?: PUS<DivProps>;

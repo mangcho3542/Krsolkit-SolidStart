@@ -1,7 +1,7 @@
 import styles from "@styles/Checkbox.module.css";
-import { DivProps, LabelProps, PUS, SvgProps } from "@types";
+import { DivProps, LabelProps, PUS, SvgProps } from "@/types/ComponentProps";
 import { createEffect, createMemo, createSignal, splitProps } from "solid-js";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import HiddenInput from "./HiddenInput";
 import { nanoid } from "nanoid";
 
