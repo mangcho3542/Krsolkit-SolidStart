@@ -13,16 +13,17 @@
     "types": ["vinxi/types/client"],
     "isolatedModules": true,
     "paths": {
-      "@types": ["./src/types/index.ts"],
+      "@/types/*": ["./src/types/*"],
       "@fonts/*": ["./src/assets/fonts/*"],
       "@images/*": ["./src/assets/images/*"],
-      "@components": ["./src/components/index.ts"],
+      "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@layout/*": ["./src/layout/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils": ["./src/utils/index.ts"],
-      "@lib": ["./src/lib/index.ts"],
-      "@schema/*": ["./src/schema/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@schema/*": ["./src/schema/*"],
+      "@middleware/*": ["./src/middleware/*"]
     }
   },
   "include": [
