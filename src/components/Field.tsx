@@ -1,6 +1,6 @@
 import styles from "@styles/Field.module.css";
-import { DivProps, InputProps, LabelProps, PUS, SpanProps } from "@types";
-import { splitComponentProps } from "@utils";
+import { DivProps, InputProps, LabelProps, PUS, SpanProps } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import { nanoid } from "nanoid";
 import {
 	Accessor,

@@ -1,4 +1,4 @@
-import { InputProps } from "@types";
+import { InputProps } from "@/types/ComponentProps";
 import { splitProps } from "solid-js";
 
 export interface HiddenInputProps extends InputProps {}

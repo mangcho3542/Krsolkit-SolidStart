@@ -1,6 +1,6 @@
 import styles from "@styles/Highlight.module.css";
-import { PUS, SpanProps } from "@types";
-import { splitComponentProps } from "@utils";
+import { PUS, SpanProps } from "@/types/ComponentProps";
+import { splitComponentProps } from "@utils/splitComponentProps";
 import { For, splitProps } from "solid-js";
 
 export interface HighlightProps extends PUS<SpanProps> {

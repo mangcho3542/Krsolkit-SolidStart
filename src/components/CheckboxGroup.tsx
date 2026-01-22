@@ -1,6 +1,6 @@
 import styles from "@styles/CheckboxGroup.module.css";
 import { Checkbox, CheckboxProps } from "./Checkbox";
-import { DivProps, PUS } from "@types";
+import { DivProps, PUS } from "@/types/ComponentProps";
 import {
 	createSignal,
 	For,
@@ -8,7 +8,7 @@ import {
 	createEffect,
 	JSXElement,
 } from "solid-js";
-import { splitComponentProps } from "@utils";
+import { splitComponentProps } from "@utils/splitComponentProps";
 
 type CheckboxBaseT = {
 	name: string;
