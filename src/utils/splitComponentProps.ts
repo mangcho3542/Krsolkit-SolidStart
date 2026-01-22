@@ -1,4 +1,4 @@
-import { ComponentProps, PUS } from "@types";
+import { ComponentProps, PUS } from "@/types/ComponentProps";
 
 export function splitComponentProps<
 	T extends PUS<ComponentProps> & {
