@@ -1,6 +1,7 @@
 import { Meta, Title } from "@solidjs/meta";
 import styles from "./index.module.css";
-import { Mark, Map, A } from "@components";
+import { Map } from "@components/Map";
+import { A } from "@components/A";
 import ChangeClassIcon from "@images/ChangeClassIcon.svg";
 
 export const prerender = true;

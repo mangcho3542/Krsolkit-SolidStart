@@ -1,9 +1,10 @@
-import { ComponentProps } from "@types";
+import { ComponentProps } from "@/types/ComponentProps";
 import { createEffect, createSignal, splitProps } from "solid-js";
 import { createStore } from "solid-js/store";
-import { shuffle, capture } from "@utils";
+import { shuffle } from "@utils/shuffle";
+import { capture } from "@utils/capture";
 import styles from "./chageclass.module.css";
-import { Btn } from "@components";
+import { Btn } from "@components/Btn";
 
 interface StudentTableProps extends Omit<ComponentProps, "children"> {
   row: number;
@@ -34,7 +35,7 @@ export default function StudentTable(props: StudentTableProps) {
   const [canShow, setCanShow] = createSignal(false);
 
   //ref
-  let wrpRef: HTMLDivElement | null = null;
+  let wrpRef: HTMLDivElement | undefined = undefined;
 
   //effect
   //row, column변할때마다 canShow, isAssignable, conent 업데이트

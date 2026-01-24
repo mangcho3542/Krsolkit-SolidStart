@@ -1,6 +1,8 @@
 import styles from "./chageclass.module.css";
 import QuestionImg from "@images/QuestionCircleIcon.svg?raw";
-import { Slider, Dialog, Svg } from "@components";
+import { Slider } from "@components/Slider";
+import { Dialog } from "@components/Dialog";
+import { Svg } from "@components/Svg";
 import StudentTable from "./StudentTable";
 import { createSignal } from "solid-js";
 import DlgBody from "./DlgContent";

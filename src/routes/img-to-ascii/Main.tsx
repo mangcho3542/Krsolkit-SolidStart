@@ -7,9 +7,13 @@ import {
 	onMount,
 	Show,
 } from "solid-js";
-import { Btn, createToaster, HiddenInput, Toast } from "@components";
-import { InputEventT } from "@types";
-import { copy, capture, getColorScheme } from "@utils";
+import { Btn } from "@components/Btn";
+import { HiddenInput } from "@components/HiddenInput";
+import { Toast, createToaster } from "@components/Toast";
+import { InputEventT } from "@/types/ComponentProps";
+import { copy } from "@utils/copy";
+import { capture } from "@utils/capture";
+import { getColorScheme } from "@utils/getColorScheme";
 
 export default function Main() {
 	let input: HTMLInputElement | undefined;
