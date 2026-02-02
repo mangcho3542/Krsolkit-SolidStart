@@ -3,7 +3,7 @@ import { ButtonProps, DivProps, PUS } from "@/types/ComponentProps";
 import { Toaster, ToastType, Placement } from "@utils/toaster";
 import { splitComponentProps } from "@utils/splitComponentProps";
 import { nanoid } from "nanoid";
-import { createEffect, createSignal, For, Show, splitProps } from "solid-js";
+import { createEffect, createSignal, For, splitProps } from "solid-js";
 import { Portal, spread } from "solid-js/web";
 
 // createToaster에서 인자로 받는 타입
@@ -40,7 +40,7 @@ export function Toast(props: ToastProps) {
 		if (!portal) return;
 
 		const PortalProps: DivProps = {
-			class: styles.Group,
+			class: styles.Backdrop,
 			"data-scope": "toast",
 			"data-part": "group",
 			dir: "ltr",
@@ -64,14 +64,13 @@ export function Toast(props: ToastProps) {
 	});
 
 	return (
-		local.toaster.count !== 0 && (
-			<Portal
+		<Portal
 				ref={(el) => {
 					setPortalRef(el);
 				}}
 			>
-				<div class={styles.Backdrop}
-				data-scope="toaster" data-part="backdrop"
+				<div class={styles.Group}
+				data-scope="toaster" data-part="group"
 				data-placement={local.toaster.placement ?? "bottom-end"}
 				>
 					<For each={local.toaster.toasts}>
@@ -88,7 +87,6 @@ export function Toast(props: ToastProps) {
 					</For>
 				</div>
 			</Portal>
-		)
 	);
 }
 
