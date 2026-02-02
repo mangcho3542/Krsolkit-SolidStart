@@ -2,9 +2,11 @@ import styles from "./password-generator.module.css";
 import { Title, Meta } from "@solidjs/meta";
 import { createEffect, createSignal } from "solid-js";
 import { customAlphabet } from "nanoid";
-import { Btn, NumberInput, Toast, createToaster } from "@components";
+import { Btn } from "@components/Btn";
+import { NumberInput } from "@components/NumberInput";
+import { Toast, createToaster } from "@components/Toast";
 import { createStore } from "solid-js/store";
-import { randomInt } from "@utils";
+import { randomInt } from "@utils/random";
 import RefreshIcon from "@images/RefreshIcon.svg?raw";
 
 const casesAry = [
