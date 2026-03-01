@@ -24,23 +24,28 @@ export type StyleT<T> = Omit<T, "style"> & {
 export type DivProps = StyleT<JSX.HTMLAttributes<HTMLDivElement>>;
 export type ParagraphProps = StyleT<JSX.HTMLAttributes<HTMLParagraphElement>>;
 export type SpanProps = StyleT<JSX.HTMLAttributes<HTMLSpanElement>>;
+
+export type ButtonClickEvent = MouseEvent & {
+	currentTarget: HTMLButtonElement;
+	target: Element;
+};
+
 export type ButtonProps = StyleT<
-	Omit<JSX.HTMLAttributes<HTMLButtonElement>, "onClick">
+	Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "onClick">
 > & {
-	onClick?: (
-		e: MouseEvent & { currentTarget: HTMLButtonElement; target: Element }
-	) => any;
+	onClick?: (e: ButtonClickEvent) => any;
+	onclick?: (e: ButtonClickEvent) => any;
 	onpointerdown?: (
 		e: PointerEvent & {
 			currentTarget: HTMLButtonElement;
 			target: DOMElement;
-		}
+		},
 	) => any;
 	onpointerup?: (
 		e: PointerEvent & {
 			currentTarget: HTMLButtonElement;
 			target: DOMElement;
-		}
+		},
 	) => any;
 };
 export type DialogProps = StyleT<JSX.HTMLAttributes<HTMLDialogElement>>;
@@ -63,24 +68,24 @@ export type InputProps = StyleT<
 		e: FocusEvent & {
 			currentTarget: HTMLInputElement;
 			target: HTMLInputElement;
-		}
+		},
 	) => void;
 	onfocusout?: (
 		e: FocusEvent & {
 			currentTarget: HTMLInputElement;
 			target: HTMLInputElement;
-		}
+		},
 	) => void;
 	onChange?: (
 		e: Event & {
 			currentTarget: HTMLInputElement;
 			target: HTMLInputElement;
-		}
+		},
 	) => void;
 	onInput?: (
 		e: InputEvent & {
 			currentTarget: HTMLInputElement;
 			target: HTMLInputElement;
-		}
+		},
 	) => void;
 };
