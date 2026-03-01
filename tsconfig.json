@@ -23,7 +23,8 @@
       "@utils/*": ["./src/utils/*"],
       "@lib/*": ["./src/lib/*"],
       "@schema/*": ["./src/schema/*"],
-      "@middleware/*": ["./src/middleware/*"]
+      "@middleware/*": ["./src/middleware/*"],
+      "@providers/*": ["./src/providers/*"]
     }
   },
   "include": [
