@@ -6,4 +6,10 @@
   min-height: 40px;
   cursor: pointer;
   border-width: 0px;
+  box-sizing: border-box;
+}
+
+.Btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
