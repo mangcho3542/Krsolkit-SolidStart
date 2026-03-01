@@ -1,9 +1,13 @@
 import { Title, Meta } from "@solidjs/meta";
 import styles from "./login.module.css";
-import { Field, PasswordInput, Btn, A, createToaster, Toast } from "@components";
+import { Field } from "@components/Field";
+import { PasswordInput } from "@components/PasswordInput";
+import { createToaster, Toast } from "@components/Toast";
+import { Btn } from "@components/Btn";
+import { A } from "@components/A";
 import { createStore } from "solid-js/store";
 import axios from "axios";
-import { validateEmail, validaetPw } from "@utils";
+import { validateEmail, validaetPw } from "@utils/validate";
 
 export default function Login() {
   const linkAry: { text: string; href: string }[] = [
@@ -89,15 +93,7 @@ export default function Login() {
 
         <div id={styles.Wrapper}>
           <h1
-            style={{
-              display: "block",
-              width: "100%",
-              "text-align": "center",
-              "margin-bottom": "13%",
-              "font-family": "SuitBold, var(--default-font-family)",
-              "font-weight": "700",
-              "font-size": "1.3rem",
-            }}
+          class="block w-full m-[0_0_13%_0] text-center font-suit font-semibold text-xl"
           >
             로그인
           </h1>
