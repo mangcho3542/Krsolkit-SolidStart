@@ -59,6 +59,4 @@ body,
 	div:is([data-scope="dialog"][data-open], [data-scope="drawer"][data-open])
 ) {
 	overflow-y: hidden !important;
-	position: fixed !important;
-	height: 100% !important;
 }
