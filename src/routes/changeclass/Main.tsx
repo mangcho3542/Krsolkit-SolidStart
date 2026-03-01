@@ -14,12 +14,9 @@ export default function Main() {
 
 	return (
 		<main
-			class="Main"
-			style={{
-				"align-items": "center",
-			}}
+			class="Main items-center p-0"
 		>
-			<header id={styles.Header}>자리 바꾸기</header>
+			<h1 class="text-3xl font-suit font-semibold">자리 바꾸기</h1>
 
 			<div id={styles.QuestionBtnWrapper}>
 				<button id={styles.QBtn} ref={setTrgRef}>
@@ -48,10 +45,16 @@ export default function Main() {
 					max={10}
 					class={styles.SliderRoot}
 					Label="분단 수"
+					LabelProps={{
+						class: "text-xl"
+					}}
 					onValueChange={(e) => {
 						setCol(e.valueAsNumber);
 					}}
 					useValueText
+					ValueTextProps={{
+						class: "text-xl"
+					}}
 				/>
 
 				<Slider
@@ -61,10 +64,16 @@ export default function Main() {
 					max={10}
 					class={styles.SliderRoot}
 					Label="행의 수"
+					LabelProps={{
+						class: "text-xl"
+					}}
 					onValueChange={(e) => {
 						setRow(e.valueAsNumber);
 					}}
 					useValueText
+					ValueTextProps={{
+						class: "text-xl"
+					}}
 				/>
 			</div>
 
