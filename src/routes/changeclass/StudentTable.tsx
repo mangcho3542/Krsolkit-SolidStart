@@ -108,12 +108,12 @@ export default function StudentTable(props: StudentTableProps) {
   return (
     <>
       <div id={styles.BtnWrapper}>
-        <Btn class={styles.Btn} onClick={handleBtnClick}>
+        <Btn class="bg-(--bg-reversed-color) text-(--text-reversed-color) p-[0_0.5%] text-center" onClick={handleBtnClick}>
           자리 배치하기
         </Btn>
 
         <Btn
-          class={styles.Btn}
+          class="bg-(--bg-reversed-color) text-(--text-reversed-color) text-center w-auto min-w-0"
           onClick={async () => {
             captureWrp();
           }}
