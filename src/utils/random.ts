@@ -1,5 +1,3 @@
-export function randomInt(min: number, max: number): number;
-
 export function randomInt(min:number = 0, max: number): number {
     const range = max - min;
     const buf = new Uint32Array(1);
