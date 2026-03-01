@@ -1,70 +1,64 @@
-@import url("./styles/Font.css");
-@import url("./styles/Color.css");
+@import "tailwindcss";
+@import "./styles/Font.css";
+@import "./styles/Color.css";
+@import "./styles/Class.css";
+
+@theme {
+	--font-suit: "suit", var(--default-font-family);
+}
 
 /*root + html,body, app*/
 :root,
 html,
 body,
 #app {
-  font-family: "SuitMedium", var(--default-font-family);
-  line-height: 1;
-  font-weight: 500;
-  color-scheme: light dark;
-  font-feature-settings: "cv11";
-  font-kerning: auto;
-  font-language-override: normal;
-  font-optical-sizing: auto;
+	font-family: "SuitMedium", var(--default-font-family);
+	font-size: 1.125rem;
+	line-height: calc(1.75/1.125);
+	font-weight: 500;
+	color-scheme: light dark;
+	font-feature-settings: "cv11";
+	font-kerning: auto;
+	font-language-override: normal;
+	font-optical-sizing: auto;
 
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
 
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+	width: 100%;
+	max-width: 100%;
+	min-height: 100%;
 
-  width: 100%;
-  max-width: 100%;
-  min-height: 100%;
+	overflow-x: hidden;
+	scrollbar-width: none;
 
-  overflow-x: hidden;
-  scrollbar-width: none;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  color: var(--text-color);
-  background-color: var(--bg-color);
-  text-decoration-color: var(--text-color);
-  border-radius: 0.125rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: var(--text-color);
+	background-color: var(--bg-color);
+	text-decoration-color: var(--text-color);
+	border-radius: 0.125rem;
 }
 
 /*Scrollbar */
-:is(:root,
-  html,
-  body,
-  #app,
-  .Main):-webkit-scrollbar {
-    display: none;
-  }
-
-.Main {
-  display: flex;
-  flex-direction: column;
-  min-width: 100%;
-  min-height: 80vh;
+:is(:root, html, body, #app, .Main):-webkit-scrollbar {
+	display: none;
 }
 
 ::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
-:is(html, body, :root, #app, .Main):has(div:is(
-  [data-scope="dialog"][data-open],
-  [data-scope="drawer"][data-open]
-)) {
-  overflow-y: hidden !important;
-  position: fixed !important;
-  height: 100% !important;
+:is(html, body, :root, #app, .Main):has(
+	div:is([data-scope="dialog"][data-open], [data-scope="drawer"][data-open])
+) {
+	overflow-y: hidden !important;
+	position: fixed !important;
+	height: 100% !important;
 }
