@@ -22,63 +22,63 @@
 
 /*SuitThin 100*/
 @font-face {
-  font-family: "SuitThin";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Thin.ttf") format("truetype");
   font-weight: 100;
 }
 
 /*SuitExtraLight 200*/
 @font-face {
-  font-family: "SuitExtraLight";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-ExtraLight.ttf") format("truetype");
   font-weight: 200;
 }
 
 /*SuitLight 300*/
 @font-face {
-  font-family: "SuitLight";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Light.ttf") format("truetype");
   font-weight: 300;
 }
 
 /*SuitRegular 400*/
 @font-face {
-  font-family: "SuitRegular";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 /*SuitMedium 500*/
 @font-face {
-  font-family: "SuitMedium";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Medium.ttf") format("truetype");
   font-weight: 500;
 }
 
 /*SuitSemiBold 600*/
 @font-face {
-  font-family: "SuitSemiBold";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
 
 /*SuitBold 700*/
 @font-face {
-  font-family: "SuitBold";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 
 /*SuitExtraBold 800*/
 @font-face {
-  font-family: "SuitExtraBold";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-ExtraBold.ttf") format("truetype");
   font-weight: 800;
 }
 
 /*SuitHeavy 900*/
 @font-face {
-  font-family: "SuitHeavy";
+  font-family: "suit";
   src: url("../assets/fonts/SUIT/SUIT-Heavy.ttf") format("truetype");
   font-weight: 900;
 }

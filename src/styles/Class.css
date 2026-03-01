@@ -1,0 +1,10 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@layer components {
+    .Main {
+        @apply flex flex-col min-w-full min-h-[80vh] p-0 z-1 my-[3%];
+    }
+}
