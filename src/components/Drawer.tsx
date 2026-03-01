@@ -27,7 +27,7 @@ export interface DrawerProps extends PUS<DivProps> {
 	FooterProps?: PUS<DivProps>;
 	placement?: "start" | "end" | "top" | "bottom";
 	defaultOpen?: boolean;
-	TrgRef?: Accessor<HTMLButtonElement | HTMLElement | undefined>;
+	TrgRef?: HTMLElement | undefined;
 	onClose?: () => void;
 	CloseOnEscape?: boolean;
 }
@@ -85,7 +85,7 @@ export function Drawer(props: DrawerProps) {
 
 	//trgRef에 eventListener 등록
 	createEffect(() => {
-		const trg = local.TrgRef?.();
+		const trg = local.TrgRef;
 		if (!trg) return;
 
 		trg.addEventListener("click", show);
@@ -93,7 +93,7 @@ export function Drawer(props: DrawerProps) {
 
 	//unmount될때 eventListner 삭제
 	onCleanup(() => {
-		local.TrgRef?.()?.removeEventListener("click", show);
+		local.TrgRef?.removeEventListener("click", show);
 	});
 
 	//portal에 Backdrop 적용
