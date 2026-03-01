@@ -11,11 +11,11 @@ export default createHandler(() => (
           <meta name="robots" content="index, follow" />
           <meta
             name="author"
-            content="https://www.threads.com/@hyeon_cherish__?igshid=NTc4MTIwNjQ2YQ=="
+            content="https://github.com/mangcho3542"
           />
           <meta
             name="twitter:creator"
-            content="https://www.threads.com/@hyeon_cherish__?igshid=NTc4MTIwNjQ2YQ=="
+            content="https://github.com/mangcho3542"
           />
           <meta
             name="naver-site-verification"
