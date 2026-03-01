@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
     /*bg color*/
     --bg-light-color: #ffffff;
@@ -57,4 +59,35 @@
         --checkbox-disabled-color: var(--checkbox-disabled-dark-color);
         --checkbox-disabled-label-color: var(--checkbox-disabled-label-dark-color);
     }
+}
+
+@theme {
+    --bg-light-color: var(--bg-light-color);
+    --bg-dark-color: var(--bg-dark-color);
+    --bg-color: var(--bg-color);
+    --bg-reversed-color: var(--bg-reversed-color);
+    --svg-light-color: var(--svg-light-color);
+    --svg-dark-color: var(--svg-dark-color);
+    --svg-color: var(--svg-color);
+    --text-light-color: var(--text-light-color);
+    --text-dark-color: var(--text-dark-color);
+    --text-color: var(--text-color);
+    --text-reversed-color: var(--text-reversed-color);
+    --border-light-color: var(--border-light-color);
+    --border-dark-color: var(--border-dark-color);
+    --border-color: var(--border-color);
+    --input-focus-box-shadow-color: var(--input-focus-box-shadow-color);
+    --border-radius: var(--border-radius);
+    --error-light-color: var(--error-light-color);
+    --error-dark-color: var(--error-dark-color);
+    --label-disabled-light-color: var(--label-disabled-light-color);
+    --label-disabled-dark-color: var(--label-disabled-dark-color);
+    --label-disabled-color: var(--label-disabled-color);
+    --checkbox-invalid-color: var(--checkbox-invalid-color);
+    --checkbox-disabled-light-color: var(--checkbox-disabled-light-color);
+    --checkbox-disabled-dark-color: var(--checkbox-disabled-dark-color);
+    --checkbox-disabled-color: var(--checkbox-disabled-color);
+    --checkbox-disabled-label-light-color: var(--checkbox-disabled-label-light-color);
+    --checkbox-disabled-label-dark-color: var(--checkbox-disabled-label-dark-color);
+    --checkbox-disabled-label-color: var(--checkbox-disabled-label-color);
 }

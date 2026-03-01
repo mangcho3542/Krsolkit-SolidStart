@@ -1,12 +1,7 @@
 #Nav {
   font-family: var(--default-font-family);
-  line-height: 1;
   font-weight: 400;
   color-scheme: light dark;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 
   width: 100%;
   max-width: 100%;
@@ -15,11 +10,11 @@
   overflow-x: hidden;
   display: flex;
   align-items: center;
-  margin: 0 0 2% 0;
-  padding: 1% 1% 1% 2%;
+  padding: 1%;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: var(--border-light-color);
+  position: relative;
 }
 
 #MenuBtn {
@@ -70,11 +65,7 @@
 }
 
 #Drawer {
-  padding: 1%;
-}
-
-.DrawerTitle {
-  margin-bottom: 5%;
+  padding: 1% 0 1% 0.5%;
 }
 
 .DrawerLogo {
@@ -86,7 +77,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  padding: 1% 0;
+  padding: 4% 0 0 0;
   flex-grow: 1;
 }
 
@@ -96,36 +87,20 @@
   align-items: flex-start;
   list-style: none;
   padding: 0 2% 0 0;
-  gap: 3%;
+  gap: 1%;
   flex-grow: 1;
-}
-
-.DrawerMenu {
   width: 100%;
-  padding: 0 1% 0 2%;
-  margin: 0;
-  font-size: 0.875rem;
-  font-family: "SuitRegular", var(--default-font-family);
-  font-weight: 400;
-}
-
-#DrawerActiveMenu {
-  font-family: "SuitBold", var(--default-font-family);
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  padding: 0 1% 0 0;
-}
-
-#DrawerActiveMenu > .DrawerMenuLinkWrapper {
-  background-color: rgba(129, 139, 152, 0.15);
 }
 
 .DrawerMenu > .DrawerMenuLinkWrapper {
   width: 95%;
 }
 
-#DrawerActiveMenu::before {
+.DrawerActiveMenu > .DrawerMenuLinkWrapper {
+  background-color: rgba(129, 139, 152, 0.15);
+}
+
+.DrawerActiveMenu::before {
   background-color: #0969da;
   border-radius: 0.375rem;
   content: "";
@@ -138,7 +113,7 @@
 
 .DrawerMenuLinkWrapper {
   font-size: 1.1rem;
-  padding: 2% 2% 2% 1%;
+  padding: 1%;
   width: 100%;
   border-radius: 0.375rem;
   vertical-align: middle;
@@ -162,31 +137,23 @@
   height: 0;
 }
 
-#Footer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 0 1%;
-  margin-top: 5%;
-  border-top-width: 2px;
-  border-top-style: solid;
-  border-bottom-color: var(--border-light-color);
-  background-color: var(--bg-reversed-color);
-  color: var(--text-reversed-color);
-}
-
 .FooterUl {
   display: flex;
   flex-direction: column;
   list-style: none;
-  gap: 1% 0;
+  gap: 12% 0;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
+  color: inherit;
 }
 
 .FooterLi {
   display: inline-block;
+  color: inherit;
 }
 
 .FooterLink {
   display: inline-block;
+  color: inherit;
 }

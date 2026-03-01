@@ -1,7 +1,10 @@
 import { createSignal, For, JSXElement } from "solid-js";
+import Map from "@components/Map";
 import styles from "./Layout.module.css";
 import Logo from "@images/Logo.svg";
-import { A, Btn, Drawer } from "@components";
+import { A } from "@components/A";
+import { Btn } from "@components/Btn";
+import { Drawer } from "@components/Drawer";
 import { Link } from "@solidjs/meta";
 
 interface LayoutProps {
@@ -37,31 +40,37 @@ export default function DefaultLayout({ children }: LayoutProps) {
 		},
 	];
 
-	const footerUlAry = [["문의하기"]];
-	const footerUlLinks = [["/ask"]];
+	const FooterAry: Menu[][] = [
+		[
+			{ content: "About", link: "/about" },
+			{ content: "문의하기", link: "/ask" },
+		],
+	];
 
-	const [btnRef, setBtnRef] = createSignal<HTMLButtonElement | undefined>();
+	const [BtnRef, setBtnRef] = createSignal<HTMLButtonElement | undefined>();
 
 	return (
 		<>
 			<Link rel="icon" href="/favicon.ico" />
 			<Drawer
-				TrgRef={btnRef}
+				TrgRef={BtnRef()}
 				placement="start"
 				Title={<img class={styles.DrawerLogo} src={Logo} />}
-				TitleProps={{ class: styles.DrawerTitle }}
 				BodyProps={{ class: styles.DrawerBody }}
 				Body={
 					<ul class={styles.DrawerMenuUl}>
-						<For each={DrawerMenuAry}>
+						<Map each={DrawerMenuAry}>
 							{({ content, link }) => (
 								<li
-									class={styles.DrawerMenu}
-									id={
-										window.location.pathname === link
-											? styles.DrawerActiveMenu
-											: ""
-									}
+									class={`w-full 
+										p-[0_1%_0_2%] 
+										m-0 
+										text-sm 
+										font-suit 
+										font-medium
+										${window.location.pathname === link 
+										? ` font-suit font-semibold flex items-center p-[0_1%_0_0] ${styles.DrawerActiveMenu}` 
+										: ""}`}
 								>
 									<div class={styles.DrawerMenuLinkWrapper}>
 										<A href={link} class={styles.DrawerMenuLink}>
@@ -70,7 +79,7 @@ export default function DefaultLayout({ children }: LayoutProps) {
 									</div>
 								</li>
 							)}
-						</For>
+						</Map>
 					</ul>
 				}
 				FooterProps={{
@@ -79,8 +88,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
 				id={styles.Drawer}
 			/>
 
-			<header id={styles.Nav}>
-				<Btn id={styles.MenuBtn} ref={setBtnRef}>
+			<header id={styles.Nav} class="font-suit font-normal text-base">
+				<Btn id={styles.MenuBtn} ref={(el) => setBtnRef(el)}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24px"
@@ -99,33 +108,43 @@ export default function DefaultLayout({ children }: LayoutProps) {
 				</A>
 
 				<div id={styles.SideMenuWrapper}>
-					<For each={MenuAry}>
+					<Map each={MenuAry}>
 						{({ content, link }) => (
 							<A href={link} class={styles.SideMenu}>
 								{content}
 							</A>
 						)}
-					</For>
+					</Map>
 				</div>
 			</header>
 
 			{children}
 
-			<footer id={styles.Footer}>
-				{footerUlAry.map((footerUl, UlIndex) => (
-					<ul class={styles.FooterUl}>
-						{footerUl.map((footerLi, LiIndex) => (
-							<li class={styles.FooterLi}>
-								<A
-									class={styles.FooterLink}
-									href={footerUlLinks[UlIndex][LiIndex]}
-								>
-									{footerLi}
-								</A>
-							</li>
-						))}
-					</ul>
-				))}
+			<footer
+				class="w-full 
+					h-auto 
+					flex 
+					flex-row 
+					justify-start 
+					p-[1%_1%_1%_1.5%] 
+					border-bs-2 
+					border-solid 
+					bg-(--bg-reversed-color) 
+					text-(--text-reversed-color)"
+			>
+				<For each={FooterAry}>
+					{(ListAry) => (
+						<div class={styles.FooterUl}>
+							<Map each={ListAry}>
+								{({ content, link }) => (
+									<div class={styles.FooterLi}>
+										<A href={link}>{content}</A>
+									</div>
+								)}
+							</Map>
+						</div>
+					)}
+				</For>
 			</footer>
 		</>
 	);

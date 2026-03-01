@@ -1,12 +1,7 @@
 import { HttpStatus } from "@/types/HttpStatus";
-import { json } from "@solidjs/router";
+import { CustomResponse, json } from "@solidjs/router";
 
-interface BodyI {
-	ok: boolean;
-	message?: string;
-}
-
-export function status(status: number, body?: BodyI) {
+export function status<S extends number, B extends boolean = S extends 200 ? true : false>(status: S, body?: {ok: B, message?: string}) {
 	let obj = body
 		? { ok: body.ok, message: body.message ?? "" }
 		: {

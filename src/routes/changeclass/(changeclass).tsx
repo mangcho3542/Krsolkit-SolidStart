@@ -17,7 +17,7 @@ export default function ChangeClass() {
       <Meta name="theme-color" content="#4f8cff" />
 
       {/* SNS 공유용 */}
-      <Meta property="og:title" content="자리 바꾸기 - 클래스헬퍼" />
+      <Meta property="og:title" content="Krsolkit-자리 바꾸기" />
       <Meta
         property="og:description"
         content="자리 바꾸기 한 번에 끝! 클릭 한 번으로 랜덤 자리 배치 완성. 교사와 학생 모두 편리하게."

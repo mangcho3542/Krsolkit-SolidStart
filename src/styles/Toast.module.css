@@ -36,19 +36,20 @@
   z-index: 1;
   pointer-events: none;
   align-items: flex-start;
-  padding-inline-start: 1rem;
-  padding-inline-end: 1.5rem;
   margin: 0.2rem 0;
   box-shadow: 0px 16px 24px color-mix(in srgb, #18181b 10%, transparent), 0px 0px 1px color-mix(in srgb, #18181b 30%, transparent);
   box-sizing: border-box;
-  padding-block: 1rem;
   border-radius: 0.25rem;
-  height: 65px;
+  height: auto;
   gap: 0.75rem;
   tab-size: 4;
   color: var(--text-color);
   background-color: var(--bg-color);
   visibility: visible;
+
+  --close-btn-size: 1rem;       /*CloseBtn의 width, height*/
+  --close-btn-margin: 0.2rem;   /*CloseBtn의 top, right*/
+  padding: 0.35rem var(--close-btn-size) 0.35rem 0.35rem;
 }
 
 @media (max-width : 767px) {
@@ -92,7 +93,7 @@
     [data-placement="top"],
     [data-placement="top-start"],
     [data-placement="top-end"]
-) .Root[data-closing] {
+) .Root[data-closing], .Root[data-closing] .CloseBtn {
     animation: slideOutToTop 0.5s cubic-bezier(.2, .8, .2, 1) forwards;
     pointer-events: none;
 }
@@ -197,11 +198,17 @@
   height: 1.25rem;
 }
 
+.Title {
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
 .CloseBtn {
   position: absolute;
-  top: 0.25rem;
-  inset-inline-end: 0.25rem;
-  padding: 0.25rem;
+  top: var(--close-btn-margin);
+  inset-inline-end: var(--close-btn-margin);
+  padding: 0;
   display: inline-flex;
   align-items: center;
   -webkit-box-align: center;
@@ -209,17 +216,16 @@
   color: color-mix(in srgb, var(--text-color) 60%, transparent);
   border-radius: 0.25rem;
   font-size: 1rem;
-  line-height: 1.5rem;
-  background-color: var(--bg-color);
-
+  background-color: transparent;
   border-width: 0;
 }
 
 .CloseIcon {
   fill: currentColor;
-  width: 1em;
-  height: 1em;
+  width: var(--close-btn-size);
+  height: var(--close-btn-size);
   border-width: 0;
+  background-color: transparent;
 }
 
 /*Type */

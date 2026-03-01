@@ -1,5 +1,11 @@
 import styles from "@styles/Field.module.css";
-import { DivProps, InputProps, LabelProps, PUS, SpanProps } from "@/types/ComponentProps";
+import {
+	DivProps,
+	InputProps,
+	LabelProps,
+	PUS,
+	SpanProps,
+} from "@/types/ComponentProps";
 import { splitComponentProps } from "@utils/splitComponentProps";
 import { nanoid } from "nanoid";
 import {
@@ -43,7 +49,7 @@ export function FieldRoot(props: FieldRootProps) {
 	const [local, states, rest] = splitProps(
 		props,
 		["orientation", "required", "children"],
-		["disabled", "invalid", "readonly"]
+		["disabled", "invalid", "readonly"],
 	);
 
 	const inputId = createMemo(() => `Input-${nanoid(8)}`);
@@ -99,7 +105,7 @@ export function FieldLabel(props: FieldLabelProps) {
 	const context = useField();
 
 	const showFlag = createMemo(
-		() => local.showRequiredIndicator ?? context.required()
+		() => local.showRequiredIndicator ?? context.required(),
 	);
 
 	return (
@@ -109,20 +115,22 @@ export function FieldLabel(props: FieldLabelProps) {
 			data-part={props["data-part"] ?? "label"}
 			for={context.inputId()}
 		>
-			{local.children}
 			{showFlag() && (
 				<span
 					{...splitComponentProps(
 						local.RequiredIndicatorProps,
-						styles.RequiredIndicator
+						styles.RequiredIndicator,
 					)}
 					aria-hidden
 					data-scope={props.RequiredIndicatorProps?.["data-scope"] ?? "field"}
-					data-part={props.RequiredIndicatorProps?.["data-part"] ?? "required-indicator"}
+					data-part={
+						props.RequiredIndicatorProps?.["data-part"] ?? "required-indicator"
+					}
 				>
 					*
 				</span>
 			)}
+			{local.children}
 		</label>
 	);
 }
@@ -170,14 +178,18 @@ export function FieldHelperText(props: PUS<SpanProps>) {
 	const context = useField();
 
 	return (
-		<span
-			{...splitComponentProps(props, styles.HelperText)}
-			id={context.helperTextId()}
-			data-scope="field"
-			data-part="helper-text"
-		>
-			{props.children}
-		</span>
+		<>
+			{!context.invalid && (
+				<span
+					{...splitComponentProps(props, styles.HelperText)}
+					id={context.helperTextId()}
+					data-scope="field"
+					data-part="helper-text"
+				>
+					{props.children}
+				</span>
+			)}
+		</>
 	);
 }
 
@@ -185,14 +197,18 @@ export function FieldErrorText(props: PUS<SpanProps>) {
 	const context = useField();
 
 	return (
-		<span
-			{...splitComponentProps(props, styles.ErrorText)}
-			id={context.errorTextId()}
-			data-scope="field"
-			data-part="error-text"
-		>
-			{props.children}
-		</span>
+		<>
+			{context.invalid() && (
+				<span
+					{...splitComponentProps(props, styles.ErrorText)}
+					id={context.errorTextId()}
+					data-scope="field"
+					data-part="error-text"
+				>
+					{props.children}
+				</span>
+			)}
+		</>
 	);
 }
 
@@ -228,7 +244,7 @@ export function Field(props: FieldProps) {
 			"HelperText",
 			"ErrorTextProps",
 			"ErrorText",
-		]
+		],
 	);
 
 	return (

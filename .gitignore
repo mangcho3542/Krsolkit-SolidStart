@@ -167,6 +167,10 @@ out
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+<<<<<<< HEAD
 src/test/main.ts
 src/routes/test/
 src/test
+=======
+src/test/test.ts
+>>>>>>> dev

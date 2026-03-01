@@ -13,6 +13,8 @@ interface CardI {
 	href: string;
 }
 
+const H2Class = "text-4xl font-suit font-medium";
+
 export default function Home() {
 	const CardAry: CardI[] = [
 		{
@@ -20,7 +22,7 @@ export default function Home() {
 			title: "자리 바꾸기",
 			desc: "랜덤으로 학생들의 자리를 배치해주는 서비스",
 			href: "/changeclass",
-		}
+		},
 	];
 
 	return (
@@ -46,21 +48,23 @@ export default function Home() {
 			<Meta property="og:image" content="https://krsoltkit.com/favicon.png" />
 			<Meta property="og:type" content="website" />
 
-			<main class={`Main ${styles.Main}`}>
-				<section id={styles.Intro}>
-					<h1 id={styles.H1}>Krsolkit</h1>
+			<main class="Main px-[1%]">
+				<section class="my-[8%]">
+					<h1 class="text-5xl font-suit font-semibold">Krsolkit</h1>
 
-					<h2 class={styles.H2}>
+					<h2 class={H2Class}>
 						자리 바꾸기, 비밀번호 생성, 아스키 아트 등의 도구
 					</h2>
 				</section>
 
-				<section id={styles.MainIntro}>
-					<h2 class={styles.H2} id={styles.SubIntro}>주요 기능</h2>
+				<section>
+					<h2 class={H2Class}>
+						주요 기능
+					</h2>
 
 					<div class={styles.CardContainer}>
 						<Map each={CardAry}>
-							{({ icon, title, desc, href }, index) => (
+							{({ icon, title, desc, href, index }) => (
 								<div
 									class={styles.Card}
 									style={{
@@ -71,7 +75,7 @@ export default function Home() {
 									}}
 								>
 									<A href={href} class={styles.CardA} useDefaultStyle={false}>
-										<img src={icon} class={styles.CardIcon} />	
+										<img src={icon} class={styles.CardIcon} />
 
 										<div class={styles.CardTitle}>{title}</div>
 
