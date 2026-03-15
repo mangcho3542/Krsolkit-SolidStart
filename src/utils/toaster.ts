@@ -2,9 +2,6 @@ import { JSXElement } from "solid-js";
 import { createStore, Store, SetStoreFunction } from "solid-js/store";
 import { CreateToasterProps } from "@components/Toast";
 
-// 애니메이션 시간 (ms)
-const ANIMATION_DURATION = 200;
-
 // createToaster에서 type 변수에 올 수 있는 type들
 export type ToasterType = "success" | "error" | "warning" | "info";
 
@@ -48,12 +45,14 @@ class Toaster {
 	private cnt: number;
 	private timers: Map<string, TimerInfo>;
 	public placement: Placement;
+	private animation_duration: number;
 
 	constructor(props: CreateToasterProps = {}) {
 		[this.toastAry, this.setToastAry] = createStore<ToastType[]>([]);
 		this.cnt = 0;
 		this.timers = new Map();
 		this.placement = props.placement ?? "bottom-end";
+		this.animation_duration = 500;
 	}
 
 	/**
@@ -100,7 +99,7 @@ class Toaster {
 				timerInfo.isAnimating = false;
 				this.startTimer(id, duration);
 			}
-		}, ANIMATION_DURATION);
+		}, this.animation_duration);
 
 		return id;
 	}
@@ -137,18 +136,23 @@ class Toaster {
 
 		if (!timerInfo || timerInfo.isAnimating) return;
 
-		timerInfo.isAnimating = true;
+		timerInfo.isAnimating = false;
 
 		if (timerInfo.timerId) {
 			clearTimeout(timerInfo.timerId);
 			timerInfo.timerId = null;
 		}
 
-		this.setToastAry((t) => t.id === id, (prev) => ({...prev, open: false, closing: true}));
+		this.setToastAry(
+			(t) => t.id === id,
+			(prev) => ({ ...prev, open: false, closing: true }),
+		);
 
 		setTimeout(() => {
-			this.remove(id);
-		}, ANIMATION_DURATION);
+			requestAnimationFrame(() => {
+				this.remove(id);
+			});
+		}, this.animation_duration);
 	}
 
 	/**
@@ -229,7 +233,7 @@ class Toaster {
 	update = (id: string, props: Partial<ToasterBaseType>): void => {
 		this.setToastAry(
 			(toast) => toast.id === id,
-			(toast) => ({ ...toast, ...props })
+			(toast) => ({ ...toast, ...props }),
 		);
 	};
 
@@ -253,5 +257,5 @@ class Toaster {
 	};
 }
 
-export { Toaster, ANIMATION_DURATION };
+export { Toaster };
 export type { ToastType, ToasterBaseType, ToasterType as Type };

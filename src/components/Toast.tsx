@@ -48,16 +48,6 @@ export function Toast(props: ToastProps) {
 			"aria-label": `${local.toaster.placement} Notifications alt+T`,
 			"aria-live": "polite",
 			role: "region",
-			style: {
-				"justify-content": local.toaster.placement.includes("top")
-					? "flex-start"
-					: "flex-end",
-				"align-items": local.toaster.placement.includes("start")
-					? "flex-start"
-					: local.toaster.placement.includes("end")
-					? "flex-end"
-					: "center",
-			},
 		};
 
 		spread(portal, PortalProps);
@@ -111,6 +101,7 @@ export function ToastItem(props: ToastItemProps) {
 			data-scope="toast"
 			data-part="root"
 			{...(props.toast.open && { "data-open": "" })}
+			{...(props.toast.closing && { "data-closing": "" })}
 			data-placement={props.toaster.placement}
 			data-type={props.toast.type}
 			role="status"
