@@ -38,6 +38,10 @@ export default function DefaultLayout({ children }: LayoutProps) {
 			content: "아스키 변환",
 			link: "/img-to-ascii",
 		},
+		{
+			content: "흑백 변환",
+			link: "/rgb-to-gray"
+		}
 	];
 
 	const FooterAry: Menu[][] = [
