@@ -1,8 +1,8 @@
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
-import { status } from "@lib";
+import { status } from "@lib/status";
 import { setCookie } from "vinxi/http";
-import { HttpStatus } from "@types";
+import { HttpStatus } from "@/types/HttpStatus";
 
 export const SignupBody = z.object({
 	email: z.email(),
@@ -40,16 +40,16 @@ async function handler({
 
 		if (!await ResponseT.safeDecodeAsync(data)) return status(500);
 
-		const { success, message, accessToken, refreshToken } = data;
-		if (!success || res.status < 200 || res.status > 226)
+		const { ok, message, accessToken, refreshToken } = data;
+		if (!ok || res.status < 200 || res.status > 226)
 			return status(res.status as keyof typeof HttpStatus, {
-				success,
+				ok,
 				message,
 			});
 
 		if (!accessToken || !refreshToken)
 			return status(500, {
-				success: false,
+				ok: false,
 				message: "서버에서 오류가 났습니다.\n나중에 다시 시도해 주십시오.",
 			});
 
@@ -70,11 +70,11 @@ async function handler({
 			secure: true,
 		});
 
-		return status(200, { success: true });
+		return status(200, { ok: true });
 	} catch (err) {
 		console.error("signup api에서 오류남.\n", err);
 		return status(500, {
-			success: false,
+			ok: false,
 			message: "서버에서 오류가 났습니다.\n나중에 다시 시도해 주십시오.",
 		});
 	}
