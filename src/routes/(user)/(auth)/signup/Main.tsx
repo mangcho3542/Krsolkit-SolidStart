@@ -1,24 +1,27 @@
 import styles from "./signup.module.css";
-import { Field, Btn, PasswordInput, Toast, createToaster } from "@components";
-import axios from "axios";
+import { Field } from "@components/Field";
+import { Btn } from "@components/Btn";
+import { PasswordInput } from "@components/PasswordInput";
+import { Toast, createToaster } from "@components/Toast";
 import { createStore } from "solid-js/store";
-import { validateEmail, validaetPw, checkType } from "@utils";
+import { validateEmail, validaetPw } from "@utils/validate";
 import { createEffect, createSignal } from "solid-js";
 import { z } from "zod";
+import { clientApi } from "@utils/clientApi";
 
 //ResponseT
-const ResponseBaseT = z.object({
+const ResBaseSchema = z.object({
 	code: z.string().optional(),
 	message: z.string().optional(),
 	success: z.boolean(),
 });
 
-const ResponseT = ResponseBaseT.required({
+const ResSchema = ResBaseSchema.required({
 	code: true,
 });
 
-//NicknameCheckResponseT
-const NicknameCheckResponseT = z.object({
+//NickCheckResSchema
+const NickCheckResSchema = z.object({
 	isExist: z.boolean(),
 });
 
@@ -116,12 +119,12 @@ export default function Main() {
 		}
 
 		let flag = true;
-		await axios
-			.post("/api/user/check-nickname", {
+		await clientApi
+			.post("/user/check-nickname", {
 				nickname: nicknameRef.value,
 			})
 			.then((res) => {
-				if (!checkType(res.data, NicknameCheckResponseT)) {
+				if (!NickCheckResSchema.safeDecode(res.data)) {
 					createErrToast();
 				}
 
@@ -168,7 +171,7 @@ export default function Main() {
 			return;
 		}
 
-		const res = await axios.post("/api/auth/signup", {
+		const res = await clientApi.post("/auth/signup", {
 			email: emailRef.value,
 			password: pwRef.value,
 			nickname: nicknameRef.value,
@@ -185,8 +188,8 @@ export default function Main() {
 	async function verifyEmail() {
 		//state가 0이면 verifyEmail api 호출
 		try {
-			const res = await axios.post(
-				"/api/auth/verify-email",
+			const res = await clientApi.post(
+				"/auth/verify-email",
 				{
 					email: emailRef.value,
 				},
@@ -203,14 +206,14 @@ export default function Main() {
 			);
 
 			const data = res.data;
-			if (!checkType(data, ResponseBaseT)) {
+			if (!ResBaseSchema.safeDecode(data)) {
 				console.error("data type이 다름.\ndata", data);
 				createErrToast();
 				return;
 			}
 
 			if (res.status === 200) {
-				if (!checkType(data, ResponseT)) {
+				if (!ResSchema.safeDecode(data)) {
 					console.error("data 타입이 다름.\ndata", data);
 					createErrToast();
 					return;

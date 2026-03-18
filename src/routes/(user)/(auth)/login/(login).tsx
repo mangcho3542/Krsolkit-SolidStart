@@ -6,7 +6,7 @@ import { createToaster, Toast } from "@components/Toast";
 import { Btn } from "@components/Btn";
 import { A } from "@components/A";
 import { createStore } from "solid-js/store";
-import axios from "axios";
+import { clientApi } from "@utils/clientApi";
 import { validateEmail, validaetPw } from "@utils/validate";
 
 export default function Login() {
@@ -52,8 +52,8 @@ export default function Login() {
     else setInvalid({pw: false});
 
     try {
-      const res = await axios.post(
-        "/api/user/login",
+      const res = await clientApi.post(
+        "/user/login",
         { email, password: pw },
         { validateStatus: (status) => status === 401 } //401일 때는 정상적으로 처리
       );
