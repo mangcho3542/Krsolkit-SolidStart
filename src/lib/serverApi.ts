@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "redaxios";
 
 export const serverApi = axios.create({
 	baseURL: process.env.SERVER_URL,
