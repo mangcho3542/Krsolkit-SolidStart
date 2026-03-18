@@ -129,7 +129,7 @@ export default function RgbToGray() {
 
 				<Toast toaster={toaster} />
 
-				<h1 class="text-2xl font-suit font-semibold inline-block text-center">
+				<h1 class="text-2xl font-suit font-semibold inline-block text-center m-[2%_0_0_0]">
 					흑백 변환
 				</h1>
 
@@ -145,7 +145,7 @@ export default function RgbToGray() {
 					/>
 				</div>
 
-				<div class="flex gap-[10%] p-0 justify-center m-[5%_0_0_0] cursor-pointer">
+				<div class="flex gap-[1%] p-0 justify-center m-[6%_0_0_0] cursor-pointer">
 					{uploaded() ? (
 						<img
 							src={src()}
@@ -157,6 +157,7 @@ export default function RgbToGray() {
 								console.log("클릭됨.");
 							}}
 							alt="업로드한 이미지"
+							class="max-w-[46%]"
 						/>
 					) : (
 						<div
@@ -181,11 +182,11 @@ export default function RgbToGray() {
 						}}
 						aria-hidden
 						hidden={hidden()}
-						class={`${hidden() ? "hidden" : "block"}`}
+						class={`${hidden() ? "hidden" : "block"} max-w-[46%]`}
 					/>
 				</div>
 
-				<div class="flex justify-center">
+				<div class="flex justify-center m-[3%_0_0_0]">
 					{!hidden() && (
 						<Btn
 							onClick={() => {
@@ -200,6 +201,7 @@ export default function RgbToGray() {
 									link.click();
 								}, "image/png");
 							}}
+							class="p-[0.2%_0.5%]"
 						>
 							이미지 다운로드
 						</Btn>
