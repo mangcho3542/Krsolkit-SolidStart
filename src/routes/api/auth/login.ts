@@ -1,21 +1,9 @@
-import { status } from "@lib";
-import { HttpStatus } from "@types";
+import { status } from "@lib/status";
+import { HttpStatus } from "@/types/HttpStatus";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { setCookie } from "vinxi/http";
-import { z } from "zod";
-import { checkType } from "@utils";
-
-const Body = z.object({
-	email: z.email(),
-	password: z.string(),
-});
-
-const ResponseT = z.object({
-	success: z.boolean(),
-	message: z.string().optional(),
-	accessToken: z.string().optional(),
-	refreshToken: z.string().optional(),
-});
+import { LoginReq, LoginRes } from "@schema/auth/login.schema";
+import { serverApi } from "@lib/serverApi";
 
 async function handler({
 	request: req,
@@ -23,11 +11,10 @@ async function handler({
 }: APIEvent): Promise<Response> {
 	try {
 		const body = await req.json();
-		const typeFlag = await Body.safeEncodeAsync(body);
+		const typeFlag = await LoginReq.safeEncodeAsync(body);
 		if(!typeFlag.success) return status(400);
 
-		const res = await fetch(`${process.env.SERVER_URL!}/auth/login`, {
-			method: "POST",
+		const res = await serverApi.post("/auth/login", {
 			headers: {
 				Authorization: `Bearer ${process.env.AUTHORIZATION_KEY!}`,
 				"Content-Type": "application/json",
@@ -36,10 +23,10 @@ async function handler({
 			body: JSON.stringify(body)
 		});
 
-		const data = await res.json();
-		if (!checkType(data, ResponseT)) return status(500);
 
-		const { success, message, accessToken, refreshToken } = data;
+		if (LoginRes.safeDecode(res.data)) return status(500);
+
+		const { success, message, accessToken, refreshToken } = res.data;
 		//로그인 실패했을 때
 		if (!success || res.status < 200 || res.status > 226)
 			return status(res.status as keyof typeof HttpStatus, {

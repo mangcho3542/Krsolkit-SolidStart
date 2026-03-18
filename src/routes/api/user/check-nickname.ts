@@ -1,4 +1,4 @@
-import { status } from "@lib";
+import { status } from "@lib/status";
 import { APIEvent, APIHandler } from "@solidjs/start/server";
 import { z } from "zod";
 
