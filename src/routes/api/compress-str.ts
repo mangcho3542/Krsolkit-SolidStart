@@ -1,4 +1,5 @@
-import { compress, status } from "@lib";
+import { compress } from "@lib/compress";
+import { status } from "@lib/status";
 import { APIEvent } from "@solidjs/start/server";
 import { z } from "zod";
 
