@@ -2,10 +2,10 @@
   "name": "classhelper",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
-    "version": "vinxi version"
+    "dev": "bunx --bun vinxi dev",
+    "build": "bunx --bun vinxi build",
+    "start": "bunx --bun vinxi start",
+    "version": "bunx --bun vinxi version"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.4",
