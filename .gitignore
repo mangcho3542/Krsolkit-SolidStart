@@ -174,3 +174,6 @@ src/test
 =======
 src/test/test.ts
 >>>>>>> dev
+
+.dev.vars*
+!.dev.vars.example
