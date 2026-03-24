@@ -2,10 +2,10 @@
   "name": "classhelper",
   "type": "module",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start",
-    "version": "vinxi version"
+    "dev": "bunx --bun vinxi dev",
+    "build": "bunx --bun vinxi build",
+    "start": "bunx --bun vinxi start",
+    "version": "bunx --bun vinxi version"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.4",
@@ -25,11 +25,11 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.1",
-    "@types/bun": "^1.3.10",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/bun": "^1.3.11",
     "@types/file-saver": "^2.0.7",
     "@types/nanoid": "^3.0.0",
-    "tailwindcss": "^4.2.1",
+    "tailwindcss": "^4.2.2",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }
