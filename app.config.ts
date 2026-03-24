@@ -12,6 +12,9 @@ export default defineConfig({
     prerender: {
       crawlLinks: true,
       ...(isProduction && {ignore: [/^\/api\//]})
-    }
+    },
+
+    preset: "cloudflare_module",
+    compatibilityDate: "2026-03-17"
   }
 });

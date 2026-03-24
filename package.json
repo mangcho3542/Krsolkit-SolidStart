@@ -5,7 +5,10 @@
     "dev": "bunx --bun vinxi dev",
     "build": "bunx --bun vinxi build",
     "start": "bunx --bun vinxi start",
-    "version": "bunx --bun vinxi version"
+    "version": "bunx --bun vinxi version",
+    "deploy": "bun run build && wrangler deploy",
+    "preview": "bun run build && wrangler dev",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.4",
@@ -19,6 +22,7 @@
     "solid-js": "^1.9.11",
     "tailwind-merge": "^3.5.0",
     "vinxi": "^0.5.11",
+    "wrangler": "^4.77.0",
     "zod": "^4.3.6"
   },
   "engines": {
