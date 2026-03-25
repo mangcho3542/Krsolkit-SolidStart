@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @import "./styles/Font.css";
 @import "./styles/Color.css";
-@import "./styles/Class.css";
+@import "./styles/Components.css";
+@import "./styles/Theme.css";
 
-@theme {
-	--font-suit: "suit", var(--default-font-family);
-}
+@source "./**/*.{ts,tsx}";
 
 /*root + html,body, app*/
 :root,

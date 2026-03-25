@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+	--font-suit: "suit", var(--default-font-family);
+	--border-color: var(--border-color);
+}
