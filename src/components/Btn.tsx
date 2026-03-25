@@ -1,11 +1,13 @@
-import { ButtonProps } from "@/types/ComponentProps";
+import { ButtonProps, DivProps } from "@/types/ComponentProps";
 import { splitProps, JSX } from "solid-js";
 import { twMerge } from "tailwind-merge";
+import { Spinner } from "./Spinner";
 
 export interface BtnProps extends ButtonProps {
 	disabled?: boolean;
 	loading?: boolean;
 	loadingText?: string;
+	SpinnerProps?: DivProps;
 }
 
 export function Btn(props: BtnProps): JSX.Element {
@@ -13,8 +15,10 @@ export function Btn(props: BtnProps): JSX.Element {
 		"children",
 		"disabled",
 		"loading",
+		"loadingText",
+		"SpinnerProps",
 		"aria-disabled",
-		"type"
+		"type",
 	]);
 
 	return (
@@ -33,11 +37,20 @@ export function Btn(props: BtnProps): JSX.Element {
 				"aria-disabled": true,
 			})}
 			{...(local.loading && {
-				"data-loading": true
+				"data-loading": true,
 			})}
 			type={local.type ?? "button"}
 		>
-			
+			{local.loading 
+			? (
+				<>
+					<Spinner {...local.SpinnerProps} />
+					{local.loadingText}
+				</>
+			) 
+			: (
+				local.children
+			)}
 		</button>
 	);
 }
