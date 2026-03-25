@@ -1,6 +1,5 @@
 import { createSignal, For, JSXElement } from "solid-js";
 import Map from "@components/Map";
-import styles from "./Layout.module.css";
 import Logo from "@images/Logo.svg";
 import { A } from "@components/A";
 import { Btn } from "@components/Btn";
@@ -40,8 +39,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
 		},
 		{
 			content: "흑백 변환",
-			link: "/rgb-to-gray"
-		}
+			link: "/rgb-to-gray",
+		},
 	];
 
 	const FooterAry: Menu[][] = [
@@ -59,11 +58,11 @@ export default function DefaultLayout({ children }: LayoutProps) {
 			<Drawer
 				TrgRef={BtnRef()}
 				placement="start"
-				Title={<img class={styles.DrawerLogo} src={Logo} />}
-				BodyProps={{ class: styles.DrawerBody }}
+				Title={<img class="h-8 aspect-square" src={Logo} />}
+				BodyProps={{ class: "w-full flex justify-start p-[4%_0_0_0] grow" }}
 				Body={
-					<ul class={styles.DrawerMenuUl}>
-						<Map each={DrawerMenuAry}>
+					<ul class="flex flex-col items-start list-none pr-[2%] gap-[1%] grow w-full">
+						<For each={DrawerMenuAry}>
 							{({ content, link }) => (
 								<li
 									class={`w-full 
@@ -72,28 +71,62 @@ export default function DefaultLayout({ children }: LayoutProps) {
 										text-sm 
 										font-suit 
 										font-medium
-										${window.location.pathname === link 
-										? ` font-suit font-semibold flex items-center p-[0_1%_0_0] ${styles.DrawerActiveMenu}` 
-										: ""}`}
+										flex
+										items-center
+										${
+											window.location.pathname === link
+												? ` font-suit font-semibold 
+												flex items-center p-[0_1%_0_0] 
+												before:bg-[#0969da] before:rounded-md 
+												before:content-[""] before:h-[84%] before:w-1 
+												before:mr-[1%] before:block before:flex-none`
+												: ""
+										} ${
+											window.location.pathname === link
+												? "p-[0_1%_0_0]"
+												: "p-[0_1%_0_2%]"
+										}`}
 								>
-									<div class={styles.DrawerMenuLinkWrapper}>
-										<A href={link} class={styles.DrawerMenuLink}>
+									<div
+										class={`text-lg p-[1%] w-full 
+									${window.location.pathname === link && 
+									"bg-[rgba(129,139,152,0.15)]"}
+									hover:no-underline 
+									hover:bg-[rgba(129,139,152,0.15)]
+									rounded-sm`}
+									>
+										<A href={link} class="inline-block">
 											{content}
 										</A>
 									</div>
 								</li>
 							)}
-						</Map>
+						</For>
 					</ul>
 				}
 				FooterProps={{
-					class: styles.DrawerFooter,
+					class: "w-0 h-0",
 				}}
-				id={styles.Drawer}
+				class="p-[1%_0_1%_0.5%]"
 			/>
 
-			<header id={styles.Nav} class="font-suit font-normal text-base">
-				<Btn id={styles.MenuBtn} ref={(el) => setBtnRef(el)}>
+			<header
+				class="
+				flex items-center p-[1%]
+				border-be border-solid border-be-(--border-light-color)
+				w-full max-w-full min-h-[6dvh] max-h-[9dvh]
+				overflow-x-hidden
+				font-suit font-normal text-base
+			"
+			>
+				<Btn
+					class="
+					flex items-center justify-center 
+					min-w-7 min-h-7
+					border dark:border-2 border-solid border-[#c8cccf] bg-(--bg-color)
+					"
+					ref={(el) => setBtnRef(el)}
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24px"
@@ -104,17 +137,24 @@ export default function DefaultLayout({ children }: LayoutProps) {
 						<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
 					</svg>
 				</Btn>
-				<A href="/" rel="home" id={styles.LogoWrapper} useDefaultStyle={false}>
-					<img id={styles.Logo} src={Logo} />
+
+				<A href="/" rel="home" class="block m-[0_0.5%_0_1%]">
+					<img class="h-[5vh] aspect-square" src={Logo} />
 				</A>
-				<A href="/" id={styles.LogoText} rel="home">
+				<A href="/" class="font-suit font-bold text-lg" rel="home">
 					Krsolkit
 				</A>
 
-				<div id={styles.SideMenuWrapper}>
+				<div
+					class="
+				ml-auto
+				flex items-center gap-x-[8%]
+				p-[0_1%_0_0]
+				"
+				>
 					<Map each={MenuAry}>
 						{({ content, link }) => (
-							<A href={link} class={styles.SideMenu}>
+							<A href={link} class="whitespace-nowrap text-lg">
 								{content}
 							</A>
 						)}
@@ -125,10 +165,8 @@ export default function DefaultLayout({ children }: LayoutProps) {
 			{children}
 
 			<footer
-				class="w-full 
-					h-auto 
-					flex 
-					flex-row 
+				class="w-full h-auto 
+				flex
 					justify-start 
 					p-[1%_1%_1%_1.5%] 
 					border-bs-2 
@@ -138,10 +176,10 @@ export default function DefaultLayout({ children }: LayoutProps) {
 			>
 				<For each={FooterAry}>
 					{(ListAry) => (
-						<div class={styles.FooterUl}>
+						<div class="flex flex-col list-none gap-y-[12%] box-border w-auto h-auto text-inherit">
 							<Map each={ListAry}>
 								{({ content, link }) => (
-									<div class={styles.FooterLi}>
+									<div class="inline-block text-inherit">
 										<A href={link}>{content}</A>
 									</div>
 								)}
